@@ -33,6 +33,8 @@ app.use("/api/auth", require("./routes/auth-routes"));
 
 app.use("/api/pickup", require("./routes/pickup-routes"));
 
+app.use("/api/illegal-dump", require("./routes/illegal-dump-routes"));
+
 //! Error handling middleware
 app.use(handleErros);
 

@@ -42,6 +42,65 @@ const createPickupRequest = async (req, res) => {
   }
 };
 
+const getUserPickupRequests = async (req, res) => {
+  try {
+    const requests = await PickupRequest.find({ citizenId: req.user._id }).sort(
+      {
+        createdAt: -1,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      data: requests,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Update pickup request status
+const updatePickupStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    // Optional: Define allowed statuses
+    const allowedStatuses = [
+      "pending",
+      "accepted",
+      "assigned",
+      "in-progress",
+      "completed",
+      "rejected",
+    ];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({ message: "Invalid status value" });
+    }
+
+    const updatedRequest = await PickupRequest.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedRequest) {
+      return res.status(404).json({ message: "Pickup request not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: updatedRequest,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createPickupRequest,
+  getUserPickupRequests,
+  updatePickupStatus,
 };

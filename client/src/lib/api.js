@@ -27,3 +27,23 @@ export const createPickupRequest = async (data) => {
   console.log(response.data);
   return response.data;
 };
+
+export const getUserPickupRequests = async () => {
+  const response = await api.get("/pickup");
+  console.log(response.data);
+  return response.data;
+};
+
+export const createIllegalDump = async (formData) => {
+  const response = await api.post("/illegal-dump/create", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  console.log(response.data);
+  return response.data;
+};
+
+export const getUserDumps = async () => {
+  const response = await api.get("/illegal-dump");
+  console.log(response.data);
+  return response.data;
+};

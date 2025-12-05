@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { createPickupRequest } from "../../lib/api.js";
 import usePickupRequestMutation from "../../hooks/usePickupRequest.js";
+import { toast } from "sonner";
 
 const Request = () => {
   const { register, handleSubmit, reset, setValue, watch } = useForm();
@@ -43,6 +44,7 @@ const Request = () => {
     }
 
     mutate(formData);
+    toast.success("Pickup request created!");
     reset();
   };
 
