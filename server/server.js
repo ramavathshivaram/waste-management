@@ -31,6 +31,8 @@ app.get("/", (req, res) => {
 //! AUTH ROUTES
 app.use("/api/auth", require("./routes/auth-routes"));
 
+app.use("/api/pickup", require("./routes/pickup-routes"));
+
 //! Error handling middleware
 app.use(handleErros);
 

@@ -1,7 +1,7 @@
 import React from "react";
 
-const CitizenDashboard = () => {
+const Dashboard = () => {
   return <div>citizen dashborad</div>;
 };
 
-export default CitizenDashboard;
+export default Dashboard;

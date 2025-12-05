@@ -13,21 +13,19 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
 import { registerUser } from "../lib/api";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { useState } from "react";
+import useUserStore from "../stores/useUserStore";
 
 const Register = () => {
   const navigate = useNavigate();
-  // const [value, setValue] = useState();
+
+  const setUser = useUserStore((s) => s.setUser);
 
   const {
     register,
@@ -48,6 +46,7 @@ const Register = () => {
   const onSubmit = async (data) => {
     console.log(data);
     const res = await registerUser(data);
+    setUser(res);
     navigate(`/${res.role}`);
   };
 

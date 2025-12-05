@@ -13,40 +13,50 @@ const generateToken = (id) => {
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
-  const { name, email, password, role, address, location, phone } = req.body;
+  try {
+    const { name, email, password, role, address, location, phone } = req.body;
 
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: "Please add all fields" });
-  }
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "Please add all fields" });
+    }
 
-  // Check if user exists
-  const userExists = await User.findOne({ email });
+    // Check if user exists
+    const userExists = await User.findOne({ email });
 
-  if (userExists) {
-    return res.status(400).json({ message: "User already exists" });
-  }
+    if (userExists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
-  // Create user
-  const user = await User.create({
-    name,
-    email,
-    password,
-    role: role || "citizen",
-    address,
-    location,
-    phone,
-  });
-
-  if (user) {
-    res.status(201).json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      token: generateToken(user._id),
+    // Create user
+    const user = await User.create({
+      name,
+      email,
+      password,
+      role: role || "citizen",
+      address,
+      location,
+      phone,
     });
-  } else {
-    res.status(400).json({ message: "Invalid user data" });
+
+    if (user) {
+      res.cookie("token", generateToken(user._id), {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax", //// localhost
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+
+      res.status(201).json({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      });
+    } else {
+      res.status(400).json({ message: "Invalid user data" });
+    }
+  } catch (error) {
+    throw new Error();
   }
 };
 
@@ -54,20 +64,30 @@ const registerUser = async (req, res) => {
 // @route   POST /api/auth/login
 // @access  Public
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  // Check for user email
-  const user = await User.findOne({ email }).select("+password");
+    // Check for user email
+    const user = await User.findOne({ email }).select("+password");
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(400).json({ message: "Invalid credentials" });
+    if (user && (await user.matchPassword(password))) {
+      res.cookie("token", generateToken(user._id), {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax", //// localhost
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+
+      res.json({
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      });
+    } else {
+      res.status(400).json({ message: "Invalid credentials" });
+    }
+  } catch (error) {
+    throw new Error();
   }
 };
 
@@ -75,19 +95,40 @@ const loginUser = async (req, res) => {
 // @route   GET /api/auth/me
 // @access  Private
 const getMe = async (req, res) => {
-  const user = await User.findById(req.user.id);
+  try {
+    const user = await User.findById(req.user.id);
 
-  res.status(200).json({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    rewardPoints: user.rewardPoints,
-  });
+    res.status(200).json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      rewardPoints: user.rewardPoints,
+    });
+  } catch (error) {
+    throw new Error();
+  }
+};
+
+//@decs Logout
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+    });
+
+    res.status(200).json({ message: "Logout success" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 module.exports = {
   registerUser,
   loginUser,
   getMe,
+  logout,
 };

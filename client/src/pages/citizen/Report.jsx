@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
+import useUserStore from "../../stores/useUserStore";
 
 const Report = () => {
-  return <div>Report Report</div>;
-}
+  const user = useUserStore((s) => s.user);
 
-export default Report
+  return <div>Report Report</div>;
+};
+
+export default Report;

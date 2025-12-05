@@ -13,11 +13,12 @@ import {
 } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { loginUser } from "../lib/api";
+import useUserStore from "../stores/useUserStore.js";
 
 const Login = () => {
   const navigate = useNavigate();
+  const setUser = useUserStore((s) => s.setUser);
 
   const {
     register,
@@ -27,6 +28,8 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     const res = await loginUser(data);
+    console.log(res);
+    setUser(res);
     navigate(`/${res.role}`);
   };
 
