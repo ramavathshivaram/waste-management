@@ -27,7 +27,7 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     const res = await loginUser(data);
-    navigate(`/dashboard/${res.role}`);
+    navigate(`/${res.role}`);
   };
 
   return (

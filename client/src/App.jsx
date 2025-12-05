@@ -7,7 +7,7 @@ import CollectorRoutes from "./pages/collector/CollectorRoutes";
 import CentreRoutes from "./pages/centre/CentreRoutes";
 import AdminRoutes from "./pages/admin/AdminRoutes";
 import ProtectedRoute from "./components/common/ProtectedRoute";
-import {toast} from "sonner";
+import { toast } from "sonner";
 
 function App() {
   toast.success("success");
@@ -20,7 +20,7 @@ function App() {
 
         {/* Citizen Routes */}
         <Route
-          path="/dashboard/citizen/*"
+          path="/citizen/*"
           element={
             <ProtectedRoute role="citizen">
               <CitizenRoutes />
@@ -30,7 +30,7 @@ function App() {
 
         {/* Collector Routes */}
         <Route
-          path="/dashboard/collector/*"
+          path="/collector/*"
           element={
             <ProtectedRoute role="collector">
               <CollectorRoutes />
@@ -40,7 +40,7 @@ function App() {
 
         {/* Centre Routes */}
         <Route
-          path="/dashboard/centre/*"
+          path="/centre/*"
           element={
             <ProtectedRoute role="centre">
               <CentreRoutes />
@@ -50,7 +50,7 @@ function App() {
 
         {/* Admin Routes */}
         <Route
-          path="/dashboard/admin/*"
+          path="/admin/*"
           element={
             <ProtectedRoute role="admin">
               <AdminRoutes />

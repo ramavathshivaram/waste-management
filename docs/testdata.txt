@@ -1,0 +1,34 @@
+=== CITIZEN USER ===
+name: Citizen User
+email: citizen@test.com
+password: 12345678
+role: citizen
+phone: 9876543210
+address: Vijayawada
+
+
+=== COLLECTOR USER ===
+name: Collector User
+email: collector@test.com
+password: 12345678
+role: collector
+phone: 9876501234
+address: Guntur
+
+
+=== RECYCLING CENTRE USER ===
+name: Centre Manager
+email: centre@test.com
+password: 12345678
+role: centre
+phone: 9876512345
+address: Vijayawada Recycling Hub
+
+
+=== ADMIN USER ===
+name: Admin User
+email: admin@test.com
+password: 12345678
+role: admin
+phone: 9876523456
+address: PVPSIT Office

@@ -48,7 +48,7 @@ const Register = () => {
   const onSubmit = async (data) => {
     console.log(data);
     const res = await registerUser(data);
-    navigate(`/darshboard/${res.role}`);
+    navigate(`/${res.role}`);
   };
 
   return (
