@@ -9,18 +9,6 @@ const links = [
     label: "Dashboard",
     path: "/collector",
   },
-  {
-    label: "Search",
-    path: "/collector/search",
-  },
-  {
-    label: "Request",
-    path: "/collector/request",
-  },
-  {
-    label: "Report",
-    path: "/collector/report",
-  },
 ];
 const CollectorRoutes = () => {
   return (

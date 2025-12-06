@@ -29,7 +29,6 @@ const pickupRequestSchema = new mongoose.Schema(
       required: true,
     },
 
-    // ⭐ Cloudinary images support
     images: [
       {
         publicId: String,

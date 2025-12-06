@@ -12,6 +12,12 @@ export const loginUser = async (data) => {
   return response.data;
 };
 
+export const getMe = async (data) => {
+  const response = await api.get("/auth/me", data);
+  console.log(response.data);
+  return response.data;
+};
+
 export const logoutUser = async () => {
   const response = await api.post("/auth/logout");
   console.log(response.data);

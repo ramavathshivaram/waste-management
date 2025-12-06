@@ -3,7 +3,7 @@ const Collertor = require("../models/collector-model");
 const createCollector = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { vehicleNumber } = req.body;
+    const { vehicleNumber, } = req.body;
     const collector = await Collertor.create({ userId, vehicleNumber });
     res.status(201).json({
       success: true,

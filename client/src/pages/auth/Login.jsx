@@ -15,10 +15,18 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { loginUser } from "../../lib/api.js";
 import useUserStore from "../../stores/useUserStore.js";
+import { useEffect } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
   const setUser = useUserStore((s) => s.setUser);
+  const user = useUserStore((state) => state.user);
+
+  useEffect(() => {
+    if (user) {
+      navigate(`/${user.role}`);
+    }
+  }, [user, navigate]);
 
   const {
     register,
@@ -28,7 +36,6 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     const res = await loginUser(data);
-    console.log(res);
     setUser(res);
     navigate(`/${res.role}`);
   };

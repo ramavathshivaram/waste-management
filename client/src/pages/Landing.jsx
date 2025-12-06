@@ -1,8 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import useUserStore from "../stores/useUserStore.js";
+import { useEffect } from "react";
 
 const Landing = () => {
+  const user = useUserStore((state) => state.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate(`/${user.role}`);
+    }
+  }, [user, navigate]);
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       {/* Navbar */}
