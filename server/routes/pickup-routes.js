@@ -8,17 +8,15 @@ const {
   updatePickupStatus,
 } = require("../controllers/pickup-controller");
 const upload = require("../middlewares/upload");
-const { protect } = require("../middlewares/auth-middleware");
 
-router.post("/create", protect, upload.array("images", 5), createPickupRequest);
+router.post("/create", upload.array("images", 5), createPickupRequest);
 
 router.patch(
   "/status/:id",
-  protect,
   authorize("admin", "collector", "centre"),
   updatePickupStatus
 );
 
-router.get("/", protect, getUserPickupRequests);
+router.get("/", getUserPickupRequests);
 
 module.exports = router;

@@ -6,10 +6,9 @@ const {
   getUserDumps,
 } = require("../controllers/illegal-dump-controller");
 const upload = require("../middlewares/upload");
-const { protect } = require("../middlewares/auth-middleware");
 
-router.post("/create", protect, upload.array("images", 5), createIllegalDump);
+router.post("/create", upload.array("images", 5), createIllegalDump);
 
-router.get("/", protect, getUserDumps);
+router.get("/", getUserDumps);
 
 module.exports = router;

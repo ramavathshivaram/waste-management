@@ -12,6 +12,18 @@ const links = [
     label: "Dashboard",
     path: "/citizen",
   },
+  {
+    label: "Search",
+    path: "/citizen/search",
+  },
+  {
+    label: "Request",
+    path: "/citizen/request",
+  },
+  {
+    label: "Report",
+    path: "/citizen/report",
+  },
 ];
 const CitizenRoutes = () => {
   return (

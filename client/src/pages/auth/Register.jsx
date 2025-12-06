@@ -150,7 +150,6 @@ const Register = () => {
                     <SelectItem value="citizen">Citizen</SelectItem>
                     <SelectItem value="collector">Collector</SelectItem>
                     <SelectItem value="centre">Recycling Centre</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
                   </SelectContent>
                 </Select>
 

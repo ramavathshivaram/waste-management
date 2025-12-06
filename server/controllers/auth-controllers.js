@@ -19,6 +19,9 @@ const registerUser = async (req, res) => {
     if (!name || !email || !password) {
       return res.status(400).json({ message: "Please add all fields" });
     }
+    if (role && role === "admin") {
+      return res.status(400).json({ message: "Admin role is reserved" });
+    }
 
     // Check if user exists
     const userExists = await User.findOne({ email });
