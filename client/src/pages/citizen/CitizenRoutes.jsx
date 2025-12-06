@@ -5,6 +5,7 @@ import RootLayout from "../../components/common/RootLayout";
 import Search from "./Search";
 import Request from "./Request";
 import Report from "./Report";
+import PageNotFound from "../../components/common/PageNotFound";
 
 
 const links = [
@@ -34,6 +35,7 @@ const CitizenRoutes = () => {
           <Route path="/search" element={<Search />} />
           <Route path="/request" element={<Request />} />
           <Route path="/report" element={<Report />} />
+           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </>

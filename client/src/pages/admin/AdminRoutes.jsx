@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import RootLayout from "../../components/common/RootLayout";
+import PageNotFound from "../../components/common/PageNotFound";
 
 const links = [
   {
@@ -27,9 +28,7 @@ const AdminRoutes = () => {
     <Routes>
       <Route path="" element={<RootLayout links={links} />}>
         <Route index element={<Dashboard />} />
-        {/* <Route path="/search" element={<Search />} />
-        <Route path="/request" element={<Request />} />
-        <Route path="/report" element={<Report />} /> */}
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
   );

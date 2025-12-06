@@ -1,4 +1,4 @@
-import { getUserDumps } from "../lib/api.js";
+import { getUserDumps } from "../../../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
  const useUserAllIllegalDumps = () => {

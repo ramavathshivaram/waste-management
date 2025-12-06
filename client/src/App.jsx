@@ -1,16 +1,15 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 import CitizenRoutes from "./pages/citizen/CitizenRoutes";
 import CollectorRoutes from "./pages/collector/CollectorRoutes";
 import CentreRoutes from "./pages/centre/CentreRoutes";
 import AdminRoutes from "./pages/admin/AdminRoutes";
 import ProtectedRoute from "./components/common/ProtectedRoute";
-import { toast } from "sonner";
+import PageNotFound from "./components/common/PageNotFound";
 
 function App() {
-  toast.success("success");
   return (
     <div className="min-h-screen bg-background text-foreground font-sans antialiased">
       <Routes>
@@ -58,7 +57,7 @@ function App() {
           }
         />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );

@@ -18,9 +18,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
-import { registerUser } from "../lib/api";
+import { registerUser } from "../../lib/api";
 import { useForm } from "react-hook-form";
-import useUserStore from "../stores/useUserStore";
+import useUserStore from "../../stores/useUserStore";
 
 const Register = () => {
   const navigate = useNavigate();

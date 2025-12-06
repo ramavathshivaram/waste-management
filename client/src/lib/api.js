@@ -47,3 +47,9 @@ export const getUserDumps = async () => {
   console.log(response.data);
   return response.data;
 };
+
+export const createCollector = async (formData) => {
+  const response = await api.post("/collector/create", formData);
+  console.log(response.data);
+  return response.data;
+};

@@ -1,6 +1,6 @@
 import React from "react";
-import useUserAllPickupRequests from "../../hooks/useUserAllPickupRequests.js";
-import useUserAllIllegalDumps from "../../hooks/useUserAllIllegalDumps.js";
+import useUserAllPickupRequests from "../../hooks/citizen/queries/useUserAllPickupRequests.js";
+import useUserAllIllegalDumps from "../../hooks/citizen/queries/useUserAllIllegalDumps.js";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

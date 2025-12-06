@@ -12,8 +12,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-import { createPickupRequest } from "../../lib/api.js";
-import usePickupRequestMutation from "../../hooks/usePickupRequest.js";
+import usePickupRequestMutation from "../../hooks/citizen/queries/usePickupRequest.js";
 import { toast } from "sonner";
 
 const Request = () => {

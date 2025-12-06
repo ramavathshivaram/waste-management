@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { loginUser } from "../lib/api";
-import useUserStore from "../stores/useUserStore.js";
+import { loginUser } from "../../lib/api.js";
+import useUserStore from "../../stores/useUserStore.js";
 
 const Login = () => {
   const navigate = useNavigate();

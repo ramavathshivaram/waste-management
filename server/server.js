@@ -35,6 +35,8 @@ app.use("/api/pickup", require("./routes/pickup-routes"));
 
 app.use("/api/illegal-dump", require("./routes/illegal-dump-routes"));
 
+app.use("/api/collector", require("./routes/collector-routes"));
+
 //! Error handling middleware
 app.use(handleErros);
 

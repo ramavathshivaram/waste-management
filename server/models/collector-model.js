@@ -9,16 +9,15 @@ const collectorSchema = new mongoose.Schema(
       unique: true,
     },
 
-    assignedArea: {
-      type: String,
-      required: true,
+    isAdminVerifyed: {
+      type: Boolean,
+      default: false,
     },
 
-    // Collector online/offline status
     status: {
       type: String,
       enum: ["active", "inactive", "busy"],
-      default: "active",
+      default: "inactive",
     },
 
     completedPickups: {
@@ -28,14 +27,17 @@ const collectorSchema = new mongoose.Schema(
 
     vehicleNumber: {
       type: String,
-      default: null,
+      required: true,
+    },
+    licenceNumber: {
+      type: String,
+      required: true,
     },
 
     currentCapacityPercent: {
       type: Number,
       default: 0,
     },
-
   },
   { timestamps: true }
 );
