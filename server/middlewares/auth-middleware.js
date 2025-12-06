@@ -20,7 +20,6 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ message: "User no longer exists" });
     }
 
-    console.log("verifyed")
     next(); // SUCCESS → move forward
   } catch (error) {
     console.error("Auth Error:", error);

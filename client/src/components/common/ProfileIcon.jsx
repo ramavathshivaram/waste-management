@@ -32,16 +32,18 @@ const ProfileIcon = () => {
         <div className="">
           <div className="flex items-center gap-5">
             <Avatar>
-              <AvatarImage src="https://github.com/vercel.png" />
+              <AvatarImage />
               <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
             </Avatar>
-            <h1 className="text-lg font-semibold flex-1">Name</h1>
+            <div>
+              <h1 className="text-lg font-semibold flex-1">Name</h1>
+              <p className="text-muted-foreground">{user?.email}</p>
+            </div>
             <Button size="sm" onClick={handleLogout}>
               Logout
             </Button>
           </div>
           <div className="p-5">
-            <p className="text-muted-foreground">{user?.email}</p>
             <p className="text-muted-foreground">{user.role}</p>
           </div>
         </div>

@@ -6,27 +6,27 @@ import RootLayout from "../../components/common/RootLayout";
 const links = [
   {
     label: "Dashboard",
-    path: "/citizen",
+    path: "/collector",
   },
   {
     label: "Search",
-    path: "/citizen/search",
+    path: "/collector/search",
   },
   {
     label: "Request",
-    path: "/citizen/request",
+    path: "/collector/request",
   },
   {
     label: "Report",
-    path: "/citizen/report",
+    path: "/collector/report",
   },
 ];
 const CollectorRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path="" element={<RootLayout links={links} />}>
-          <Route index element={<Dashboard />} />
+        <Route path="/" element={<RootLayout links={links} />}>
+          <Route path="/" element={<Dashboard />} />
         </Route>
       </Routes>
     </>
