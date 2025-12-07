@@ -3,9 +3,10 @@ import Dashboard from "./Dashboard";
 import { Routes, Route } from "react-router-dom";
 import RootLayout from "../../components/common/RootLayout";
 import PageNotFound from "../../components/common/PageNotFound";
-import UnderProcess from "./UnderProcess";
+import UnderProcess from "../UnderProcess";
 import Update from "./Update";
 import UnderProcessProtectedRoute from "../../components/common/UnderProcessProtectedRoute";
+import useCollectorStore from "../../stores/collectorStore.js";
 
 const links = [
   {
@@ -14,6 +15,8 @@ const links = [
   },
 ];
 const CollectorRoutes = () => {
+  const collector = useCollectorStore((s) => s.collector);
+
   return (
     <>
       <Routes>
@@ -21,7 +24,7 @@ const CollectorRoutes = () => {
           <Route
             path="/"
             element={
-              <UnderProcessProtectedRoute>
+              <UnderProcessProtectedRoute data={collector}>
                 <Dashboard />
               </UnderProcessProtectedRoute>
             }

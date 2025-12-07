@@ -60,11 +60,17 @@ export const getCollectors = async () => {
 };
 
 export const updateCollector = async (formData) => {
-
-  console.log(formData)
+  console.log(formData);
   const response = await api.patch("/collector", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
+  return response.data.data;
+};
+
+//! ---------------------- CENTRE FUNCTIONS ----------------------
+
+export const getCentre = async () => {
+  const response = await api.get("/centre");
   return response.data.data;
 };
 

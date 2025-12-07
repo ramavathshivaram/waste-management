@@ -1,10 +1,8 @@
 const express = require("express");
 const router = express.Router();
-
-const { registerCentre } = require("../controllers/centre-controllers");
+const { getCentre } = require("../controllers/centre-controllers");
 const upload = require("../middlewares/upload");
-const { protect } = require("../middlewares/auth-middleware");
 
-router.post("/register", protect, upload.single("image"), registerCentre);
+router.get("/", upload.single("image"), getCentre);
 
 module.exports = router;

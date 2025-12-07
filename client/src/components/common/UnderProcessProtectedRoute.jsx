@@ -1,13 +1,13 @@
 import React from "react";
-import useCollectorStore from "../../stores/collectorStore";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../../stores/useUserStore.js";
 
-const UnderProcessProtectedRoute = ({ children }) => {
-  const collector = useCollectorStore((s) => s.collector);
+const UnderProcessProtectedRoute = ({ data, children }) => {
   const navigate = useNavigate();
+  const user = useUserStore((state) => state.user);
 
-  if (collector?.isAdminVerified === false) {
-    navigate("/collector/under-process");
+  if (data?.isAdminVerified === false) {
+    navigate(`/${user.role}/under-process`);
   }
   return children;
 };
