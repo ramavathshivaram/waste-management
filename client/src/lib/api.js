@@ -1,28 +1,28 @@
 import api from "./axios.js";
 
-//! Register
+//! ---------------------- AUTH FUNCTIONS ----------------------
+
 export const registerUser = async (data) => {
   const response = await api.post("/auth/register", data);
-  console.log(response.data);
   return response.data;
 };
 export const loginUser = async (data) => {
   const response = await api.post("/auth/login", data);
-  console.log(response.data);
   return response.data;
 };
 
 export const getMe = async (data) => {
   const response = await api.get("/auth/me", data);
-  console.log(response.data);
   return response.data;
 };
 
 export const logoutUser = async () => {
   const response = await api.post("/auth/logout");
-  console.log(response.data);
   return response.data;
 };
+
+//! ---------------------- PICKUP REQUEST FUNCTIONS ----------------------
+
 export const createPickupRequest = async (data) => {
   console.log(data);
   const response = await api.post("/pickup/create", data, {
@@ -30,32 +30,47 @@ export const createPickupRequest = async (data) => {
       "Content-Type": "multipart/form-data",
     },
   });
-  console.log(response.data);
   return response.data;
 };
 
 export const getUserPickupRequests = async () => {
   const response = await api.get("/pickup");
-  console.log(response.data);
   return response.data;
 };
+
+//! ---------------------- ILLEGAL DUMP FUNCTIONS ----------------------
 
 export const createIllegalDump = async (formData) => {
   const response = await api.post("/illegal-dump/create", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
-  console.log(response.data);
   return response.data;
 };
 
 export const getUserDumps = async () => {
   const response = await api.get("/illegal-dump");
-  console.log(response.data);
   return response.data;
 };
 
+//! ---------------------- COLLECTOR FUNCTIONS ----------------------
+
 export const createCollector = async (formData) => {
   const response = await api.post("/collector/create", formData);
-  console.log(response.data);
   return response.data;
+};
+
+export const getCollectors = async () => {
+  const response = await api.get("/collector");
+  return response.data;
+};
+
+//! ---------------------- ADMIN FUNCTIONS ----------------------
+
+export const getAdmin = async () => {
+  const response = await api.get("/admin");
+  return response.data;
+};
+export const getAdminPickups = async () => {
+  const response = await api.get("/admin/pickups");
+  return response.data.pickups;
 };

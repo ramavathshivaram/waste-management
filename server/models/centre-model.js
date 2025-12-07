@@ -9,32 +9,24 @@ const centreSchema = new mongoose.Schema(
       unique: true,
     },
 
-    // Centre name
     name: {
       type: String,
-      required: true,
       trim: true,
     },
 
-    // Full address
     address: {
       type: String,
-      required: true,
     },
 
-    // Contact number
     phone: {
       type: String,
-      required: true,
     },
 
-    // Admin verifies centre
     isAdminVerified: {
       type: Boolean,
       default: false,
     },
 
-    // Waste types handled
     acceptedWasteTypes: [
       {
         type: String,
@@ -42,44 +34,43 @@ const centreSchema = new mongoose.Schema(
       },
     ],
 
-    // Cloudinary Image for Centre
     image: {
       publicId: { type: String },
       url: { type: String },
     },
 
-    // Centre capacity tracking
     capacity: {
       current: {
         type: Number,
-        default: 0, // in kg or tons based on your system
+        default: 0,
       },
       max: {
         type: Number,
-        default: 200, // example default capacity
+        default: 200,
       },
     },
 
-    // Optional geo-location
     location: {
-      lat: { type: Number },
-      lng: { type: Number },
+      type: {
+        type: String,
+        enum: ["Point"],
+      },
+      coordinates: {
+        type: [Number], // [longitude, latitude]
+      },
     },
 
-    // Operating hours
     operatingHours: {
-      open: { type: String }, // e.g. "09:00"
-      close: { type: String }, // e.g. "18:00"
+      open: { type: String },
+      close: { type: String },
     },
 
-    // Status of centre
     status: {
       type: String,
       enum: ["active", "inactive", "full"],
       default: "inactive",
     },
 
-    // Description or additional info
     description: {
       type: String,
       default: "",

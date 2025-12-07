@@ -1,11 +1,9 @@
 import { createCollector } from "../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
-const useCreateCollector = () => {
+export const useCreateCollector = () => {
   return useQuery({
-    queryKey: ["create-collector"],
+    queryKey: ["collector"],
     queryFn: createCollector,
   });
 };
-
-export default useCreateCollector;

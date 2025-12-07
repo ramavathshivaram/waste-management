@@ -9,60 +9,53 @@ const collectorSchema = new mongoose.Schema(
       unique: true,
     },
 
-    // Driving license
     licenseNumber: {
       type: String,
-      required: true,
       unique: true,
       trim: true,
     },
 
-    // Admin approves collector
     isAdminVerified: {
       type: Boolean,
       default: false,
     },
 
-    // Collector online/offline/busy
     status: {
       type: String,
       enum: ["active", "inactive", "busy"],
       default: "inactive",
     },
 
-    // Total pickups completed
     completedPickups: {
       type: Number,
       default: 0,
     },
 
-    // Vehicle details
     vehicle: {
-      Number: {
+      number: {
         type: String,
-        required: true,
         trim: true,
       },
 
-      Type: {
+      type: {
         type: String,
         enum: ["truck", "auto", "cycle-cart", "van", "bike"],
-        required: true,
       },
 
-      Image: {
+      image: {
         publicId: { type: String },
         url: { type: String },
       },
 
-      currentCapacity: {
-        type: Number,
-        default: 0, //// in kgs
-      },
-
-      maxCapacity: {
-        type: Number,
-        default: 0, //// in kgs
+      capacity: {
+        current: {
+          type: Number,
+          default: 0,
+        },
+        max: {
+          type: Number,
+          default: 200,
+        },
       },
     },
   },
