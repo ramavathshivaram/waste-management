@@ -11,8 +11,8 @@ const collectorSchema = new mongoose.Schema(
 
     licenseNumber: {
       type: String,
-      unique: true,
       trim: true,
+      default: "",
     },
 
     isAdminVerified: {

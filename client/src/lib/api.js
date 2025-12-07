@@ -54,14 +54,18 @@ export const getUserDumps = async () => {
 
 //! ---------------------- COLLECTOR FUNCTIONS ----------------------
 
-export const createCollector = async (formData) => {
-  const response = await api.post("/collector/create", formData);
-  return response.data;
-};
-
 export const getCollectors = async () => {
   const response = await api.get("/collector");
-  return response.data;
+  return response.data.data;
+};
+
+export const updateCollector = async (formData) => {
+
+  console.log(formData)
+  const response = await api.patch("/collector", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data.data;
 };
 
 //! ---------------------- ADMIN FUNCTIONS ----------------------

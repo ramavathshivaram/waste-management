@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../middlewares/upload");
 
 const {
-  createCollector,
   getCollector,
+  updateCollector,
 } = require("../controllers/collector-controllers");
 
-router.post("/create", createCollector);
 router.get("/", getCollector);
+
+router.patch("/", upload.single("image"), updateCollector);
 
 module.exports = router;

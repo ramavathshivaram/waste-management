@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 const User = require("../models/user-model");
 const Centre = require("../models/centre-model");
 const Collector = require("../models/collector-model");
@@ -23,6 +22,8 @@ const registerUser = async (req, res) => {
     if (role && role === "admin") {
       return res.status(400).json({ message: "Admin role is reserved" });
     }
+
+    console.log("role", role);
 
     const userExists = await User.findOne({ email });
 
@@ -64,7 +65,7 @@ const registerUser = async (req, res) => {
       res.status(400).json({ message: "Invalid user data" });
     }
   } catch (error) {
-    throw new Error();
+    throw new Error(error.message);
   }
 };
 
@@ -104,10 +105,10 @@ const loginUser = async (req, res) => {
 // @access  Private
 const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = req.user;
 
     res.status(200).json({
-      id: user.id,
+      id: user._id,
       name: user.name,
       email: user.email,
       role: user.role,
