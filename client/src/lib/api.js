@@ -84,3 +84,22 @@ export const getAdminPickups = async () => {
   const response = await api.get("/admin/pickups");
   return response.data.pickups;
 };
+
+export const getAdminApprovals = async () => {
+  const response = await api.get("/admin/approvals");
+  return response.data.data;
+};
+export const getAdminCollectorById = async (id) => {
+  const response = await api.get(`/admin/collector/${id}`);
+  return response.data.data;
+};
+export const getAdminCentreById = async (id) => {
+  const response = await api.get(`/admin/centre/${id}`);
+  return response.data.data;
+};
+
+export const approveCollector = async ({ id, isApproved }) => {
+  console.log(id, isApproved);
+  const response = await api.patch(`/admin/collector/${id}`, { isApproved });
+  return response.data.data;
+};

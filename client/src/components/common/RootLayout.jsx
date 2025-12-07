@@ -4,9 +4,9 @@ import Navbar from "./Navbar";
 
 const CitizenRootLayout = ({ links }) => {
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen flex flex-col">
       <Navbar links={links} />
-      <div>
+      <div className="w-full h-full">
         <Outlet />
       </div>
     </div>
