@@ -28,25 +28,25 @@ const ProfileIcon = () => {
           <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
         </Avatar>
       </HoverCardTrigger>
-      <HoverCardContent className="w-80">
-        <div className="">
+      <HoverCardContent className="w-full">
+        <div>
           <div className="flex items-center gap-5">
             <Avatar>
               <AvatarImage />
               <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="text-lg font-semibold flex-1">Name</h1>
-              <p className="text-muted-foreground">{user?.email}</p>
+              <h1 className="text-md font-semibold flex-1">{user?.name}</h1>
+              <p className="text-muted-foreground text-sm">{user?.email}</p>
             </div>
-            <Button size="sm" onClick={handleLogout}>
-              Logout
-            </Button>
           </div>
           <div className="p-5">
             <p className="text-muted-foreground">{user.role}</p>
           </div>
         </div>
+        <Button size="sm" onClick={handleLogout}>
+          Logout
+        </Button>
       </HoverCardContent>
     </HoverCard>
   );

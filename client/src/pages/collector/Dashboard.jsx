@@ -9,7 +9,17 @@ const Dashboard = () => {
   if (data) {
     setCollector(data);
   }
-  return <div>Dashboard Dashboard</div>;
+  return (
+    <div>
+      // btn for activate and deactivate (offline and online)
+      <br />
+      //map with all the pickups with best routes
+      <br />
+      // on start continue with first pickup (navigate to pickup details - map +
+      route)
+      <br />
+    </div>
+  );
 };
 
 export default Dashboard;
