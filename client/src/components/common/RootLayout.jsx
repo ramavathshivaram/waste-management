@@ -1,8 +1,8 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "../sections/Navbar";
 
-const CitizenRootLayout = ({ links }) => {
+const RootLayout = ({ links }) => {
   return (
     <div className="w-screen h-screen flex flex-col">
       <Navbar links={links} />
@@ -13,4 +13,4 @@ const CitizenRootLayout = ({ links }) => {
   );
 };
 
-export default CitizenRootLayout;
+export default RootLayout;
