@@ -19,6 +19,7 @@ const collectorSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
     isApproved: {
       type: Boolean,
       default: false,
@@ -54,6 +55,24 @@ const collectorSchema = new mongoose.Schema(
         max: {
           type: Number,
           default: 200,
+        },
+      },
+    },
+
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        default: "Point",
+      },
+      coordinates: {
+        type: [Number], // [longitude, latitude]
+        default: [0, 0],
+        validate: {
+          validator: function (value) {
+            return value.length === 2;
+          },
+          message: "Coordinates must be [longitude, latitude]",
         },
       },
     },

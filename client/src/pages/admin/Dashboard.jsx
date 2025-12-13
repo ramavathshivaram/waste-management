@@ -10,6 +10,7 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts";
+import { Card } from "@/components/ui/card";
 
 import { useAdminDashboard } from "../../hooks/use-admin-query.js";
 
@@ -26,12 +27,12 @@ const Dashboard = () => {
   return (
     <div className="p-6 space-y-6">
       {/* KPI CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <Card className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <KpiCard title="Centres" value={totals.centres} />
         <KpiCard title="Collectors" value={totals.collectors} />
         <KpiCard title="Pickups" value={totals.pickups} />
         <KpiCard title="Illegal Dumps" value={totals.illegalDumps} />
-      </div>
+      </Card>
 
       {/* GRAPHS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

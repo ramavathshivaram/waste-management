@@ -66,19 +66,6 @@ const pickupRequestSchema = new mongoose.Schema(
       },
     },
 
-    status: {
-      type: String,
-      enum: [
-        "pending",
-        "assigned",
-        "in-progress",
-        "picked",
-        "completed",
-        "cancelled",
-      ],
-      default: "pending",
-    },
-
     otp: {
       type: Number,
       default: Math.floor(Math.random() * 9000) + 1000,

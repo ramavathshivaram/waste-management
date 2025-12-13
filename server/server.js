@@ -7,6 +7,10 @@ const handleErrors = require("./middlewares/handleErrors");
 const cookieParser = require("cookie-parser");
 const { protect, authorize } = require("./middlewares/auth-middleware");
 
+const { assignPickupToCollector } = require("./lib/agenda-func");
+
+assignPickupToCollector();
+
 //! OPTIIONS
 const options = {
   origin: process.env.ORIGIN || "http://localhost:5173",
