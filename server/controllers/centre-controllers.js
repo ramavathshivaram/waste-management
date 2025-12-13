@@ -1,4 +1,5 @@
 const Centre = require("../models/centre-model");
+const { create_centre_schema } = require("../lib/zod-schema");
 const User = require("../models/user-model");
 const cloudinary = require("../configs/cloudinary");
 const fs = require("fs");
@@ -47,8 +48,6 @@ const getCentreslocatons = async (req, res) => {
       }
     );
 
-
-    
     res.status(200).json({
       success: true,
       data: centres,
@@ -59,5 +58,35 @@ const getCentreslocatons = async (req, res) => {
   }
 };
 
+const createCentre = async (req, res) => {
+  try {
+    const parsed = create_centre_schema.safeParse(req.body);
 
-module.exports = { getCentre, getCentreslocatons };
+    if (!parsed.success) {
+      return res.status(400).json({
+        success: false,
+        message: parsed.error.errors[0].message,
+      });
+    }
+
+    const userId = req.user._id;
+
+    const { name, desc, location } = parsed.data;
+
+    const centre = await Centre.create({
+      userId,
+      name,
+      desc,
+      location,
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: centre,
+    });
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+module.exports = { getCentre, getCentreslocatons, createCentre };

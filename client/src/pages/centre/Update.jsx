@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { updateCollector } from "../../lib/api.js";
+import { createCentre } from "../../lib/api.js";
 
 const Update = () => {
   const navigato = useNavigate();
@@ -36,7 +36,7 @@ const Update = () => {
       formData.append("image", file);
     }
 
-    await updateCollector(formData);
+    await createCentre(formData);
 
     navigato("/collector");
   };

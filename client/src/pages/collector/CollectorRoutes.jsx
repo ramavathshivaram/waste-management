@@ -16,7 +16,8 @@ const links = [
 ];
 const CollectorRoutes = () => {
   const user = useUserStore((s) => s.user);
-  console.log(user);
+
+  console.log(user)
 
   return (
     <>

@@ -5,7 +5,7 @@ import RootLayout from "../../components/common/RootLayout";
 import PageNotFound from "../../components/common/PageNotFound";
 import Update from "../centre/Update";
 import UnderProcess from "../UnderProcess";
-import centreStore from "../../stores/centreStore.js";
+import useUserStore from "../../stores/useUserStore.js";
 import UnderProcessProtectedRoute from "../../components/common/UnderProcessProtectedRoute";
 
 const links = [
@@ -15,15 +15,15 @@ const links = [
   },
 ];
 const CentreRoutes = () => {
-  const centre = centreStore((s) => s.centre);
+  const user = useUserStore((s) => s.user);
   return (
     <>
       <Routes>
-        <Route path="" element={<RootLayout links={links} />}>
+        <Route path="/" element={<RootLayout links={links} />}>
           <Route
             index
             element={
-              <UnderProcessProtectedRoute data={centre}>
+              <UnderProcessProtectedRoute data={user}>
                 <Dashboard />
               </UnderProcessProtectedRoute>
             }

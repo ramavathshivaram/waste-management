@@ -85,6 +85,11 @@ export const getCentresNearByLocations = async (longitude, latitude) => {
   return response.data.data;
 };
 
+export const createCentre = async (data) => {
+  const response = await api.post("/centre", data);
+  return response.data.data;
+};
+
 //! ---------------------- ADMIN FUNCTIONS ----------------------
 
 export const getAdminDashboard = async () => {
