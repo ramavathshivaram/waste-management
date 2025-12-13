@@ -29,7 +29,7 @@ const CitizenRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path="" element={<RootLayout links={links} />}>
+        <Route element={<RootLayout links={links} />}>
           <Route index element={<Dashboard />} />
           <Route path="/search" element={<Search />} />
           <Route path="/request" element={<Request />} />

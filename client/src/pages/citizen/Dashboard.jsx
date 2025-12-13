@@ -26,7 +26,7 @@ const Dashboard = () => {
     );
 
   return (
-    <div className="min-h-screen bg-white text-black p-6 space-y-12">
+    <div className="min-h-screen p-6 space-y-12">
       {/* PICKUP REQUEST SECTION */}
       <div>
         <h1 className="text-2xl font-bold mb-6">Your Pickup Requests</h1>

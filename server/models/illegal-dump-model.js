@@ -10,13 +10,6 @@ const illegalDumpSchema = new mongoose.Schema(
       required: true,
     },
 
-    // Basic location text
-    locationText: {
-      type: String,
-      required: true, // e.g. "Near canal, Kanuuru main road"
-      trim: true,
-    },
-
     // Optional structured address
     address: {
       type: String,
@@ -31,7 +24,6 @@ const illegalDumpSchema = new mongoose.Schema(
     // Description by user
     description: {
       type: String,
-      required: true,
       trim: true,
     },
 
@@ -59,7 +51,7 @@ const illegalDumpSchema = new mongoose.Schema(
     // If assigned to a collector
     assignedCollectorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Collector",
       default: null,
     },
 

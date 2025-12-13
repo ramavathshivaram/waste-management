@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Fake centers (later connect to backend)
 const centres = [
@@ -38,34 +35,8 @@ const Search = () => {
   );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 min-h-screen bg-white text-black">
+    <div className="grid grid-cols-1 lg:grid-cols-3 min-h-screen">
       {/* LEFT PANEL */}
-      <div className="p-6 border-r border-black bg-white">
-        <h1 className="text-2xl font-bold mb-4">Find Nearby Centres</h1>
-
-        <Input
-          placeholder="Search centres..."
-          className="border border-black mb-4 text-black bg-white"
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-
-        <ScrollArea className="h-[80vh] pr-3">
-          {filteredCentres.map((centre) => (
-            <Card
-              key={centre.id}
-              className="mb-3 border border-black hover:bg-black hover:text-white transition cursor-pointer"
-              onClick={() => setSelectedCenter(centre)}
-            >
-              <CardHeader>
-                <CardTitle>{centre.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm">{centre.address}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </ScrollArea>
-      </div>
 
       {/* MAP PANEL */}
       <div className="lg:col-span-2 h-full">
@@ -75,7 +46,7 @@ const Search = () => {
               ? [selectedCenter.lat, selectedCenter.lng]
               : [16.5062, 80.648]
           }
-          zoom={13}
+          zoom={15}
           className="w-full h-screen grayscale"
         >
           <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />

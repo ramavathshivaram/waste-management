@@ -9,6 +9,7 @@ import {
 import useUserStore from "../../stores/useUserStore.js";
 import { logoutUser } from "../../lib/api.js";
 import { useNavigate } from "react-router-dom";
+import DarkMode from "./DarkMode.jsx";
 
 const ProfileIcon = () => {
   const navigate = useNavigate();
@@ -40,13 +41,13 @@ const ProfileIcon = () => {
               <p className="text-muted-foreground text-sm">{user?.email}</p>
             </div>
           </div>
-          <div className="p-5">
-            <p className="text-muted-foreground">{user.role}</p>
-          </div>
         </div>
-        <Button size="sm" onClick={handleLogout}>
-          Logout
-        </Button>
+        <div className="flex items-center justify-end-safe gap-4 mt-4">
+          <DarkMode />
+          <Button size="sm" onClick={handleLogout}>
+            Logout
+          </Button>
+        </div>
       </HoverCardContent>
     </HoverCard>
   );

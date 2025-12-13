@@ -4,7 +4,7 @@ import { MapPin, Package, Calendar } from "lucide-react";
 
 const PickupRequestCard = ({ req }) => {
   const badgeTheme = {
-    pending: "border border-black bg-white text-black",
+    pending: "border border-black bg-red-400/30 text-red-700",
     accepted: "bg-black text-white",
     assigned: "bg-white text-black border border-black",
     "in-progress": "bg-black text-white",
@@ -20,7 +20,7 @@ const PickupRequestCard = ({ req }) => {
 
   return (
     <Card
-      className="border border-black rounded-2xl bg-white text-black 
+      className="border border-black rounded-2xl
       shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden"
     >
       {/* HEADER */}
@@ -70,7 +70,7 @@ const PickupRequestCard = ({ req }) => {
         </div>
 
         {/* SCHEDULED DATE */}
-        <div className="flex items-center gap-2 bg-gray-50 p-2 rounded-lg border border-black">
+        <div className="flex items-center gap-2 p-2 rounded-lg border">
           <Calendar size={16} className="text-black" />
           <span className="text-sm font-medium">
             {new Date(req.scheduledDateTime).toLocaleString()}

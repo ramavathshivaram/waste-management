@@ -11,7 +11,7 @@ const pickupRequestSchema = new mongoose.Schema(
     wasteType: {
       type: String,
       enum: ["plastic", "organic", "e-waste", "metal", "paper", "mixed"],
-      default: null,
+      default: "plastic",
     },
 
     quantity: {
@@ -33,6 +33,11 @@ const pickupRequestSchema = new mongoose.Schema(
       type: String,
       enum: ["once", "daily"],
       default: "once",
+    },
+
+    isCompleted: {
+      type: Boolean,
+      default: false,
     },
 
     images: [
@@ -76,13 +81,7 @@ const pickupRequestSchema = new mongoose.Schema(
 
     otp: {
       type: Number,
-      default: null,
-    },
-
-    assignedCollectorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Collector",
-      default: null,
+      default: Math.floor(Math.random() * 9000) + 1000,
     },
 
     desc: {

@@ -30,11 +30,6 @@ const collectorSchema = new mongoose.Schema(
       default: "inactive",
     },
 
-    completedPickups: {
-      type: Number,
-      default: 0,
-    },
-
     vehicle: {
       number: {
         type: String,

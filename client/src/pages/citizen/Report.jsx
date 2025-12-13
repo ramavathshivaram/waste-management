@@ -37,13 +37,13 @@ const Report = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black p-6">
+    <div className="min-h-screen p-6">
       <div className="max-w-xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Report Illegal Dumping</h1>
 
-        <Card className="border border-black bg-white">
+        <Card className="border  ">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold text-black">
+            <CardTitle className="text-lg font-semibold ">
               Submit a Dumping Report
             </CardTitle>
           </CardHeader>
@@ -52,9 +52,9 @@ const Report = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {/* Location Text */}
               <div className="space-y-2">
-                <Label className="text-black">Location / Landmark</Label>
+                <Label className="">Location / Landmark</Label>
                 <Input
-                  className="border-black bg-white text-black"
+                  className="  "
                   placeholder="Near market, Kanuuru"
                   {...register("locationText", { required: true })}
                 />
@@ -62,9 +62,9 @@ const Report = () => {
 
               {/* Address */}
               <div className="space-y-2">
-                <Label className="text-black">Address (optional)</Label>
+                <Label className="">Address (optional)</Label>
                 <Input
-                  className="border-black bg-white text-black"
+                  className="  "
                   placeholder="Street / Area"
                   {...register("address")}
                 />
@@ -72,9 +72,9 @@ const Report = () => {
 
               {/* Description */}
               <div className="space-y-2">
-                <Label className="text-black">Description</Label>
+                <Label className="">Description</Label>
                 <Textarea
-                  className="border-black bg-white text-black"
+                  className="  "
                   placeholder="Describe the issue..."
                   {...register("description", { required: true })}
                 />
@@ -82,11 +82,11 @@ const Report = () => {
 
               {/* Images */}
               <div className="space-y-2">
-                <Label className="text-black">Upload Images</Label>
+                <Label className="">Upload Images</Label>
                 <Input
                   type="file"
                   multiple
-                  className="border-black bg-white text-black"
+                  className="  "
                   onChange={(e) => setValue("images", e.target.files)}
                 />
               </div>
