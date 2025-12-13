@@ -4,9 +4,11 @@ import Dashboard from "./Dashboard";
 import RootLayout from "../../components/common/RootLayout";
 import PageNotFound from "../../components/common/PageNotFound";
 import Pickups from "./Pickups";
-import Approvals from "./Approvals";
+import Collectors from "./Collectors";
+import Centres from "./Centres";
 import CollectorDetails from "./CollectorDetails";
 import CentreDetails from "./CentreDetails";
+import IllegalDumps from "./IllegalDumps";
 
 // Sidebar / Navigation Links
 const links = [
@@ -15,16 +17,20 @@ const links = [
     path: "/admin",
   },
   {
-    label: "Approvals",
-    path: "/admin/approvals",
+    label: "Collectors",
+    path: "/admin/collectors",
+  },
+  {
+    label: "Centres",
+    path: "/admin/centres",
   },
   {
     label: "Pickups",
     path: "/admin/pickup",
   },
   {
-    label: "Reports",
-    path: "/admin/report",
+    label: "Illegal Dumps",
+    path: "/admin/illegal-dumps",
   },
   {
     label: "Search",
@@ -37,12 +43,13 @@ const AdminRoutes = () => {
     <Routes>
       <Route path="/" element={<RootLayout links={links} />}>
         <Route path="/" element={<Dashboard />} />
-        <Route path="approvals" element={<Approvals />} />
+        <Route path="collectors" element={<Collectors />} />
+        <Route path="centres" element={<Centres />} />
         <Route path="collector" element={<CollectorDetails />} />
         <Route path="centre" element={<CentreDetails />} />
         <Route path="pickup" element={<Pickups />} />
         <Route path="search" element={<div>Search Page</div>} />
-        <Route path="report" element={<div>Report Page</div>} />
+        <Route path="illegal-dumps" element={<IllegalDumps />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Route>

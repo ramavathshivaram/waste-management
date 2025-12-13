@@ -76,17 +76,25 @@ export const getCentre = async () => {
 
 //! ---------------------- ADMIN FUNCTIONS ----------------------
 
-export const getAdmin = async () => {
-  const response = await api.get("/admin");
-  return response.data;
+export const getAdminDashboard = async () => {
+  const response = await api.get("/admin/dashboard");
+  return response.data.data;
 };
 export const getAdminPickups = async () => {
   const response = await api.get("/admin/pickups");
   return response.data.pickups;
 };
+export const getAdminIllegalDumps = async () => {
+  const response = await api.get("/admin/illegal-dumps");
+  return response.data.data;
+};
 
-export const getAdminApprovals = async () => {
-  const response = await api.get("/admin/approvals");
+export const getAllCollectors = async () => {
+  const response = await api.get("/admin/collectors");
+  return response.data.data;
+};
+export const getAllCentres = async () => {
+  const response = await api.get("/admin/centres");
   return response.data.data;
 };
 export const getAdminCollectorById = async (id) => {

@@ -2,24 +2,29 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  getAdmin,
+  getAdminDashboard,
   getpickups,
-  getAdminApprovals,
+  getIllegalDumps,
+  getAllCollectors,
   getAdminCollectorById,
   getAdminCentreById,
-  approveCollector,
+  getAllCentres,
 } = require("../controllers/admin-controllers");
 
-router.get("/", getAdmin);
+router.get("/dashboard", getAdminDashboard);
 
 router.get("/pickups", getpickups);
 
-router.get("/approvals", getAdminApprovals);
+router.get("/illegal-dumps", getIllegalDumps);
+
+router.get("/collectors", getAllCollectors);
+
+router.get("/centres", getAllCentres);
 
 router.get("/collector/:id", getAdminCollectorById);
 
 router.get("/centre/:id", getAdminCentreById);
 
-router.patch("/collector/:id", approveCollector);
+// router.patch("/collector/:id", approveCollector);
 
 module.exports = router;

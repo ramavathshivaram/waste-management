@@ -1,112 +1,82 @@
-// import React from "react";
-// import { useAdminPickups } from "../../hooks/use-admin-query.js";
-// import {
-//   flexRender,
-//   getCoreRowModel,
-//   getPaginationRowModel,
-//   getSortedRowModel,
-//   useReactTable,
-// } from "@tanstack/react-table";
-// import { pickupColumns } from "../../components/common/pickupColumns";
-
-// const Pickups = () => {
-//   const { data, isLoading } = useAdminPickups();
-
-//   if (isLoading) return <div>Loading...</div>;
-
-//   // ⭐ FIX: Extract correct array
-//   const pickups = data?.data?.pickups || [];
-
-//   const table = useReactTable({
-//     data: pickups, // ⭐ fixed
-//     columns: pickupColumns,
-//     getCoreRowModel: getCoreRowModel(),
-//     getPaginationRowModel: getPaginationRowModel(),
-//     getSortedRowModel: getSortedRowModel(),
-//     initialState: {
-//       pagination: { pageSize: 5 },
-//     },
-//   });
-
-//   return (
-//     <div className="border border-black rounded-xl bg-white p-4">
-//       <table className="w-full border-collapse text-sm">
-//         {/* HEADER */}
-//         <thead>
-//           {table.getHeaderGroups().map((group) => (
-//             <tr key={group.id} className="border-b border-black">
-//               {group.headers.map((header) => (
-//                 <th
-//                   key={header.id}
-//                   onClick={header.column.getToggleSortingHandler()}
-//                   className="px-3 py-2 text-left cursor-pointer select-none"
-//                 >
-//                   {flexRender(
-//                     header.column.columnDef.header,
-//                     header.getContext()
-//                   )}
-//                   {{
-//                     asc: " ↑",
-//                     desc: " ↓",
-//                   }[header.column.getIsSorted()] || ""}
-//                 </th>
-//               ))}
-//             </tr>
-//           ))}
-//         </thead>
-
-//         {/* BODY */}
-//         <tbody>
-//           {table.getRowModel().rows.map((row) => (
-//             <tr key={row.id} className="border-b border-gray-300">
-//               {row.getVisibleCells().map((cell) => (
-//                 <td key={cell.id} className="px-3 py-2">
-//                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
-//                 </td>
-//               ))}
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-
-//       {/* PAGINATION */}
-//       <div className="flex justify-between items-center mt-4">
-//         <button
-//           className="border border-black px-3 py-1 rounded disabled:opacity-50"
-//           onClick={() => table.previousPage()}
-//           disabled={!table.getCanPreviousPage()}
-//         >
-//           Prev
-//         </button>
-
-//         <span>
-//           Page {table.getState().pagination.pageIndex + 1} of{" "}
-//           {table.getPageCount()}
-//         </span>
-
-//         <button
-//           className="border border-black px-3 py-1 rounded disabled:opacity-50"
-//           onClick={() => table.nextPage()}
-//           disabled={!table.getCanNextPage()}
-//         >
-//           Next
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Pickups;
-
-
-import React from 'react'
+import React from "react";
+import { useAdminPickups } from "../../hooks/use-admin-query.js";
 
 const Pickups = () => {
-  return (
-    <div>
-      Pickup page
-    </div>
-  )
-}
+  const { data, isLoading } = useAdminPickups();
 
-export default Pickups
+  if (isLoading) return <div>Loading...</div>;
+
+  if (!data || data.length === 0) {
+    return <div>No pickups found</div>;
+  }
+
+  return (
+    <div className="border border-black rounded-xl bg-white p-4 overflow-x-auto">
+      <table className="w-full border-collapse text-sm">
+        {/* HEADER */}
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="border px-3 py-2">#</th>
+            <th className="border px-3 py-2">Waste Type</th>
+            <th className="border px-3 py-2">Quantity</th>
+            <th className="border px-3 py-2">Address</th>
+            <th className="border px-3 py-2">Scheduled Time</th>
+            <th className="border px-3 py-2">Status</th>
+            <th className="border px-3 py-2">Image</th>
+            <th className="border px-3 py-2">Citizen</th>
+          </tr>
+        </thead>
+
+        {/* BODY */}
+        <tbody>
+          {data.map((pickup, index) => (
+            <tr key={pickup._id} className="hover:bg-gray-50">
+              <td className="border px-3 py-2 text-center">{index + 1}</td>
+
+              <td className="border px-3 py-2 capitalize">
+                {pickup.wasteType}
+              </td>
+
+              <td className="border px-3 py-2">{pickup.quantity}</td>
+
+              <td className="border px-3 py-2">{pickup.address}</td>
+
+              <td className="border px-3 py-2">
+                {new Date(pickup.scheduledDateTime).toLocaleString()}
+              </td>
+
+              <td className="border px-3 py-2">
+                <span
+                  className={`px-2 py-1 rounded text-xs font-medium
+                    ${
+                      pickup.status === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : pickup.status === "completed"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 text-gray-700"
+                    }`}
+                >
+                  {pickup.status}
+                </span>
+              </td>
+
+              <td className="border px-3 py-2 text-center">
+                {pickup.images?.length > 0 && (
+                  <img
+                    src={pickup.images[0].url}
+                    alt="waste"
+                    className="w-12 h-12 object-cover rounded mx-auto"
+                  />
+                )}
+              </td>
+
+              <td className="border px-3 py-2 text-xs">{pickup.citizenId}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default Pickups;

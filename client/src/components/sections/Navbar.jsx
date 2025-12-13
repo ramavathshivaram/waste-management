@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
-import ProfileIcon from "./ProfileIcon";
+import ProfileIcon from "../common/ProfileIcon";
 
 const Navbar = ({ links }) => {
   return (

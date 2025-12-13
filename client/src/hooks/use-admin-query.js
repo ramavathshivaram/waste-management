@@ -1,29 +1,44 @@
 import {
-  getAdmin,
+  getAdminDashboard,
   getAdminPickups,
-  getAdminApprovals,
+  getAllCollectors,
   getAdminCollectorById,
   getAdminCentreById,
+  getAllCentres,
+  getAdminIllegalDumps,
 } from "../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
-export const useAdmin = () => {
+export const useAdminDashboard = () => {
   return useQuery({
     queryKey: ["admin"],
-    queryFn: getAdmin,
+    queryFn: getAdminDashboard,
   });
 };
+
 export const useAdminPickups = () => {
   return useQuery({
     queryKey: ["admin", "pickups"],
     queryFn: getAdminPickups,
   });
 };
-
-export const useAdminApprovals = () => {
+export const useAdminIllegalDumps = () => {
   return useQuery({
-    queryKey: ["admin", "approvals"],
-    queryFn: getAdminApprovals,
+    queryKey: ["admin", "illegal-dumps"],
+    queryFn: getAdminIllegalDumps,
+  });
+};
+
+export const useAdminCollectors = () => {
+  return useQuery({
+    queryKey: ["admin", "collectors"],
+    queryFn: getAllCollectors,
+  });
+};
+export const useAdminCentres = () => {
+  return useQuery({
+    queryKey: ["admin", "centres"],
+    queryFn: getAllCentres,
   });
 };
 export const useAdminCollector = (id) => {

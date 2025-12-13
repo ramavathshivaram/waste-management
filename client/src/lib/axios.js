@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "sonner";
+import useUserStore from "../stores/useUserStore.js";
 
 const baseURL =
   import.meta.env.VITE_API_BACKEND_URL || "http://localhost:5000/api";
@@ -33,6 +34,7 @@ api.interceptors.response.use(
 
     // 401 -> Unauthorized -> redirect to login
     if (error?.response?.status === 401) {
+      useUserStore.getState().clearUser();
       window.location.href = "/login";
     }
 
