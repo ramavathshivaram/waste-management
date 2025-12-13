@@ -17,14 +17,14 @@ const UnderProcess = () => {
         <img
           src="https://cdn-icons-png.flaticon.com/512/8144/8144719.png"
           alt="Under Process"
-          className="w-50 mx-auto mb-6 animate-pulse"
+          className="w-70 mx-auto mb-6 animate-pulse dark:text-gray-400"
         />
 
-        <h1 className="text-3xl font-semibold text-gray-800 mb-2">
+        <h1 className="text-3xl font-semibold mb-2">
           Verification In Progress
         </h1>
 
-        <p className="text-gray-600">
+        <p className="">
           Your profile is currently under review by the admin. You will be
           notified once approved.
         </p>

@@ -1,16 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { updateCollector } from "../../lib/api.js";
+import { createCollector } from "../../lib/api.js";
 import { toast } from "sonner";
 
 const Update = () => {
   const navigato = useNavigate();
-  const [preview, setPreview] = useState(null);
 
   const {
     register,
@@ -19,33 +18,14 @@ const Update = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const formData = new FormData();
-
-    const vehicle = {
-      number: data.vehicleNumber,
-      type: data.vehicleType,
-      capacity: {
-        max: Number(data.maxCapacity),
-      },
-    };
-
-    formData.append("licenseNumber", data.licenseNumber);
-    formData.append("vehicle", JSON.stringify(vehicle));
-
-    const file = data.images?.[0];
-    if (file) {
-      formData.append("image", file);
-    }
-
-    await updateCollector(formData);
-
+    await createCollector(data);
     navigato("/collector");
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center p-4">
-      <Card className="p-8 max-w-xl w-full shadow-lg border">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-8 text-center">
+    <div className="min-h-screen flex justify-center items-center p-2">
+      <Card className="p-4 max-w-lg w-full shadow-lg border">
+        <h2 className="text-2xl font-semibold mb-2 text-center">
           Update Collector Details
         </h2>
 
@@ -83,67 +63,13 @@ const Update = () => {
               </p>
             )}
           </div>
-
-          {/* Vehicle Type */}
           <div className="space-y-1">
-            <Label>Vehicle Type</Label>
-            <select
-              {...register("vehicleType", {
-                required: "Vehicle type is required",
-              })}
-              className="w-full p-3 border rounded-md bg-white"
-            >
-              <option value="">Select Vehicle Type</option>
-              <option value="truck">Truck</option>
-              <option value="auto">Auto</option>
-              <option value="cycle-cart">Cycle Cart</option>
-              <option value="van">Van</option>
-              <option value="bike">Bike</option>
-            </select>
-            {errors.vehicleType && (
-              <p className="text-red-500 text-sm">
-                {errors.vehicleType.message}
-              </p>
-            )}
-          </div>
-
-          {/* Max Capacity */}
-          <div className="space-y-1">
-            <Label>Max Capacity</Label>
-            <Input
-              type="number"
-              placeholder="200"
-              {...register("maxCapacity", {
-                required: "Max capacity required",
-                valueAsNumber: true,
-              })}
+            <Label>Description</Label>
+            <Textarea
+              type="text"
+              placeholder="Enter description"
+              {...register("desc")}
             />
-            {errors.maxCapacity && (
-              <p className="text-red-500 text-sm">
-                {errors.maxCapacity.message}
-              </p>
-            )}
-          </div>
-
-          {/* Vehicle Image Upload */}
-          <div className="space-y-2">
-            <Label>Vehicle Image</Label>
-            <Input
-              type="file"
-              {...register("images")}
-              onChange={(e) => {
-                if (e.target.files[0]) {
-                  setPreview(URL.createObjectURL(e.target.files[0]));
-                }
-              }}
-            />
-            {preview && (
-              <img
-                src={preview}
-                alt="Vehicle Preview"
-                className="w-40 h-32 object-cover mt-2 rounded-md border"
-              />
-            )}
           </div>
 
           {/* Submit */}

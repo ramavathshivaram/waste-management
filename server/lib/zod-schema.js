@@ -1,16 +1,33 @@
-import * as z from "zod";
+const { z } = require("zod");
 
-export const userSchema = z.object({
+const register_schema = z.object({
   name: z.string().min(1).max(50),
   email: z.string().email().min(1).max(50),
   password: z.string().min(8).max(50),
-  role: z.enum(["citizen", "collector", "centre", "admin"]),
-  address: z.string().min(1).max(50),
-  location: z.string().min(1).max(50),
-  phone: z.string().min(1).max(50),
+  role: z.enum(["citizen", "collector", "centre"]),
 });
 
-export const loginSchema = z.object({
+const login_schema = z.object({
   email: z.string().email().min(1).max(50),
   password: z.string().min(8).max(50),
 });
+
+const update_collector_schema = z.object({
+  licenseNumber: z.string().min(8).max(50).optional(),
+  vechileNumber: z.string().min(8).max(50).optional(),
+  isAdminVerified: z.boolean().optional(),
+  isApproved: z.boolean().optional(),
+  status: z.enum(["active", "inactive", "busy"]).optional(),
+});
+const create_collector_schema = z.object({
+  licenseNumber: z.string().min(8).max(50),
+  vehicleNumber: z.string().min(8).max(50),
+  desc: z.string().optional(),
+});
+
+module.exports = {
+  register_schema,
+  login_schema,
+  update_collector_schema,
+  create_collector_schema,
+};

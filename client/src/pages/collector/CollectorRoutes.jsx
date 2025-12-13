@@ -6,7 +6,7 @@ import PageNotFound from "../../components/common/PageNotFound";
 import UnderProcess from "../UnderProcess";
 import Update from "./Update";
 import UnderProcessProtectedRoute from "../../components/common/UnderProcessProtectedRoute";
-import useCollectorStore from "../../stores/collectorStore.js";
+import useUserStore from "../../stores/useUserStore.js";
 
 const links = [
   {
@@ -15,7 +15,8 @@ const links = [
   },
 ];
 const CollectorRoutes = () => {
-  const collector = useCollectorStore((s) => s.collector);
+  const user = useUserStore((s) => s.user);
+  console.log(user);
 
   return (
     <>
@@ -24,7 +25,7 @@ const CollectorRoutes = () => {
           <Route
             path="/"
             element={
-              <UnderProcessProtectedRoute data={collector}>
+              <UnderProcessProtectedRoute data={user}>
                 <Dashboard />
               </UnderProcessProtectedRoute>
             }

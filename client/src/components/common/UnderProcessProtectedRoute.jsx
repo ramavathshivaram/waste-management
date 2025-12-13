@@ -4,10 +4,9 @@ import useUserStore from "../../stores/useUserStore.js";
 
 const UnderProcessProtectedRoute = ({ data, children }) => {
   const navigate = useNavigate();
-  const user = useUserStore((state) => state.user);
 
-  if (data?.isAdminVerified === false) {
-    navigate(`/${user.role}/under-process`);
+  if (data?.isSubmitted === false) {
+    navigate(`/${data.role}/update`);
   }
   return children;
 };

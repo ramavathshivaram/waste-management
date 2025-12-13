@@ -45,8 +45,6 @@ const Register = () => {
       email: "",
       password: "",
       role: "citizen",
-      phone: "",
-      address: "",
     },
   });
 
@@ -162,43 +160,6 @@ const Register = () => {
                 {errors.role && (
                   <p className="text-xs text-destructive">
                     {errors.role.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Phone */}
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  {...register("phone", {
-                    required: "Phone is required",
-                    pattern: {
-                      value: /^[0-9]{10}$/,
-                      message: "Enter a valid 10-digit phone",
-                    },
-                  })}
-                />
-                {errors.phone && (
-                  <p className="text-xs text-destructive">
-                    {errors.phone.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Address */}
-              <div className="space-y-2">
-                <Label htmlFor="address">Address</Label>
-                <Input
-                  id="address"
-                  {...register("address", {
-                    required: "Address is required",
-                  })}
-                />
-                {errors.address && (
-                  <p className="text-xs text-destructive">
-                    {errors.address.message}
                   </p>
                 )}
               </div>

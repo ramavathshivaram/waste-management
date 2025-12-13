@@ -5,15 +5,24 @@ import MapRoute from "../../components/common/MapRoute.jsx";
 
 import { useCollector } from "../../hooks/use-collertor-query.js";
 import useCollectorStore from "../../stores/collectorStore.js";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-   const start = [17.385044, 78.486671]; // collector
-   const end = [17.4065, 78.4772]; 
   const setCollector = useCollectorStore((s) => s.setCollector);
+  const navigate = useNavigate();
+
   const { data } = useCollector();
+
+  const start = [17.385044, 78.486671]; // collector
+  const end = [17.4065, 78.4772];
 
   useEffect(() => {
     if (data) {
+      if (data.isAdminVerified === false) {
+        navigate(`/collector/under-process`);
+      } else if (data.isApproved === false) {
+        navigate(`/collector/rejected`);
+      }
       setCollector(data);
     }
   }, [data, setCollector]);

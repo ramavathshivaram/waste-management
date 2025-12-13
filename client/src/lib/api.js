@@ -59,6 +59,11 @@ export const getCollectors = async () => {
   return response.data.data;
 };
 
+export const createCollector = async (data) => {
+  const response = await api.post("/collector", data);
+  return response.data.data;
+};
+
 export const updateCollector = async (formData) => {
   console.log(formData);
   const response = await api.patch("/collector", formData, {
@@ -71,6 +76,12 @@ export const updateCollector = async (formData) => {
 
 export const getCentre = async () => {
   const response = await api.get("/centre");
+  return response.data.data;
+};
+
+export const getCentresNearByLocations = async (longitude, latitude) => {
+  console.log(longitude, latitude);
+  const response = await api.get(`/centre/locations/${longitude},${latitude}`);
   return response.data.data;
 };
 

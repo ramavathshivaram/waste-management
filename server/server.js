@@ -64,7 +64,7 @@ app.use(
 app.use(
   "/api/centre",
   protect,
-  authorize("centre"),
+  authorize("centre", "citizen"), //! fix the citizen
   require("./routes/centre-routes")
 );
 

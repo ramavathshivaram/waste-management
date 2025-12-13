@@ -25,4 +25,39 @@ const getCentre = async (req, res) => {
   }
 };
 
-module.exports = { getCentre };
+const getCentreslocatons = async (req, res) => {
+  try {
+    const [lng, lat] = req.params.location.split(",").map(Number);
+
+    const centres = await Centre.find(
+      {
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: [lng, lat],
+            },
+            $maxDistance: 10000, // 10km
+          },
+        },
+      },
+      {
+        name: 1,
+        location: 1,
+      }
+    );
+
+
+    
+    res.status(200).json({
+      success: true,
+      data: centres,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+module.exports = { getCentre, getCentreslocatons };

@@ -3,27 +3,24 @@ const User = require("../models/user-model");
 const Centre = require("../models/centre-model");
 const Collector = require("../models/collector-model");
 
+const { register_schema, login_schema } = require("../lib/zod-schema");
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 };
 
-// @desc    Register new user
-// @route   POST /api/auth/register
-// @access  Public
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, role, address, location, phone } = req.body;
+    const parsed = register_schema.safeParse(req.body);
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "Please add all fields" });
+    if (!parsed.success) {
+      return res.status(400).json({
+        message: parsed.error.errors[0].message,
+      });
     }
-    if (role && role === "admin") {
-      return res.status(400).json({ message: "Admin role is reserved" });
-    }
-
-    console.log("role", role);
+    const { name, email, password, role } = parsed.data;
 
     const userExists = await User.findOne({ email });
 
@@ -36,16 +33,7 @@ const registerUser = async (req, res) => {
       email,
       password,
       role: role || "citizen",
-      address,
-      location,
-      phone,
     });
-
-    if (user.role === "collector") {
-      await Collector.create({ userId: user._id });
-    } else if (user.role === "centre") {
-      await Centre.create({ userId: user._id });
-    }
 
     if (user) {
       res.cookie("token", generateToken(user._id), {
@@ -60,6 +48,7 @@ const registerUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        isSubmitted: user.isSubmitted,
       });
     } else {
       res.status(400).json({ message: "Invalid user data" });
@@ -69,14 +58,18 @@ const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Authenticate a user
-// @route   POST /api/auth/login
-// @access  Public
 const loginUser = async (req, res) => {
   try {
+    const parsed = login_schema.safeParse(req.body);
+
+    if (!parsed.success) {
+      return res.status(400).json({
+        message: parsed.error.errors[0].message,
+      });
+    }
+
     const { email, password } = req.body;
 
-    // Check for user email
     const user = await User.findOne({ email }).select("+password");
 
     if (user && (await user.matchPassword(password))) {
@@ -91,6 +84,7 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        isSubmitted: user.isSubmitted,
       });
     } else {
       res.status(400).json({ message: "Invalid credentials" });
@@ -100,9 +94,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-// @desc    Get user data
-// @route   GET /api/auth/me
-// @access  Private
 const getMe = async (req, res) => {
   try {
     const user = req.user;
@@ -112,14 +103,12 @@ const getMe = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      rewardPoints: user.rewardPoints,
     });
   } catch (error) {
     throw new Error();
   }
 };
 
-//@decs Logout
 const logout = async (req, res) => {
   try {
     res.clearCookie("token", {

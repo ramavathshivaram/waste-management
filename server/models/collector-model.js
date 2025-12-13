@@ -37,16 +37,6 @@ const collectorSchema = new mongoose.Schema(
         trim: true,
       },
 
-      type: {
-        type: String,
-        enum: ["truck", "auto", "cycle-cart", "van", "bike"],
-      },
-
-      image: {
-        publicId: { type: String },
-        url: { type: String },
-      },
-
       capacity: {
         current: {
           type: Number,
@@ -54,9 +44,15 @@ const collectorSchema = new mongoose.Schema(
         },
         max: {
           type: Number,
-          default: 200,
+          default: 500,
         },
       },
+    },
+
+    desc: {
+      type: String,
+      default: "",
+      select: false,
     },
 
     location: {
