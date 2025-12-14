@@ -1,20 +1,27 @@
 import React from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-} from "recharts";
-import { Card } from "@/components/ui/card";
-
+import KpiCard from "@/components/common/KpiCard";
+import ChartCard from "../../components/sections/ChartCard";
+import { Package, Truck, Building2, AlertTriangle } from "lucide-react";
 import { useAdminDashboard } from "../../hooks/use-admin-query.js";
 
-const COLORS = ["#22c55e", "#facc15", "#ef4444", "#3b82f6"];
+const COLORS = {
+  pickups: {
+    bg: "bg-blue-500/10",
+    text: "text-blue-700",
+  },
+  illegalDumps: {
+    bg: "bg-red-500/10",
+    text: "text-red-700",
+  },
+  centres: {
+    bg: "bg-green-500/10",
+    text: "text-green-700",
+  },
+  collectors: {
+    bg: "bg-amber-500/10",
+    text: "text-amber-700",
+  },
+};
 
 const Dashboard = () => {
   const { data, isLoading } = useAdminDashboard();
@@ -27,77 +34,81 @@ const Dashboard = () => {
   return (
     <div className="p-6 space-y-6">
       {/* KPI CARDS */}
-      <Card className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <KpiCard title="Centres" value={totals.centres} />
-        <KpiCard title="Collectors" value={totals.collectors} />
-        <KpiCard title="Pickups" value={totals.pickups} />
-        <KpiCard title="Illegal Dumps" value={totals.illegalDumps} />
-      </Card>
+      <div className="grid grid-cols-2 gap-6" >
+        <div className="grid grid-cols-2 gap-6">
+          <KpiCard
+            title="Pickups"
+            value={120}
+            pending={34}
+            completed={86}
+            icon={Package}
+            trend="up"
+          />
 
-      {/* GRAPHS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Pickups by Status */}
-        <ChartCard title="Pickups by Status">
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={pickupsByStatus}>
-              <XAxis dataKey="status" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="count" fill="#3b82f6" />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
+          <KpiCard
+            title="Collectors"
+            value={18}
+            pending={2}
+            completed={16}
+            icon={Truck}
+          />
 
-        {/* Collectors by Status */}
-        <ChartCard title="Collectors by Status">
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={collectorsByStatus}>
-              <XAxis dataKey="status" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="count" fill="#22c55e" />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
+          <KpiCard
+            title="Centres"
+            value={6}
+            pending={1}
+            completed={5}
+            icon={Building2}
+            trend="down"
+          />
+          <KpiCard
+            title="Illegal Dumps"
+            value={totals.illegalDumps}
+            icon={AlertTriangle}
+            pending={1}
+            completed={5}
+          />
+        </div>
+        <div className="border rounded-2xl p-4">
 
-        {/* Illegal Dumps by Severity */}
-        <ChartCard title="Illegal Dumps by Severity">
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={dumpsBySeverity}
-                dataKey="count"
-                nameKey="severity"
-                outerRadius={80}
-                label
-              >
-                {dumpsBySeverity.map((_, i) => (
-                  <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </ChartCard>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 h-full">
+        <div className="col-span-2">
+          <ChartCard />
+        </div>
+        <div>
+          <ChartCard />
+        </div>
+        <div>
+          <ChartCard />
+        </div>
+        <div className="col-span-2">
+          <ChartCard />
+        </div>
+      </div>
+
+      <div className="rounded-xl shadow p-6 border space-y-4">
+        <div className="flex justify-evenly gap-4">
+          {Object.entries(COLORS).map(([key, color]) => (
+            <div key={key} className="flex items-center gap-3">
+              <div className={`p-2 rounded-sm ${color.bg}`}>
+                <span className={`capitalize text-sm ${color.text}`}>
+                  {key}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-/* ------------------- REUSABLE COMPONENTS ------------------- */
+//  Simple Radar Chart
+//  Area Chart fill by value
+//  Simple Line Chart
 
-const KpiCard = ({ title, value }) => (
-  <div className="bg-white rounded-xl shadow p-6 border">
-    <p className="text-gray-500 text-sm">{title}</p>
-    <h2 className="text-3xl font-bold mt-2">{value}</h2>
-  </div>
-);
-
-const ChartCard = ({ title, children }) => (
-  <div className="bg-white rounded-xl shadow p-6 border">
-    <h3 className="font-semibold mb-4">{title}</h3>
-    {children}
-  </div>
-);
 
 export default Dashboard;

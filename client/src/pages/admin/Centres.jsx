@@ -12,7 +12,7 @@ const Centres = () => {
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [approvalFilter, setApprovalFilter] = useState("all");
+  const [approvalFilter, setApprovalFilter] = useState("All");
 
   if (isLoading) {
     return <p className="text-center py-10">Loading centres...</p>;
@@ -34,9 +34,9 @@ const Centres = () => {
       statusFilter === "all" || centre.status === statusFilter;
 
     const matchApproval =
-      approvalFilter === "all" ||
-      (approvalFilter === "approved" && centre.isApproved) ||
-      (approvalFilter === "pending" && !centre.isApproved);
+      approvalFilter === "All" ||
+      (approvalFilter === "Approved" && centre.isApproved) ||
+      (approvalFilter === "Pending" && !centre.isApproved);
 
     return matchSearch && matchStatus && matchApproval;
   });
@@ -59,7 +59,7 @@ const Centres = () => {
       <Card className="p-2">
         <div className="flex w-full p-2 items-center justify-between gap-2">
           {/* Search */}
-          <div className="relative w-full max-w-xl">
+          <div className="relative w-full md:w-1/3">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
               placeholder="Search by centre name or waste type..."
@@ -71,10 +71,9 @@ const Centres = () => {
 
           {/* FILTER BUTTONS */}
           <div className="flex gap-2 flex-wrap">
-            {["all", "approved", "pending"].map((type) => (
+            {["All", "Approved", "Pending"].map((type) => (
               <Button
                 key={type}
-                size="sm"
                 variant={approvalFilter === type ? "default" : "outline"}
                 onClick={() => setApprovalFilter(type)}
               >

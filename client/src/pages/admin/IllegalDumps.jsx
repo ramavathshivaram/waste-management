@@ -11,10 +11,10 @@ const IllegalDumps = () => {
   }
 
   return (
-    <div className="border border-black rounded-xl bg-white p-4 overflow-x-auto">
+    <div className="border border-black rounded-x p-4 overflow-x-auto">
       <table className="w-full border-collapse text-sm">
         {/* HEADER */}
-        <thead className="bg-gray-100">
+        <thead className="">
           <tr>
             <th className="border px-3 py-2">#</th>
             <th className="border px-3 py-2">Image</th>

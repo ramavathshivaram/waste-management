@@ -72,13 +72,14 @@ const Pickups = () => {
       </div>
 
       {/* SEARCH + ACTION BAR */}
-      <Card className="p-4 flex flex-col md:flex-row gap-4 md:items-center md:justify-between rounded-2xl">
-        <div className="flex items-center gap-2 w-full md:w-1/3">
-          <Search className="w-4 h-4 text-gray-400" />
+      <Card className="p-2 flex flex-col md:flex-row gap-4 md:items-center md:justify-between rounded-2xl">
+        <div className="relative w-full md:w-1/3">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input
-            placeholder="Search by waste type or address..."
+            placeholder="Search by centre name or waste type..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            className="pl-9"
           />
         </div>
 

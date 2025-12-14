@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useAdminLocations } from "../../hooks/use-admin-query.js";
-import {getLatLng} from '../../lib/utils.js'
+import MarkerList from "./MarkerList.jsx";
 
 const RecenterMap = ({ position }) => {
   const map = useMap();
@@ -16,7 +16,7 @@ const RecenterMap = ({ position }) => {
   return null;
 };
 
-const AdminMapDetails = () => {
+const AdminMapDetails = ({ filters }) => {
   const [currentCentre, setCurrentCentre] = useState(null);
 
   const { data, isLoading } = useAdminLocations();
@@ -43,12 +43,17 @@ const AdminMapDetails = () => {
     );
   }
 
+  const showAll = filters.length === 0;
+  const showPickups = showAll || filters.includes("pickups");
+  const showCollectors = showAll || filters.includes("collectors");
+  const showCentres = showAll || filters.includes("centres");
+
   return (
-    <Card className="overflow-hidden p-0 flex-1">
+    <Card className="overflow-hidden p-0 flex-1 h-full">
       <MapContainer
         center={currentCentre}
         zoom={15}
-        className="w-full h-[500px] grayscale"
+        className="w-full h-full grayscale"
       >
         <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
@@ -58,21 +63,15 @@ const AdminMapDetails = () => {
           <Popup>You are here 📍</Popup>
         </Marker>
 
-        {data?.pickups?.map((pickup) => {
-          const position = getLatLng(pickup?.location?.coordinates);
-          if (!position) return null;
+        {showPickups && (
+          <MarkerList list={data?.pickups} label="Pickup Request" />
+        )}
 
-          return (
-            <Marker key={pickup._id} position={position}>
-              <Popup>
-                <p className="font-medium">Pickup Request</p>
-                <p className="text-xs text-muted-foreground">
-                  ID: {pickup._id.slice(-6)}
-                </p>
-              </Popup>
-            </Marker>
-          );
-        })}
+        {showCollectors && (
+          <MarkerList list={data?.collector} label="Collector" />
+        )}
+
+        {showCentres && <MarkerList list={data?.centres} label="Centre" />}
       </MapContainer>
     </Card>
   );

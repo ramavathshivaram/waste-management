@@ -13,7 +13,7 @@ const Navbar = ({ links }) => {
           <h1 className="text-2xl font-bold">Logo</h1>
 
           {/* Navigation Links */}
-          <ul className="flex items-center gap-6 p-4 rounded-2xl shadow-sm border border-gray-800  backdrop-blur-sm">
+          <ul className="flex items-center gap-4 p-3.5 rounded-xl shadow-sm border  backdrop-blur-xs">
             {links.map((link, index) => (
               <NavLink
                 key={index}
@@ -22,8 +22,8 @@ const Navbar = ({ links }) => {
                 className={({ isActive }) =>
                   `text-md font-medium ${
                     isActive
-                      ? "text-gray-600 underline underline-offset-4"
-                      : "text-gray-500 hover:text-gray-600"
+                      ? "text-neutral-500 underline underline-offset-4"
+                      : " hover:text-gray-600 text-neutral-400"
                   }`
                 }
               >

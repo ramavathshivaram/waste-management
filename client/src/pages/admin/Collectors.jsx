@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import Section from "../../components/sections/Section";
+import {Card} from '@/components/ui/card'
 
 const Collectors = () => {
   const { data = [], isLoading } = useAdminCollectors();
@@ -51,7 +52,7 @@ const Collectors = () => {
       </div>
 
       {/* SEARCH + FILTER BAR */}
-      <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+      <Card className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between p-3">
         {/* Search */}
         <div className="relative w-full md:w-1/3">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -86,7 +87,7 @@ const Collectors = () => {
             Approved ({approvedCollectors.length})
           </Button>
         </div>
-      </div>
+      </Card>
 
       {/* CONTENT */}
       {filter === "all" ? (
