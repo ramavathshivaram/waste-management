@@ -74,8 +74,8 @@ export const updateCollector = async (formData) => {
 
 //! ---------------------- CENTRE FUNCTIONS ----------------------
 
-export const getCentre = async () => {
-  const response = await api.get("/centre");
+export const getCentreDashboard = async () => {
+  const response = await api.get("/centre/dashboard");
   return response.data.data;
 };
 

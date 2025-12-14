@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getCentre,
+  getCentreDashboard,
   getCentreslocatons,
   createCentre,
 } = require("../controllers/centre-controllers");
-const upload = require("../middlewares/upload");
+// const upload = require("../middlewares/upload");
 
-router.get("/", upload.single("image"), getCentre);
+router.get("/dashboard", getCentreDashboard);
 
 router.get("/locations/:location", getCentreslocatons);
 

@@ -1,6 +1,5 @@
 const { z } = require("zod");
 
-
 //! AUTH SCHEMA
 const register_schema = z.object({
   name: z.string().min(1).max(50),
@@ -13,7 +12,6 @@ const login_schema = z.object({
   email: z.string().email().min(1).max(50),
   password: z.string().min(8).max(50),
 });
-
 
 //! COLLECTOR SCHEMA
 
@@ -29,16 +27,22 @@ const create_collector_schema = z.object({
   licenseNumber: z.string().min(8).max(50),
   vehicleNumber: z.string().min(8).max(50),
   desc: z.string().optional(),
+  coordinates: z.array(z.number()).length(2),
 });
-
 
 //! CENTRE SCHEMA
 const create_centre_schema = z.object({
   name: z.string().min(1).max(50),
-  desc: z.string().optional(),
-  location: z.string().min(1).max(50), //not string is an array
+  description: z.string().optional(),
+  maxCapacity: z.number().min(1).max(1000).optional(),
+  coordinates: z.array(z.number()).length(2),
+  operatingHours: z
+    .object({
+      open: z.string(),
+      close: z.string(),
+    })
+    .optional(),
 });
-
 
 //! PICKUP SCHEMA
 
@@ -49,7 +53,9 @@ const create_centre_schema = z.object({
 module.exports = {
   register_schema,
   login_schema,
+
   update_collector_schema,
   create_collector_schema,
+
   create_centre_schema,
 };

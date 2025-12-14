@@ -27,6 +27,11 @@ const centreSchema = new mongoose.Schema(
       default: false,
     },
 
+    isApproved: {
+      type: Boolean,
+      default: false,
+    },
+
     acceptedWasteTypes: [
       {
         type: String,

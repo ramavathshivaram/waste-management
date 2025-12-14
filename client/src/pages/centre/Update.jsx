@@ -1,154 +1,142 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Card } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { createCentre } from "../../lib/api.js";
+import { toast } from "sonner";
+import centreStore from "../../stores/centreStore.js";
 
 const Update = () => {
-  const navigato = useNavigate();
-  const [preview, setPreview] = useState(null);
+  const navigate = useNavigate();
+  const setCentre = centreStore((state) => state.setCentre);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      maxCapacity: 500,
+      coordinates: {
+        latitude: 0,
+        longitude: 0,
+      },
+      operatingHours: {
+        open: "09:00",
+        close: "18:00",
+      },
+    },
+  });
+
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        setValue("coordinates.latitude", coords.latitude);
+        setValue("coordinates.longitude", coords.longitude);
+      },
+      () => toast.error("Failed to get location")
+    );
+  }, [setValue]);
 
   const onSubmit = async (data) => {
-    const formData = new FormData();
+    try {
+      const payload = {
+        ...data,
+        coordinates: [
+          Number(data.coordinates.longitude),
+          Number(data.coordinates.latitude),
+        ],
+        maxCapacity: Number(data.maxCapacity),
+      };
 
-    const vehicle = {
-      number: data.vehicleNumber,
-      type: data.vehicleType,
-      capacity: {
-        max: Number(data.maxCapacity),
-      },
-    };
+      const centre = await createCentre(payload);
 
-    formData.append("licenseNumber", data.licenseNumber);
-    formData.append("vehicle", JSON.stringify(vehicle));
+      setCentre(centre);
 
-    const file = data.images?.[0];
-    if (file) {
-      formData.append("image", file);
+      console.log(centre);
+      toast.success("Centre updated successfully");
+      navigate("/centre");
+    } catch (error) {
+      toast.error("Failed to update centre");
+      console.error(error);
     }
-
-    await createCentre(formData);
-
-    navigato("/collector");
   };
 
   return (
     <div className="min-h-screen flex justify-center items-center p-4">
       <Card className="p-8 max-w-xl w-full shadow-lg border">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-8 text-center">
-          Update Collector Details
+        <h2 className="text-2xl font-semibold mb-8 text-center">
+          Update Centre Details
         </h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          {/* License Number */}
-          <div className="space-y-1">
-            <Label>License Number</Label>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Centre Name */}
+          <div>
+            <Label>Centre Name</Label>
             <Input
-              type="text"
-              placeholder="AP39-12345"
-              {...register("licenseNumber", {
-                required: "License number is required",
-              })}
+              {...register("name", { required: "Centre name is required" })}
+              placeholder="Enter centre name"
             />
-            {errors.licenseNumber && (
-              <p className="text-red-500 text-sm">
-                {errors.licenseNumber.message}
-              </p>
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name.message}</p>
             )}
           </div>
 
-          {/* Vehicle Number */}
-          <div className="space-y-1">
-            <Label>Vehicle Number</Label>
-            <Input
-              type="text"
-              placeholder="AP 39 XX 1234"
-              {...register("vehicleNumber", {
-                required: "Vehicle number is required",
-              })}
-            />
-            {errors.vehicleNumber && (
-              <p className="text-red-500 text-sm">
-                {errors.vehicleNumber.message}
-              </p>
-            )}
+          {/* Location */}
+          <div>
+            <Label>Location (Auto-detected)</Label>
+            <div className="flex gap-2">
+              <Input readOnly {...register("coordinates.longitude")} />
+              <Input readOnly {...register("coordinates.latitude")} />
+            </div>
           </div>
 
-          {/* Vehicle Type */}
-          <div className="space-y-1">
-            <Label>Vehicle Type</Label>
-            <select
-              {...register("vehicleType", {
-                required: "Vehicle type is required",
-              })}
-              className="w-full p-3 border rounded-md bg-white"
-            >
-              <option value="">Select Vehicle Type</option>
-              <option value="truck">Truck</option>
-              <option value="auto">Auto</option>
-              <option value="cycle-cart">Cycle Cart</option>
-              <option value="van">Van</option>
-              <option value="bike">Bike</option>
-            </select>
-            {errors.vehicleType && (
-              <p className="text-red-500 text-sm">
-                {errors.vehicleType.message}
-              </p>
-            )}
+          {/* Operating Hours */}
+          <div>
+            <Label>Operating Hours</Label>
+            <div className="flex gap-2">
+              <Input
+                type="time"
+                {...register("operatingHours.open", {
+                  required: "Opening time required",
+                })}
+              />
+              <Input
+                type="time"
+                {...register("operatingHours.close", {
+                  required: "Closing time required",
+                })}
+              />
+            </div>
           </div>
 
           {/* Max Capacity */}
-          <div className="space-y-1">
+          <div>
             <Label>Max Capacity</Label>
             <Input
               type="number"
-              placeholder="200"
               {...register("maxCapacity", {
                 required: "Max capacity required",
                 valueAsNumber: true,
               })}
             />
-            {errors.maxCapacity && (
-              <p className="text-red-500 text-sm">
-                {errors.maxCapacity.message}
-              </p>
-            )}
           </div>
 
-          {/* Vehicle Image Upload */}
-          <div className="space-y-2">
-            <Label>Vehicle Image</Label>
-            <Input
-              type="file"
-              {...register("images")}
-              onChange={(e) => {
-                if (e.target.files[0]) {
-                  setPreview(URL.createObjectURL(e.target.files[0]));
-                }
-              }}
-            />
-            {preview && (
-              <img
-                src={preview}
-                alt="Vehicle Preview"
-                className="w-40 h-32 object-cover mt-2 rounded-md border"
-              />
-            )}
+          <div>
+            <Label>Description</Label>
+            <Textarea {...register("description")} />
           </div>
 
-          {/* Submit */}
           <Button
             type="submit"
-            className="w-full text-lg py-5"
+            className="w-full py-5 text-lg"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Updating..." : "Update Details"}

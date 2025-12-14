@@ -21,7 +21,7 @@ const CentreRoutes = () => {
       <Routes>
         <Route path="/" element={<RootLayout links={links} />}>
           <Route
-            index
+            path="/"
             element={
               <UnderProcessProtectedRoute data={user}>
                 <Dashboard />

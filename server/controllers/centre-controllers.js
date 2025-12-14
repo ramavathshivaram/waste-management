@@ -4,7 +4,7 @@ const User = require("../models/user-model");
 const cloudinary = require("../configs/cloudinary");
 const fs = require("fs");
 
-const getCentre = async (req, res) => {
+const getCentreDashboard = async (req, res) => {
   try {
     const userId = req.user._id;
 
@@ -71,13 +71,17 @@ const createCentre = async (req, res) => {
 
     const userId = req.user._id;
 
-    const { name, desc, location } = parsed.data;
+    const { name, desc, coordinates, operatingHours } = parsed.data;
 
     const centre = await Centre.create({
       userId,
       name,
       desc,
-      location,
+      location: {
+        type: "Point",
+        coordinates,
+      },
+      operatingHours,
     });
 
     return res.status(200).json({
@@ -89,4 +93,4 @@ const createCentre = async (req, res) => {
   }
 };
 
-module.exports = { getCentre, getCentreslocatons, createCentre };
+module.exports = { getCentreDashboard, getCentreslocatons, createCentre };

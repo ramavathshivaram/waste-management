@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { useCentreQuery } from "../../hooks/use-centre-query.js";
+import { useCentreDashboard } from "../../hooks/use-centre-query.js";
 import useCentreStore from "../../stores/centreStore.js";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const setCentre = useCentreStore((s) => s.setCentre);
-  const { data } = useCentreQuery();
+  const { data } = useCentreDashboard();
 
   useEffect(() => {
     if (data) {

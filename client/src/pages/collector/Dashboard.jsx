@@ -12,7 +12,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const { data } = useCollector();
-  
+
   useEffect(() => {
     if (data) {
       if (data.isAdminVerified === false) {
@@ -26,7 +26,6 @@ const Dashboard = () => {
 
   const start = [17.385044, 78.486671]; // collector
   const end = [17.4065, 78.4772];
-
 
   return (
     <div className="w-full h-screen">

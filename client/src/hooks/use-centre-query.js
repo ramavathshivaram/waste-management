@@ -1,10 +1,10 @@
-import { getCentre, getCentresNearByLocations } from "../lib/api.js";
+import { getCentreDashboard, getCentresNearByLocations } from "../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
-export const useCentreQuery = () => {
+export const useCentreDashboard = () => {
   return useQuery({
     queryKey: ["centre"],
-    queryFn: getCentre,
+    queryFn: getCentreDashboard,
   });
 };
 export const UseCentresNearByLocations = ({ longitude, latitude }) => {

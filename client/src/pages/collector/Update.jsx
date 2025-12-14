@@ -6,20 +6,57 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { createCollector } from "../../lib/api.js";
+import { useEffect } from "react";
 import { toast } from "sonner";
+import collectorStore from "../../stores/collectorStore.js";
 
 const Update = () => {
-  const navigato = useNavigate();
+  const navigate = useNavigate();
+  const setCollector = collectorStore((state) => state.setCollector);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm();
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setValue("coordinates.latitude", latitude);
+          setValue("coordinates.longitude", longitude);
+        },
+        (error) => {
+          toast.error("Geolocation error:", error);
+        }
+      );
+    }
+  }, [setValue]);
+
   const onSubmit = async (data) => {
-    await createCollector(data);
-    navigato("/collector");
+    try {
+      const payload = {
+        ...data,
+        coordinates: [
+          Number(data.coordinates.longitude),
+          Number(data.coordinates.latitude),
+        ],
+      };
+
+      const collector = await createCollector(payload);
+
+      setCollector(collector);
+
+      console.log(collector);
+      toast.success("Centre updated successfully");
+      navigate("/collector");
+    } catch (error) {
+      toast.error("Failed to update centre");
+      console.error(error);
+    }
   };
 
   return (
@@ -62,6 +99,25 @@ const Update = () => {
                 {errors.vehicleNumber.message}
               </p>
             )}
+          </div>
+          <div className="space-y-1">
+            <Label>Location</Label>
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                placeholder="Enter location"
+                {...register("coordinates.longitude", {
+                  required: "Longitude is required",
+                })}
+              />
+              <Input
+                type="text"
+                placeholder="Enter location"
+                {...register("coordinates.latitude", {
+                  required: "latitude is required",
+                })}
+              />
+            </div>
           </div>
           <div className="space-y-1">
             <Label>Description</Label>

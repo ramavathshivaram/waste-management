@@ -38,13 +38,18 @@ const createCollector = async (req, res) => {
       });
     }
 
-    const { licenseNumber, vehicleNumber, desc } = parsed.data;
+    const { licenseNumber, vehicleNumber, description, coordinates } =
+      parsed.data;
 
     const collector = await Collector.create({
       userId,
       licenseNumber,
-      desc,
+      description,
       vehicle: { number: vehicleNumber },
+      location: {
+        type: "Point",
+        coordinates, //// [longitude, latitude]
+      },
     });
 
     return res.status(200).json({
