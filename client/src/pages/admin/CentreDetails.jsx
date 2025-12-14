@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import MapCard from "../../components/common/MapCard.jsx";
+import AdminCentreDailyStats from "../../components/common/AdminCentreDailyStats.jsx";
 
 const CentreDetails = () => {
   const [searchParams] = useSearchParams();
@@ -99,9 +100,7 @@ const CentreDetails = () => {
                 <span>Capacity Usage</span>
                 <p>
                   {current} / {max}
-                  <span className="ml-2">
-                    ({capacityPercent}%)
-                  </span>
+                  <span className="ml-2">({capacityPercent}%)</span>
                 </p>
               </div>
               <Progress value={capacityPercent} />
@@ -115,6 +114,8 @@ const CentreDetails = () => {
           latitude={centre.location.coordinates[1]}
         />
       </div>
+
+      <AdminCentreDailyStats id={id} />
     </div>
   );
 };

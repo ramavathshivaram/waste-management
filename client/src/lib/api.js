@@ -113,8 +113,13 @@ export const getAllCentres = async () => {
   const response = await api.get("/admin/centres");
   return response.data.data;
 };
+
+export const getAllLocations = async () => {
+  const response = await api.get("/admin/locations");
+  return response.data.data;
+};
 export const getAdminCollectorById = async (id) => {
-  console.log(id)
+  console.log(id);
   const response = await api.get(`/admin/collector/${id}`);
   return response.data.data;
 };

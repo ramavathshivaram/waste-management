@@ -9,6 +9,7 @@ import Centres from "./Centres";
 import CollectorDetails from "./CollectorDetails";
 import CentreDetails from "./CentreDetails";
 import IllegalDumps from "./IllegalDumps";
+import AdminMap from "./AdminMap";
 
 // Sidebar / Navigation Links
 const links = [
@@ -33,8 +34,8 @@ const links = [
     path: "/admin/illegal-dumps",
   },
   {
-    label: "Search",
-    path: "/admin/search",
+    label: "Map",
+    path: "/admin/map",
   },
 ];
 
@@ -48,7 +49,7 @@ const AdminRoutes = () => {
         <Route path="collector" element={<CollectorDetails />} />
         <Route path="centre" element={<CentreDetails />} />
         <Route path="pickup" element={<Pickups />} />
-        <Route path="search" element={<div>Search Page</div>} />
+        <Route path="map" element={<AdminMap />} />
         <Route path="illegal-dumps" element={<IllegalDumps />} />
 
         <Route path="*" element={<PageNotFound />} />
