@@ -10,17 +10,29 @@ import useUserStore from "../../stores/useUserStore.js";
 import { logoutUser } from "../../lib/api.js";
 import { useNavigate } from "react-router-dom";
 import DarkMode from "./DarkMode.jsx";
+import CentreStore from "../../stores/centreStore.js";
+import CollectorStore from "../../stores/collectorStore.js";
 
 const ProfileIcon = () => {
   const navigate = useNavigate();
   const user = useUserStore((state) => state.user);
   const clearUser = useUserStore((state) => state.clearUser);
+  const clearCollector = CollectorStore((state) => state.clearCollector);
+  const clearCentre = CentreStore((state) => state.clearCentre);
 
   const handleLogout = async () => {
-    await logoutUser();
-    clearUser();
-    navigate("/login");
+    try {
+      await logoutUser();
+    } catch (error) {
+      console.error("Logout API failed:", error);
+    } finally {
+      clearUser();
+      clearCollector();
+      clearCentre();
+      navigate("/login", { replace: true });
+    }
   };
+
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
