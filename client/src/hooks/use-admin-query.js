@@ -41,7 +41,7 @@ export const useAdminCentres = () => {
     queryFn: getAllCentres,
   });
 };
-export const useAdminCollector = (id) => {
+export const useAdminCollectorById = (id) => {
   return useQuery({
     queryKey: ["adminCollector", id],
     queryFn: ({ queryKey }) => {

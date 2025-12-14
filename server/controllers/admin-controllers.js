@@ -122,9 +122,7 @@ const getAllCollectors = async (req, res) => {
     });
     res.status(200).json({
       success: true,
-      data: {
-        collectors,
-      },
+      data: collectors,
     });
   } catch (error) {
     throw new Error("Error fetching admin approvals");

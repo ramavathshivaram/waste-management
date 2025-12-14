@@ -32,13 +32,6 @@ const centreSchema = new mongoose.Schema(
       default: false,
     },
 
-    acceptedWasteTypes: [
-      {
-        type: String,
-        enum: ["plastic", "organic", "e-waste", "metal", "paper", "mixed"],
-      },
-    ],
-
     image: {
       publicId: { type: String },
       url: { type: String },

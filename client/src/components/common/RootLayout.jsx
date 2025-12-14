@@ -6,7 +6,7 @@ const RootLayout = ({ links }) => {
   return (
     <div className="w-screen h-screen flex flex-col">
       <Navbar links={links} />
-      <div className="w-full h-[calc(100vh-4.5rem)]">
+      <div className="w-full mx-auto max-w-6xl h-[calc(100vh-4.5rem)]">
         <Outlet />
       </div>
     </div>

@@ -114,6 +114,7 @@ export const getAllCentres = async () => {
   return response.data.data;
 };
 export const getAdminCollectorById = async (id) => {
+  console.log(id)
   const response = await api.get(`/admin/collector/${id}`);
   return response.data.data;
 };

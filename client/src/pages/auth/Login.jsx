@@ -18,15 +18,16 @@ import useUserStore from "../../stores/useUserStore.js";
 import { useEffect } from "react";
 
 const Login = () => {
+  localStorage.clear();
   const navigate = useNavigate();
   const setUser = useUserStore((s) => s.setUser);
   const user = useUserStore((state) => state.user);
 
-  useEffect(() => {
-    if (user) {
-      navigate(`/${user.role}`);
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate(`/${user.role}`);
+  //   }
+  // }, [user, navigate]);
 
   const {
     register,
