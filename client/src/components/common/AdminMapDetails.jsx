@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useAdminLocations } from "../../hooks/use-admin-query.js";
 import MarkerList from "./MarkerList.jsx";
+import { Spinner } from "@/components/ui/spinner";
 
 const RecenterMap = ({ position }) => {
   const map = useMap();
@@ -37,8 +38,8 @@ const AdminMapDetails = ({ filters }) => {
 
   if (!currentCentre || isLoading) {
     return (
-      <Card className="p-6 text-center text-muted-foreground">
-        Fetching location…
+      <Card className="p-6 text-center text-muted-foreground h-full w-full flex justify-center items-center">
+        <Spinner className="size-10" />
       </Card>
     );
   }
