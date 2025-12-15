@@ -246,6 +246,8 @@ const AdminLineChat = () => {
         <Legend />
 
         <Line
+          dot={false}
+          activeDot={false}
           type="monotone"
           dataKey="pickups"
           stroke={CHART_COLORS.pickups}
@@ -253,6 +255,8 @@ const AdminLineChat = () => {
         />
 
         <Line
+          dot={false}
+          activeDot={false}
           type="monotone"
           dataKey="collectors"
           stroke={CHART_COLORS.collectors}
@@ -260,6 +264,8 @@ const AdminLineChat = () => {
         />
 
         <Line
+          dot={false}
+          activeDot={false}
           type="monotone"
           dataKey="centres"
           stroke={CHART_COLORS.centres}
@@ -267,6 +273,8 @@ const AdminLineChat = () => {
         />
 
         <Line
+          dot={false}
+          activeDot={false}
           type="monotone"
           dataKey="illegalDumps"
           stroke={CHART_COLORS.illegalDumps}
