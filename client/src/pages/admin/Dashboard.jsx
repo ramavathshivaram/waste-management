@@ -4,6 +4,10 @@ import ChartCard from "../../components/sections/ChartCard";
 import { Package, Truck, Building2, AlertTriangle } from "lucide-react";
 import { useAdminDashboard } from "../../hooks/use-admin-query.js";
 import AdminRadarChart from "../../components/common/AdminRadarChart.jsx";
+import AdminLineChat from "../../components/common/AdminLineChat.jsx";
+import AdminPickupAreaChart from "../../components/common/AdminPickupAreaChart.jsx";
+import AdminIllegalDumpAreaChart from "../../components/common/AdminIllegalDumpAreaChart.jsx";
+import PickupCluster from "../../components/common/PickupCluster.jsx";
 
 const COLORS = {
   pickups: {
@@ -30,7 +34,7 @@ const Dashboard = () => {
   if (isLoading) return <div>Loading dashboard...</div>;
   if (!data) return <div>No dashboard data</div>;
 
-  const { totals, pickupsByStatus, dumpsBySeverity, collectorsByStatus } = data;
+  const { totals } = data;
 
   return (
     <div className="p-6 space-y-6">
@@ -77,17 +81,17 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 h-full">
-        <div className="col-span-2">
-          <ChartCard />
+        <div className="col-span-2 border rounded-2xl">
+          <AdminLineChat />
         </div>
-        <div>
-          <ChartCard />
+        <div className=" border rounded-2xl">
+          <AdminPickupAreaChart />
         </div>
-        <div>
-          <ChartCard />
+        <div className=" border rounded-2xl">
+          <AdminIllegalDumpAreaChart />
         </div>
-        <div className="col-span-2">
-          <ChartCard />
+        <div className="col-span-2 border rounded-2xl">
+          <PickupCluster/>
         </div>
       </div>
 
