@@ -130,6 +130,8 @@ export const getAdminCentreById = async (id) => {
 
 export const approveCollector = async ({ id, isApproved }) => {
   console.log(id, isApproved);
-  const response = await api.patch(`/admin/collector/${id}`, { isApproved });
+  const response = await api.patch(`/admin/collector-approve/${id}`, {
+    isApproved,
+  });
   return response.data.data;
 };

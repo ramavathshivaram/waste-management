@@ -73,18 +73,27 @@ const createCentre = async (req, res) => {
 
     const { name, desc, coordinates, operatingHours } = parsed.data;
 
-    const centre = await Centre.create({
-      userId,
-      name,
-      desc,
-      location: {
-        type: "Point",
-        coordinates,
+    const centre = await Centre.findOneAndUpdate(
+      { userId },
+      {
+        $set: {
+          name,
+          desc,
+          location: {
+            type: "Point",
+            coordinates,
+          },
+          operatingHours,
+        },
       },
-      operatingHours,
-    });
+      {
+        new: true,
+        upsert: true,
+        runValidators: true,
+      }
+    );
 
-    return res.status(200).json({
+    return res.status(centre.wasNew ? 201 : 200).json({
       success: true,
       data: centre,
     });

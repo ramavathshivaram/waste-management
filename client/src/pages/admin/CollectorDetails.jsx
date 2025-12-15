@@ -2,7 +2,6 @@ import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAdminCollectorById } from "../../hooks/use-admin-query.js";
 import { useApproveCollector } from "../../hooks/use-admin-mutate.js";
-
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

@@ -16,7 +16,12 @@ const MapRoute = ({ from, to }) => {
       draggableWaypoints: false,
       show: false,
       lineOptions: {
-        styles: [{ color: "#2563eb", weight: 5 }],
+        styles: [
+          {
+            color: "#000000",
+            weight: 4,
+          },
+        ],
       },
       createMarker: () => null,
     }).addTo(map);

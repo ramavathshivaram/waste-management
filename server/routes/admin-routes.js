@@ -10,6 +10,7 @@ const {
   getAdminCentreById,
   getAllCentres,
   getAllLocations,
+  approveCollector,
 } = require("../controllers/admin-controllers");
 
 router.get("/dashboard", getAdminDashboard);
@@ -27,6 +28,8 @@ router.get("/collector/:id", getAdminCollectorById);
 router.get("/centre/:id", getAdminCentreById);
 
 router.get("/locations", getAllLocations);
+
+router.patch("/collector-approve/:id", approveCollector);
 
 // router.patch("/collector/:id", approveCollector);
 

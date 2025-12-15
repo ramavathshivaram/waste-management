@@ -28,7 +28,7 @@ const Dashboard = () => {
   const end = [17.4065, 78.4772];
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-full">
       <MapContainer
         center={[51.505, -0.09]}
         zoom={13}

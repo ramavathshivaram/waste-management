@@ -16,6 +16,7 @@ const links = [
 ];
 const CentreRoutes = () => {
   const user = useUserStore((s) => s.user);
+  console.log(user)
   return (
     <>
       <Routes>

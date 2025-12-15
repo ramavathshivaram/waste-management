@@ -29,6 +29,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log(error.response);
     // If backend sent a message
     const message = error?.response?.data?.message || "Something went wrong";
 

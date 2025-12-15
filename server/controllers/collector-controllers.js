@@ -30,6 +30,7 @@ const getCollector = async (req, res) => {
 const createCollector = async (req, res) => {
   try {
     const userId = req.user._id;
+
     const parsed = create_collector_schema.safeParse(req.body);
     if (!parsed.success) {
       return res.status(400).json({
@@ -41,26 +42,36 @@ const createCollector = async (req, res) => {
     const { licenseNumber, vehicleNumber, description, coordinates } =
       parsed.data;
 
-    const collector = await Collector.create({
-      userId,
-      licenseNumber,
-      description,
-      vehicle: { number: vehicleNumber },
-      location: {
-        type: "Point",
-        coordinates, //// [longitude, latitude]
+    const collector = await Collector.findOneAndUpdate(
+      { userId },
+      {
+        $set: {
+          licenseNumber,
+          description,
+          vehicle: { number: vehicleNumber },
+          location: {
+            type: "Point",
+            coordinates, // [lng, lat]
+          },
+        },
       },
-    });
+      {
+        new: true,
+        upsert: true,
+        runValidators: true,
+      }
+    );
 
-    return res.status(200).json({
+    return res.status(collector.wasNew ? 201 : 200).json({
       success: true,
       data: collector,
     });
   } catch (error) {
-    console.error("UPDATE ERROR:", error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Error updating collector" });
+    console.error("COLLECTOR ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to create or update collector",
+    });
   }
 };
 
