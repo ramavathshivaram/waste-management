@@ -6,7 +6,6 @@ const Centre = require("../models/centre-model");
 
 const getAdminDashboard = async (req, res) => {
   try {
-    /* ---------------- COUNTS ---------------- */
     const [totalCentres, totalCollectors, totalPickups, totalIllegalDumps] =
       await Promise.all([
         Centre.countDocuments(),
@@ -15,7 +14,6 @@ const getAdminDashboard = async (req, res) => {
         IllegalDump.countDocuments(),
       ]);
 
-    /* ---------------- PICKUPS BY STATUS ---------------- */
     const pickupsByStatus = await Pickup.aggregate([
       {
         $group: {
@@ -32,7 +30,6 @@ const getAdminDashboard = async (req, res) => {
       },
     ]);
 
-    /* ---------------- ILLEGAL DUMPS BY SEVERITY ---------------- */
     const dumpsBySeverity = await IllegalDump.aggregate([
       {
         $group: {
@@ -49,7 +46,6 @@ const getAdminDashboard = async (req, res) => {
       },
     ]);
 
-    /* ---------------- COLLECTORS BY STATUS ---------------- */
     const collectorsByStatus = await Collector.aggregate([
       {
         $group: {
@@ -66,7 +62,6 @@ const getAdminDashboard = async (req, res) => {
       },
     ]);
 
-    /* ---------------- RESPONSE ---------------- */
     res.status(200).json({
       success: true,
       data: {
@@ -87,6 +82,48 @@ const getAdminDashboard = async (req, res) => {
       success: false,
       message: err.message,
     });
+  }
+};
+
+const getAdminRadar = async (req, res) => {
+  try {
+
+    const pickups = await Pickup.find().sort({ createdAt: -1 });
+
+
+
+    res.status(200).json({
+      success: true,
+      data: {
+        pickups: {
+          total: 120,
+          pending: 34,
+          completed: 86,
+          delayed: 12,
+        },
+        centres: {
+          total: 6,
+          active: 5,
+          inactive: 1,
+          avgCapacityUsage: 72,
+        },
+        collectors: {
+          total: 18,
+          active: 14,
+          inactive: 4,
+          avgEfficiency: 80,
+        },
+        illegalDumps: {
+          total: 22,
+          high: 6,
+          medium: 10,
+          low: 6,
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -156,6 +193,7 @@ const getAdminCollectorById = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
 const getAdminCentreById = async (req, res) => {
   try {
     const id = req.params.id;

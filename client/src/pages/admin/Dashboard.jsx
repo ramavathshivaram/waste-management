@@ -3,6 +3,7 @@ import KpiCard from "@/components/common/KpiCard";
 import ChartCard from "../../components/sections/ChartCard";
 import { Package, Truck, Building2, AlertTriangle } from "lucide-react";
 import { useAdminDashboard } from "../../hooks/use-admin-query.js";
+import AdminRadarChart from "../../components/common/AdminRadarChart.jsx";
 
 const COLORS = {
   pickups: {
@@ -34,8 +35,8 @@ const Dashboard = () => {
   return (
     <div className="p-6 space-y-6">
       {/* KPI CARDS */}
-      <div className="grid grid-cols-2 gap-6" >
-        <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <KpiCard
             title="Pickups"
             value={120}
@@ -69,8 +70,9 @@ const Dashboard = () => {
             completed={5}
           />
         </div>
-        <div className="border rounded-2xl p-4">
-
+        <div className="border rounded-2xl">
+          {/* // Simple Radar Chart */}
+          <AdminRadarChart />
         </div>
       </div>
 
@@ -106,9 +108,7 @@ const Dashboard = () => {
   );
 };
 
-//  Simple Radar Chart
 //  Area Chart fill by value
 //  Simple Line Chart
-
 
 export default Dashboard;
