@@ -1,7 +1,3 @@
-
-
-
-
 const centres = [
   {
     userId: new mongoose.Types.ObjectId("64f000000000000000000101"),
