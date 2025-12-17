@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useAdminLocations } from "../../hooks/use-admin-query.js";
+import { leafletIcons } from "../../lib/utils.js";
 import MarkerList from "./MarkerList.jsx";
 import { Spinner } from "@/components/ui/spinner";
 
@@ -65,14 +66,28 @@ const AdminMapDetails = ({ filters }) => {
         </Marker>
 
         {showPickups && (
-          <MarkerList list={data?.pickups} label="Pickup Request" />
+          <MarkerList
+            list={data?.pickups}
+            label="Pickup Request"
+            icon={leafletIcons.pickup}
+          />
         )}
 
         {showCollectors && (
-          <MarkerList list={data?.collector} label="Collector" />
+          <MarkerList
+            list={data?.collector}
+            label="Collector"
+            icon={leafletIcons.collector}
+          />
         )}
 
-        {showCentres && <MarkerList list={data?.centres} label="Centre" />}
+        {showCentres && (
+          <MarkerList
+            list={data?.centres}
+            label="Centre"
+            icon={leafletIcons.centre}
+          />
+        )}
       </MapContainer>
     </Card>
   );

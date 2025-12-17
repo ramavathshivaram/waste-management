@@ -2,7 +2,7 @@ import React from "react";
 import { Marker, Popup } from "react-leaflet";
 import { getLatLng } from "../../lib/utils.js";
 
-const MarkerList = ({ list = [], label, icon }) => {
+const MarkerList = ({ list = [], label,icon }) => {
   return (
     <>
       {list.map((item) => {
@@ -10,7 +10,7 @@ const MarkerList = ({ list = [], label, icon }) => {
         if (!position) return null;
 
         return (
-          <Marker key={item._id} position={position}>
+          <Marker key={item._id} position={position} icon={icon}>
             <Popup>
               <p className="font-medium">{label}</p>
               {item?._id && (
