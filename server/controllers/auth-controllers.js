@@ -5,9 +5,34 @@ const Collector = require("../models/collector-model");
 
 const { register_schema, login_schema } = require("../lib/zod-schema");
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+const generateToken = (user) => {
+  return jwt.sign(user, process.env.JWT_SECRET, {
     expiresIn: "7d",
+  });
+};
+
+//// helper function to send token in cookie and response
+const sendToken = (res, user, statusCode = 200) => {
+  const token = generateToken({
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+
+  res.status(statusCode).json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    isSubmitted: user.isSubmitted,
   });
 };
 
@@ -20,6 +45,7 @@ const registerUser = async (req, res) => {
         message: parsed.error.errors[0].message,
       });
     }
+
     const { name, email, password, role } = parsed.data;
 
     const userExists = await User.findOne({ email });
@@ -35,24 +61,7 @@ const registerUser = async (req, res) => {
       role: role || "citizen",
     });
 
-    if (user) {
-      res.cookie("token", generateToken(user._id), {
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax", //// localhost
-        maxAge: 24 * 60 * 60 * 1000, //// 1 day
-      });
-
-      res.status(201).json({
-        _id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        isSubmitted: user.isSubmitted,
-      });
-    } else {
-      res.status(400).json({ message: "Invalid user data" });
-    }
+    sendToken(res, user, 201);
   } catch (error) {
     throw new Error(error.message);
   }
@@ -73,19 +82,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email }).select("+password");
 
     if (user && (await user.matchPassword(password))) {
-      res.cookie("token", generateToken(user._id), {
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax", //// localhost
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-
-      res.json({
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        isSubmitted: user.isSubmitted,
-      });
+      sendToken(res, user);
     } else {
       res.status(400).json({ message: "Invalid credentials" });
     }

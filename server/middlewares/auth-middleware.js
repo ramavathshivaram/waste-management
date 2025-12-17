@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const User = require("../models/user-model");
+
 const protect = async (req, res, next) => {
   try {
     const token = req.cookies?.token;
@@ -9,14 +9,12 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ message: "Not authorized, no token" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    req.user = await User.findById(decoded.id).select("-password");
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!req.user) {
       return res.status(401).json({ message: "User no longer exists" });
     }
-    
+
     next();
   } catch (error) {
     console.error("Auth Error:", error);
