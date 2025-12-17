@@ -2,14 +2,20 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const morgan = require("morgan");
+const rateLimit = require("express-rate-limit");
+const compression = require("compression");
+const cookieParser = require("cookie-parser");
+
 const connectDB = require("./configs/db");
 const handleErrors = require("./middlewares/handleErrors");
-const cookieParser = require("cookie-parser");
 const { protect, authorize } = require("./middlewares/auth-middleware");
 
 const { assignPickupToCollector } = require("./lib/agenda-func");
 
-assignPickupToCollector();
+// assignPickupToCollector();
+
+//! Load env vars
+dotenv.config();
 
 //! OPTIIONS
 const options = {
@@ -17,8 +23,14 @@ const options = {
   credentials: true,
 };
 
-//! Load env vars
-dotenv.config();
+const rateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, //// 15 minutes
+  max: 100, //// limit each IP to 100 req per windowMs
+});
+
+const compress = compression({
+  threshold: 1024, //// compress larger than 1KB,
+});
 
 const app = express();
 
@@ -28,6 +40,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors(options));
 app.use(morgan("dev"));
 app.use(cookieParser());
+app.use(rateLimiter);
+app.use(compress);
 
 //! Basic route
 app.get("/", (req, res) => {
@@ -45,6 +59,7 @@ app.use(
   require("./routes/pickup-routes")
 );
 
+//! ILLEGAL DUMP ROUTES
 app.use(
   "/api/illegal-dump",
   protect,
