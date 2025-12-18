@@ -22,6 +22,11 @@ const Dashboard = () => {
       }
       setCollector(data);
     }
+    else {
+      navigate(`/collector/update`);
+    }
+
+
   }, [data, setCollector]);
 
   const start = [17.385044, 78.486671]; // collector

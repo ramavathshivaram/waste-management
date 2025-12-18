@@ -42,7 +42,7 @@ const AdminRadarChart = () => {
   return (
       <ResponsiveContainer width="100%" height={"100%"}>
         <RadarChart data={radarData}>
-          <PolarGrid />
+          <PolarGrid opacity={0.3} />
           <PolarAngleAxis dataKey="metric" />
           <PolarRadiusAxis domain={[0, 100]} />
 

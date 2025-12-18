@@ -1,12 +1,11 @@
 import React from "react";
 import KpiCard from "@/components/common/KpiCard";
-import ChartCard from "../../components/sections/ChartCard";
 import { Package, Truck, Building2, AlertTriangle } from "lucide-react";
 import { useAdminDashboard } from "../../hooks/use-admin-query.js";
-import AdminRadarChart from "../../components/common/AdminRadarChart.jsx";
-import AdminLineChat from "../../components/common/AdminLineChat.jsx";
-import AdminPickupAreaChart from "../../components/common/AdminPickupAreaChart.jsx";
-import AdminIllegalDumpAreaChart from "../../components/common/AdminIllegalDumpAreaChart.jsx";
+import AdminRadarChart from "../../components/admin/charts/AdminRadarChart";
+import AdminLineChat from "../../components/admin/charts/AdminLineChat";
+import AdminPickupAreaChart from "../../components/admin/charts/AdminPickupAreaChart";
+import AdminIllegalDumpAreaChart from "../../components/admin/charts/AdminIllegalDumpAreaChart";
 import PickupCluster from "../../components/common/PickupCluster.jsx";
 
 const COLORS = {
