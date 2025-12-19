@@ -12,6 +12,7 @@ const centreSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
+      required: [true, "Please add centre name"],
     },
 
     address: {
@@ -55,7 +56,7 @@ const centreSchema = new mongoose.Schema(
         default: "Point",
       },
       coordinates: {
-        type: [Number],
+        type: [Number],   
       },
     },
 
@@ -78,7 +79,6 @@ const centreSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ⭐ Required for geospatial queries like $near
 centreSchema.index({ location: "2dsphere" });
 
 module.exports = mongoose.model("Centre", centreSchema);

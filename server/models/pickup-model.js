@@ -6,22 +6,7 @@ const pickupRequestSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-    },
-
-    wasteType: {
-      type: String,
-      enum: ["plastic", "organic", "e-waste", "metal", "paper", "mixed"],
-      default: "plastic",
-    },
-
-    quantity: {
-      type: String,
-      default: "",
-    },
-
-    address: {
-      type: String,
-      default: "",
+      index: true,
     },
 
     scheduledDateTime: {
@@ -29,40 +14,28 @@ const pickupRequestSchema = new mongoose.Schema(
       default: null,
     },
 
-    mode: {
-      type: String,
-      enum: ["once", "daily"],
-      default: "once",
-    },
-
-    isCompleted: {
+    isDaily: {
       type: Boolean,
       default: false,
     },
 
-    images: [
-      {
-        publicId: { type: String, default: null },
-        url: { type: String, default: null },
-      },
-    ],
+    status: {
+      type: String,
+      enum: ["pending", "assigned", "completed", "cancelled"],
+      default: "pending",
+      index: true,
+    },
 
-    // ⭐ GeoJSON location
     location: {
       type: {
         type: String,
         enum: ["Point"],
         default: "Point",
       },
+
       coordinates: {
-        type: [Number], // [longitude, latitude]
-        default: [0, 0],
-        validate: {
-          validator: function (value) {
-            return value.length === 2;
-          },
-          message: "Coordinates must be [longitude, latitude]",
-        },
+        type: [Number], //// [longitude, latitude]
+        required: true,
       },
     },
 
@@ -73,15 +46,11 @@ const pickupRequestSchema = new mongoose.Schema(
 
     desc: {
       type: String,
-      default: "",
     },
   },
   { timestamps: true }
 );
 
-// ⭐ Required for geospatial queries like $near
 pickupRequestSchema.index({ location: "2dsphere" });
-pickupRequestSchema.index({ assignedCollectorId: 1 });
-pickupRequestSchema.index({ citizenId: 1 });
 
 module.exports = mongoose.model("PickupRequest", pickupRequestSchema);

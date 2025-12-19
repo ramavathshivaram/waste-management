@@ -28,11 +28,9 @@ const sendToken = (res, user, statusCode = 200) => {
   });
 
   res.status(statusCode).json({
-    _id: user._id,
     name: user.name,
     email: user.email,
     role: user.role,
-    isSubmitted: user.isSubmitted,
   });
 };
 
@@ -61,7 +59,7 @@ const registerUser = async (req, res) => {
       role: role || "citizen",
     });
 
-    sendToken(res, user, 201);
+    return sendToken(res, user, 201);
   } catch (error) {
     throw new Error(error.message);
   }
@@ -73,21 +71,27 @@ const loginUser = async (req, res) => {
 
     if (!parsed.success) {
       return res.status(400).json({
+        success: false,
         message: parsed.error.errors[0].message,
       });
     }
 
-    const { email, password } = req.body;
+    const { email, password } = parsed.data;
 
     const user = await User.findOne({ email }).select("+password");
-
-    if (user && (await user.matchPassword(password))) {
-      sendToken(res, user);
-    } else {
-      res.status(400).json({ message: "Invalid credentials" });
+    if (!user || !(await user.matchPassword(password))) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password",
+      });
     }
+
+    return sendToken(res, user);
   } catch (error) {
-    throw new Error();
+    return res.status(500).json({
+      success: false,
+      message: "Login failed",
+    });
   }
 };
 

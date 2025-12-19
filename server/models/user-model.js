@@ -21,13 +21,8 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["citizen", "collector", "centre", "admin"],
-      required: true,
+      required: [true, "Please specify user role"],
       default: "citizen",
-    },
-
-    isSubmitted: {
-      type: Boolean,
-      default: false,
     },
 
     address: {
@@ -67,7 +62,5 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
-
-userSchema.index({ email: 1 });
 
 module.exports = mongoose.model("User", userSchema);

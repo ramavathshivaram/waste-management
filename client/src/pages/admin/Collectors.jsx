@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import Section from "../../components/sections/Section";
-import {Card} from '@/components/ui/card'
+import { Card } from "@/components/ui/card";
 
 const Collectors = () => {
   const { data = [], isLoading } = useAdminCollectors();
@@ -86,6 +86,7 @@ const Collectors = () => {
           >
             Approved ({approvedCollectors.length})
           </Button>
+          <Button variant={"outline"}>Rejected</Button>
         </div>
       </Card>
 

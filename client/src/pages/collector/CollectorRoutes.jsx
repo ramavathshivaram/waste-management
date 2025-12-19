@@ -6,7 +6,7 @@ import PageNotFound from "../../components/common/PageNotFound";
 import UnderProcess from "../UnderProcess";
 import Update from "./Update";
 import UnderProcessProtectedRoute from "../../components/common/UnderProcessProtectedRoute";
-import useUserStore from "../../stores/useUserStore.js";
+import CollectorGuard from "../../components/layoutAndProtcetedRoutes/CollectorGuard";
 
 const links = [
   {
@@ -14,26 +14,20 @@ const links = [
     path: "/collector",
   },
 ];
+
 const CollectorRoutes = () => {
-  const user = useUserStore((s) => s.user);
-
-  console.log(user)
-
   return (
     <>
       <Routes>
-        <Route path="/" element={<RootLayout links={links} />}>
-          <Route
-            path="/"
-            element={
-              <UnderProcessProtectedRoute data={user}>
-                <Dashboard />
-              </UnderProcessProtectedRoute>
-            }
-          />
+        <Route element={<CollectorGuard />}>
+          <Route element={<RootLayout links={links} />}>
+            <Route index element={<Dashboard />} />
+          </Route>
         </Route>
+
         <Route path="/update" element={<Update />} />
         <Route path="/under-process" element={<UnderProcess />} />
+
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

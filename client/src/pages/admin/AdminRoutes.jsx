@@ -10,6 +10,8 @@ import IllegalDumps from "./IllegalDumps";
 import AdminMap from "./AdminMap";
 import AdminAreaMap from "../../components/admin/map/AdminAreaMap";
 import DetailsRootlayout from "./DetailsRootlayout";
+import CentreDetails from "./CentreDetails";
+import CollectorDetails from "./CollectorDetails";
 
 // Sidebar / Navigation Links
 const links = [
@@ -42,6 +44,8 @@ const AdminRoutes = () => {
           <Route path="pickups" element={<Pickups />} />
           <Route path="illegal-dumps" element={<IllegalDumps />} />
         </Route>
+        <Route path="centre" element={<CentreDetails />} />
+        <Route path="collector" element={<CollectorDetails />} />
         <Route path="map" element={<AdminMap />} />
         <Route path="area" element={<AdminAreaMap />} />
 

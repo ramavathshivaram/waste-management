@@ -134,3 +134,210 @@ const centres = [
     description: "Local processing unit for organic and recyclable waste.",
   },
 ];
+
+
+const vijayawadaAreas = [
+  {
+    name: "Benz Circle",
+    description: "Major commercial and traffic hub",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.6538, 16.4992],
+          [80.657, 16.4992],
+          [80.657, 16.4965],
+          [80.6538, 16.4965],
+          [80.6538, 16.4992],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Labbipet",
+    description: "Central business district",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.649, 16.507],
+          [80.653, 16.507],
+          [80.653, 16.5038],
+          [80.649, 16.5038],
+          [80.649, 16.507],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Moghalrajpuram",
+    description: "Residential and educational area",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.6425, 16.5105],
+          [80.646, 16.5105],
+          [80.646, 16.5075],
+          [80.6425, 16.5075],
+          [80.6425, 16.5105],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Governorpet",
+    description: "Market and business locality",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.639, 16.516],
+          [80.643, 16.516],
+          [80.643, 16.5125],
+          [80.639, 16.5125],
+          [80.639, 16.516],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Patamata",
+    description: "Commercial and residential locality",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.6635, 16.5025],
+          [80.668, 16.5025],
+          [80.668, 16.499],
+          [80.6635, 16.499],
+          [80.6635, 16.5025],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Auto Nagar",
+    description: "Industrial area",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.682, 16.5135],
+          [80.687, 16.5135],
+          [80.687, 16.5095],
+          [80.682, 16.5095],
+          [80.682, 16.5135],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Gunadala",
+    description: "Residential suburb",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.631, 16.5065],
+          [80.635, 16.5065],
+          [80.635, 16.503],
+          [80.631, 16.503],
+          [80.631, 16.5065],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Payakapuram",
+    description: "Northern residential area",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.626, 16.528],
+          [80.631, 16.528],
+          [80.631, 16.524],
+          [80.626, 16.524],
+          [80.626, 16.528],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Ajit Singh Nagar",
+    description: "Dense residential locality",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.622, 16.517],
+          [80.6265, 16.517],
+          [80.6265, 16.5135],
+          [80.622, 16.5135],
+          [80.622, 16.517],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Kanuru",
+    description: "Eastern residential expansion",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.69, 16.502],
+          [80.695, 16.502],
+          [80.695, 16.4975],
+          [80.69, 16.4975],
+          [80.69, 16.502],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Ramavarappadu",
+    description: "Western entry point to Vijayawada",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.6105, 16.5075],
+          [80.6155, 16.5075],
+          [80.6155, 16.5035],
+          [80.6105, 16.5035],
+          [80.6105, 16.5075],
+        ],
+      ],
+    },
+  },
+
+  {
+    name: "Gollapudi",
+    description: "South-west suburb",
+    area: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [80.598, 16.4925],
+          [80.603, 16.4925],
+          [80.603, 16.4885],
+          [80.598, 16.4885],
+          [80.598, 16.4925],
+        ],
+      ],
+    },
+  },
+];

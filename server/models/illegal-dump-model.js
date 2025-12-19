@@ -3,31 +3,29 @@ const mongoose = require("mongoose");
 
 const illegalDumpSchema = new mongoose.Schema(
   {
-    // Who reported it (Citizen)
     citizenId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
 
-    // Optional structured address
+    assignedCollectorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Collector",
+      default: null,
+      index: true,
+    },
+
     address: {
       type: String,
     },
 
-    // Optional coordinates if you add maps later
-    coordinates: {
-      lat: { type: Number },
-      lng: { type: Number },
-    },
-
-    // Description by user
     description: {
       type: String,
       trim: true,
     },
 
-    // Photos via Cloudinary
     images: [
       {
         publicId: String, // for deleting from Cloudinary
@@ -35,31 +33,26 @@ const illegalDumpSchema = new mongoose.Schema(
       },
     ],
 
-    // Status for admin/collector workflow
     status: {
       type: String,
       enum: ["new", "in-review", "assigned", "resolved", "dismissed"],
       default: "new",
     },
 
-    // Admin / municipal notes
-    adminNotes: {
+    adminMessage: {
       type: String,
       default: "",
     },
 
-    // If assigned to a collector
-    assignedCollectorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Collector",
-      default: null,
-    },
-
-    // Optional severity tag
     severity: {
       type: String,
       enum: ["low", "medium", "high"],
       default: "medium",
+    },
+
+    location: {
+      type: { type: String, enum: ["Point"], default: "Point" },
+      coordinates: { type: [Number], required: true },
     },
   },
   { timestamps: true }

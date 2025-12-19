@@ -12,7 +12,8 @@ const collectorSchema = new mongoose.Schema(
     licenseNumber: {
       type: String,
       trim: true,
-      default: "",
+      required: [true, "Please add a license number"],
+      unique: true,
     },
 
     isAdminVerified: {
@@ -35,6 +36,8 @@ const collectorSchema = new mongoose.Schema(
       number: {
         type: String,
         trim: true,
+        required: [true, "Please add vehicle number"],
+        unique: true,
       },
 
       capacity: {
@@ -75,5 +78,7 @@ const collectorSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+collectorSchema.index({ location: "2dsphere" });
 
 module.exports = mongoose.model("Collector", collectorSchema);

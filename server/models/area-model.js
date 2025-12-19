@@ -21,6 +21,17 @@ const areaSchema = new mongoose.Schema(
         required: true,
       },
     },
+
+    centreId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Centre",
+    },
+
+    collectorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Collector",
+    },
+    
   },
   { timestamps: true }
 );

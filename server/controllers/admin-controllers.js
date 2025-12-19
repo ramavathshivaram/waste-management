@@ -1,4 +1,3 @@
-const Admin = require("../models/admin-model");
 const Pickup = require("../models/pickup-model");
 const IllegalDump = require("../models/illegal-dump-model");
 const Collector = require("../models/collector-model");
@@ -87,10 +86,7 @@ const getAdminDashboard = async (req, res) => {
 
 const getAdminRadar = async (req, res) => {
   try {
-
     const pickups = await Pickup.find().sort({ createdAt: -1 });
-
-
 
     res.status(200).json({
       success: true,

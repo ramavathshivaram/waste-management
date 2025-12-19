@@ -14,129 +14,129 @@ import {
 
  const illegalDumpDailyData = [
   {
-    date: "2025-09-01",
+    date: "oct-01",
     illegalDumps: { resolved: 3, reported: 4, critical: 2 },
   },
   {
-    date: "2025-09-02",
+    date: "oct-02",
     illegalDumps: { resolved: 4, reported: 3, critical: 2 },
   },
   {
-    date: "2025-09-03",
+    date: "oct-03",
     illegalDumps: { resolved: 4, reported: 4, critical: 3 },
   },
   {
-    date: "2025-09-04",
+    date: "oct-04",
     illegalDumps: { resolved: 5, reported: 3, critical: 1 },
   },
   {
-    date: "2025-09-05",
+    date: "oct-05",
     illegalDumps: { resolved: 6, reported: 2, critical: 1 },
   },
   {
-    date: "2025-09-06",
+    date: "oct-06",
     illegalDumps: { resolved: 4, reported: 5, critical: 3 },
   },
   {
-    date: "2025-09-07",
+    date: "oct-07",
     illegalDumps: { resolved: 6, reported: 3, critical: 2 },
   },
   {
-    date: "2025-09-08",
+    date: "oct-08",
     illegalDumps: { resolved: 7, reported: 2, critical: 1 },
   },
   {
-    date: "2025-09-09",
+    date: "oct-09",
     illegalDumps: { resolved: 6, reported: 3, critical: 2 },
   },
   {
-    date: "2025-09-10",
+    date: "oct-10",
     illegalDumps: { resolved: 8, reported: 2, critical: 1 },
   },
 
   // WEEK 2
   {
-    date: "2025-09-11",
+    date: "oct-11",
     illegalDumps: { resolved: 8, reported: 2, critical: 1 },
   },
   {
-    date: "2025-09-12",
+    date: "oct-12",
     illegalDumps: { resolved: 9, reported: 2, critical: 1 },
   },
   {
-    date: "2025-09-13",
+    date: "oct-13",
     illegalDumps: { resolved: 7, reported: 4, critical: 2 },
   },
   {
-    date: "2025-09-14",
+    date: "oct-14",
     illegalDumps: { resolved: 9, reported: 2, critical: 1 },
   },
   {
-    date: "2025-09-15",
+    date: "oct-15",
     illegalDumps: { resolved: 10, reported: 1, critical: 0 },
   },
 
   // WEEK 3
   {
-    date: "2025-09-16",
+    date: "oct-16",
     illegalDumps: { resolved: 9, reported: 3, critical: 1 },
   },
   {
-    date: "2025-09-17",
+    date: "oct-17",
     illegalDumps: { resolved: 11, reported: 2, critical: 1 },
   },
   {
-    date: "2025-09-18",
+    date: "oct-18",
     illegalDumps: { resolved: 12, reported: 1, critical: 0 },
   },
   {
-    date: "2025-09-19",
+    date: "oct-19",
     illegalDumps: { resolved: 12, reported: 1, critical: 0 },
   },
   {
-    date: "2025-09-20",
+    date: "oct-20",
     illegalDumps: { resolved: 13, reported: 2, critical: 0 },
   },
 
   // WEEK 4
   {
-    date: "2025-09-21",
+    date: "oct-21",
     illegalDumps: { resolved: 14, reported: 1, critical: 0 },
   },
   {
-    date: "2025-09-22",
+    date: "oct-22",
     illegalDumps: { resolved: 15, reported: 1, critical: 0 },
   },
   {
-    date: "2025-09-23",
+    date: "oct-23",
     illegalDumps: { resolved: 15, reported: 1, critical: 0 },
   },
   {
-    date: "2025-09-24",
+    date: "oct-24",
     illegalDumps: { resolved: 16, reported: 0, critical: 0 },
   },
   {
-    date: "2025-09-25",
+    date: "oct-25",
     illegalDumps: { resolved: 17, reported: 0, critical: 0 },
   },
   {
-    date: "2025-09-26",
+    date: "oct-26",
     illegalDumps: { resolved: 18, reported: 0, critical: 0 },
   },
   {
-    date: "2025-09-27",
+    date: "oct-27",
     illegalDumps: { resolved: 18, reported: 1, critical: 0 },
   },
   {
-    date: "2025-09-28",
+    date: "oct-28",
     illegalDumps: { resolved: 19, reported: 0, critical: 0 },
   },
   {
-    date: "2025-09-29",
+    date: "oct-29",
     illegalDumps: { resolved: 20, reported: 0, critical: 0 },
   },
   {
-    date: "2025-09-30",
+    date: "oct-30",
     illegalDumps: { resolved: 22, reported: 0, critical: 0 },
   },
 ];

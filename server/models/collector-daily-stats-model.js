@@ -22,7 +22,7 @@ const collectorDailyStatsSchema = new mongoose.Schema(
 
     totalDistanceKm: {
       type: Number,
-      default: 0, // optional
+      default: 0,
     },
 
     workingMinutes: {
@@ -37,19 +37,6 @@ const collectorDailyStatsSchema = new mongoose.Schema(
       },
     ],
 
-    completedPickups: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "PickupRequest",
-      },
-    ],
-
-    pendingPickups: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "PickupRequest",
-      },
-    ],
   },
   { timestamps: true }
 );

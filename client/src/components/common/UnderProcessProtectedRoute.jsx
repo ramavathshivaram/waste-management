@@ -1,12 +1,16 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import useUserStore from "@/stores/useUserStore.js";
 
-const UnderProcessProtectedRoute = ({ data, children }) => {
-  const navigate = useNavigate();
+const UnderProcessProtectedRoute = ({ children }) => {
+  const user = useUserStore((s) => s.user);
 
-  if (data?.isSubmitted === false) {
-    navigate(`/${data.role}/update`);
+  if (!user) {
+    return <Navigate to="/login" replace />;
   }
+
+  // const userRoleData=
+
   return children;
 };
 
