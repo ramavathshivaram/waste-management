@@ -6,14 +6,26 @@ const {
   getAreaById,
   updateArea,
   deleteArea,
+  findAreaByPoint,
+  getAllAreasUnassignedCollectors,
+  getAllAreasUnassignedCentres,
 } = require("../controllers/area-controllers");
+const { authorize } = require("../middlewares/auth-middleware");
 
-router.post("/", createArea);
+router.post("/", authorize("admin"), createArea);
 
 router.get("/", getAllAreas);
 
 router.get("/:id", getAreaById);
 
-router.put("/:id", updateArea);
+router.get("/point", findAreaByPoint);
 
-router.delete("/:id", deleteArea);
+router.get("/unassigned/collectors", getAllAreasUnassignedCollectors);
+
+router.get("/unassigned/centres", getAllAreasUnassignedCentres);
+
+router.put("/:id", authorize("admin"), updateArea);
+
+router.delete("/:id", authorize("admin"), deleteArea);
+
+module.exports = router;

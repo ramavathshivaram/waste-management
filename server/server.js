@@ -91,7 +91,10 @@ app.use(
   require("./routes/admin-routes")
 );
 
-//! 404 HANDLER
+//! AREA ROUTES
+app.use("/api/area", protect, require("./routes/area-routes"));
+
+//! 404 API NOT FOUND HANDLER
 app.use((req, res) => {
   return res
     .status(404)
