@@ -59,6 +59,7 @@
     "react-hook-form": "^7.68.0",
     "react-leaflet": "^5.0.0",
     "react-leaflet-cluster": "^4.0.0",
+    "react-leaflet-draw": "^0.21.0",
     "react-resizable-panels": "^3.0.6",
     "react-router-dom": "^7.10.1",
     "recharts": "^2.15.4",

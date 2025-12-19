@@ -6,10 +6,10 @@ import PageNotFound from "../../components/common/PageNotFound";
 import Pickups from "./Pickups";
 import Collectors from "./Collectors";
 import Centres from "./Centres";
-import CollectorDetails from "./CollectorDetails";
-import CentreDetails from "./CentreDetails";
 import IllegalDumps from "./IllegalDumps";
 import AdminMap from "./AdminMap";
+import AdminAreaMap from "../../components/admin/map/AdminAreaMap";
+import DetailsRootlayout from "./DetailsRootlayout";
 
 // Sidebar / Navigation Links
 const links = [
@@ -18,24 +18,16 @@ const links = [
     path: "/admin",
   },
   {
-    label: "Collectors",
-    path: "/admin/collectors",
-  },
-  {
-    label: "Centres",
-    path: "/admin/centres",
-  },
-  {
-    label: "Pickups",
-    path: "/admin/pickup",
-  },
-  {
-    label: "Illegal Dumps",
-    path: "/admin/illegal-dumps",
+    label: "details",
+    path: "/admin/details",
   },
   {
     label: "Map",
     path: "/admin/map",
+  },
+  {
+    label: "Area",
+    path: "/admin/area",
   },
 ];
 
@@ -44,13 +36,14 @@ const AdminRoutes = () => {
     <Routes>
       <Route path="/" element={<RootLayout links={links} />}>
         <Route path="/" element={<Dashboard />} />
-        <Route path="collectors" element={<Collectors />} />
-        <Route path="centres" element={<Centres />} />
-        <Route path="collector" element={<CollectorDetails />} />
-        <Route path="centre" element={<CentreDetails />} />
-        <Route path="pickup" element={<Pickups />} />
+        <Route path="details" element={<DetailsRootlayout />}>
+          <Route index element={<Collectors />} />
+          <Route path="centres" element={<Centres />} />
+          <Route path="pickups" element={<Pickups />} />
+          <Route path="illegal-dumps" element={<IllegalDumps />} />
+        </Route>
         <Route path="map" element={<AdminMap />} />
-        <Route path="illegal-dumps" element={<IllegalDumps />} />
+        <Route path="area" element={<AdminAreaMap />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Route>
