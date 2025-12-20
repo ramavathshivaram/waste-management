@@ -1,9 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useCollector } from "@/hooks/use-collertor-query";
-import useCollectorStore from "../../stores/collectorStore.js";
 
 const CollectorGuard = () => {
-  const setCollector = useCollectorStore((s) => s.setCollector);
   const { data, isLoading, isError } = useCollector();
 
   if (isLoading) {
@@ -18,7 +16,7 @@ const CollectorGuard = () => {
     return <Navigate to="/collector/rejected" replace />;
   }
 
-  setCollector(data);
+  console.log(data)
 
   return <Outlet />;
 };

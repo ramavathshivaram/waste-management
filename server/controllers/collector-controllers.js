@@ -7,7 +7,8 @@ const cloudinary = require("../configs/cloudinary");
 
 const getCollector = async (req, res) => {
   try {
-    const userId = req.user._id;
+    console.log(req.user);
+    const userId = req.user.id;
 
     const collector = await Collector.findOne({ userId });
 

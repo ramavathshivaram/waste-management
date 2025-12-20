@@ -4,15 +4,24 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { createCollector } from "../../lib/api.js";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import collectorStore from "../../stores/collectorStore.js";
+import { useUnassignedCollectorsAreas } from "../../hooks/use-area-query.js";
 
 const Update = () => {
   const navigate = useNavigate();
   const setCollector = collectorStore((state) => state.setCollector);
+  const { data: areas = [], isLoading } = useUnassignedCollectorsAreas();
 
   const {
     register,
@@ -21,37 +30,10 @@ const Update = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setValue("coordinates.latitude", latitude);
-          setValue("coordinates.longitude", longitude);
-        },
-        (error) => {
-          toast.error("Geolocation error:", error);
-        }
-      );
-    }
-  }, [setValue]);
-
   const onSubmit = async (data) => {
     try {
-      const payload = {
-        ...data,
-        coordinates: [
-          Number(data.coordinates.longitude),
-          Number(data.coordinates.latitude),
-        ],
-      };
-
-      const collector = await createCollector(payload);
-
+      const collector = await createCollector(data);
       setCollector(collector);
-
-      console.log(collector);
-      toast.success("Centre updated successfully");
       navigate("/collector");
     } catch (error) {
       toast.error("Failed to update centre");
@@ -100,25 +82,40 @@ const Update = () => {
               </p>
             )}
           </div>
+          {/* unassinged areas for collector */}
           <div className="space-y-1">
-            <Label>Location</Label>
-            <div className="flex gap-2">
-              <Input
-                type="text"
-                placeholder="Enter location"
-                {...register("coordinates.longitude", {
-                  required: "Longitude is required",
-                })}
-              />
-              <Input
-                type="text"
-                placeholder="Enter location"
-                {...register("coordinates.latitude", {
-                  required: "latitude is required",
-                })}
-              />
-            </div>
+            <Label>Unassigned Area</Label>
+
+            <Select
+              onValueChange={(value) =>
+                setValue("areaId", value, {
+                  shouldValidate: true,
+                })
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select an area" />
+              </SelectTrigger>
+
+              <SelectContent>
+                {isLoading ? (
+                  <p>Loading areas...</p>
+                ) : (
+                  areas.map((area) => (
+                    <SelectItem key={area._id} value={area._id}>
+                      {area.name}
+                    </SelectItem>
+                  ))
+                )}
+              </SelectContent>
+            </Select>
+
+            {errors.areaId && (
+              <p className="text-red-500 text-sm">{errors.areaId.message}</p>
+            )}
           </div>
+
+          {/* Description */}
           <div className="space-y-1">
             <Label>Description</Label>
             <Textarea
@@ -132,7 +129,7 @@ const Update = () => {
           <Button
             type="submit"
             className="w-full text-lg py-5"
-            disabled={isSubmitting}
+            disabled={isLoading || isSubmitting}
           >
             {isSubmitting ? "Updating..." : "Update Details"}
           </Button>

@@ -135,3 +135,15 @@ export const approveCollector = async ({ id, isApproved }) => {
   });
   return response.data.data;
 };
+
+//! ---------------------- AREA FUNCTIONS ----------------------
+
+export const getAllAreasUnassignedCollectors = async () => {
+  const response = await api.get("/area/unassigned/collectors");
+  return response.data.data;
+};
+
+export const getAllAreasUnassignedCentres = async () => {
+  const response = await api.get("/area/unassigned/centres");
+  return response.data.data;
+};

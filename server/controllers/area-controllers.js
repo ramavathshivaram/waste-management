@@ -89,7 +89,7 @@ const getAllAreasUnassignedCentres = async (req, res) => {
     const areas = await Area.find(
       { centreId: { $exists: false } },
       { name: 1 }
-    ).sort({ name: -1 });
+    ).sort({ name: 1 });
     return res.status(200).json({
       status: true,
       message: "Areas fetched successfully",
