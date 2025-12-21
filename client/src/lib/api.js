@@ -137,6 +137,11 @@ export const approve = async ({ id, status, areaId, label }) => {
   return response.data.data;
 };
 
+export const getAllAreas = async () => {
+  const response = await api.get("/area");
+  return response.data.data;
+};
+
 //! ---------------------- AREA FUNCTIONS ----------------------
 
 export const getAllAreasUnassignedCollectors = async () => {

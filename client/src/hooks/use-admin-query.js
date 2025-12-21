@@ -7,6 +7,7 @@ import {
   getAllCentres,
   getAdminIllegalDumps,
   getAllLocations,
+  getAllAreas,
 } from "../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
@@ -71,3 +72,11 @@ export const useAdminCentreById = (id) => {
     enabled: !!id,
   });
 };
+
+export const useAllAreas = () => {
+  return useQuery({
+    queryKey: ["admin", "areas"],
+    queryFn: getAllAreas,
+  });
+};
+

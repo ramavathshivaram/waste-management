@@ -1,38 +1,75 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Card } from "../ui/card";
 import ProfileIcon from "../common/ProfileIcon";
+
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "../ui/dropdown-menu";
 
 const Navbar = ({ links }) => {
   return (
     <div className="w-full h-16">
-      <nav className="fixed z-9999 top-0 left-0 right-0">
+      <nav className="fixed z-50 top-0 left-0 right-0 bg-background">
         <div className="flex justify-between items-center h-16 px-8">
           {/* Logo */}
           <h1 className="text-2xl font-bold">Logo</h1>
 
-          {/* Navigation Links */}
-          <ul className="flex items-center gap-4 p-3.5 rounded-xl shadow-sm border  backdrop-blur-xs">
-            {links.map((link, index) => (
-              <NavLink
-                key={index}
-                to={link.path}
-                end={link.path === ""}
-                className={({ isActive }) =>
-                  `text-md font-medium ${
-                    isActive
-                      ? "text-neutral-500 underline underline-offset-4"
-                      : " hover:text-gray-600 text-neutral-400"
-                  }`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ))}
+          {/* Navigation */}
+          <ul className="flex items-center gap-4 p-3 rounded-xl border shadow-sm backdrop-blur">
+            {links.map((link, index) => {
+              if (link.children) {
+                return (
+                  <DropdownMenu key={index}>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="font-medium">
+                        {link.label}
+                      </Button>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent align="start">
+                      {link.children.map((child, idx) => (
+                        <DropdownMenuItem key={idx} asChild>
+                          <NavLink
+                            to={child.path}
+                            className={({ isActive }) =>
+                              isActive
+                                ? "text-primary font-medium"
+                                : "text-neutral-500 hover:text-neutral-700"
+                            }
+                          >
+                            {child.label}
+                          </NavLink>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                );
+              }
+
+              return (
+                <NavLink
+                  key={index}
+                  to={link.path}
+                  end
+                  className={({ isActive }) =>
+                    `text-md font-medium transition ${
+                      isActive
+                        ? "text-primary underline underline-offset-4"
+                        : "text-neutral-500 hover:text-neutral-700"
+                    }`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              );
+            })}
           </ul>
 
-          {/* Logout */}
+          {/* Profile */}
           <ProfileIcon />
         </div>
       </nav>

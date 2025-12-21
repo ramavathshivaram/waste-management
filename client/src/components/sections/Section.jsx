@@ -1,4 +1,4 @@
-import CollectorCard from "../common/Collectorcard";
+import CollectorCard from "../admin/utils/Collectorcard";
 
 const Section = ({ title, data }) => {
   return (

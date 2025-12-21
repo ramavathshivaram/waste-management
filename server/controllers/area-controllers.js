@@ -45,10 +45,7 @@ const createArea = async (req, res) => {
 
 const getAllAreas = async (req, res) => {
   try {
-    const areas = await Area.find(
-      {},
-      { name: 1, description: 1, area: 1 }
-    ).sort({ name: -1 });
+    const areas = await Area.find({}).sort({ name: -1 });
 
     return res.status(200).json({
       status: true,

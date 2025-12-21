@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "./Dashboard";
+import Pattern from "./Pattern";
 import RootLayout from "../../components/common/RootLayout";
 import PageNotFound from "../../components/common/PageNotFound";
 import Pickups from "./Pickups";
@@ -8,28 +8,45 @@ import Collectors from "./Collectors";
 import Centres from "./Centres";
 import IllegalDumps from "./IllegalDumps";
 import AdminMap from "./AdminMap";
-import AdminAreaMap from "../../components/admin/map/AdminAreaMap";
-import DetailsRootlayout from "./DetailsRootlayout";
+import AdminAreaMap from "./AdminAreaMap";
 import CentreDetails from "./CentreDetails";
 import CollectorDetails from "./CollectorDetails";
 
 // Sidebar / Navigation Links
 const links = [
   {
-    label: "Dashboard",
+    label: "Pattern",
     path: "/admin",
   },
   {
-    label: "details",
-    path: "/admin/details",
+    label: "management",
+    path: "/admin/management",
+    children: [
+      {
+        label: "Collectors",
+        path: "/admin/collectors",
+      },
+      {
+        label: "Centres",
+        path: "/admin/centres",
+      },
+      {
+        label: "Pickups",
+        path: "/admin/pickups",
+      },
+      {
+        label: "Illegal Dumps",
+        path: "/admin/illegal-dumps",
+      },
+      {
+        label: "Area",
+        path: "/admin/area",
+      },
+    ],
   },
   {
     label: "Map",
     path: "/admin/map",
-  },
-  {
-    label: "Area",
-    path: "/admin/area",
   },
 ];
 
@@ -37,17 +54,18 @@ const AdminRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<RootLayout links={links} />}>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="details" element={<DetailsRootlayout />}>
-          <Route index element={<Collectors />} />
-          <Route path="centres" element={<Centres />} />
-          <Route path="pickups" element={<Pickups />} />
-          <Route path="illegal-dumps" element={<IllegalDumps />} />
-        </Route>
+        
+        <Route path="/" element={<Pattern />} />
+
+        <Route path="collectors" element={<Collectors />} />
+        <Route path="centres" element={<Centres />} />
+        <Route path="pickups" element={<Pickups />} />
+        <Route path="illegal-dumps" element={<IllegalDumps />} />
+        <Route path="area" element={<AdminAreaMap />} />
+
         <Route path="centre" element={<CentreDetails />} />
         <Route path="collector" element={<CollectorDetails />} />
         <Route path="map" element={<AdminMap />} />
-        <Route path="area" element={<AdminAreaMap />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Route>

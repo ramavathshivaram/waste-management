@@ -3,8 +3,6 @@ import { useSearchParams } from "react-router-dom";
 import { useAdminCollectorById } from "../../hooks/use-admin-query.js";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import Approve from "../../components/admin/utils/Approve";
 
