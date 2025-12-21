@@ -12,6 +12,8 @@ import AdminAreaMap from "./AdminAreaMap";
 import CentreDetails from "./CentreDetails";
 import CollectorDetails from "./CollectorDetails";
 import AddArea from "./AddArea";
+import UpdateArea from "./UpdateArea";
+import AreaDetails from "./AreaDetails";
 
 // Sidebar / Navigation Links
 const links = [
@@ -62,13 +64,15 @@ const AdminRoutes = () => {
         <Route path="pickups" element={<Pickups />} />
         <Route path="illegal-dumps" element={<IllegalDumps />} />
         <Route path="area" element={<AdminAreaMap />} />
-        
+
+        <Route path="area/:id" element={<AreaDetails />} />
+
         <Route path="area/create" element={<AddArea />} />
+        <Route path="area/update" element={<UpdateArea />} />
 
         <Route path="centre" element={<CentreDetails />} />
         <Route path="collector" element={<CollectorDetails />} />
         <Route path="map" element={<AdminMap />} />
-
 
         <Route path="*" element={<PageNotFound />} />
       </Route>

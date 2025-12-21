@@ -42,6 +42,9 @@ const AdminAreas = () => {
             <Card
               key={area._id}
               className="p-4 space-y-3 hover:shadow-md transition"
+              onClick={() => {
+                navigate(`/admin/area/${area._id}`);
+              }}
             >
               {/* Header */}
               <div className="flex items-start justify-between gap-2">

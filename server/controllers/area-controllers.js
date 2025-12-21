@@ -1,5 +1,5 @@
 const Area = require("../models/area-model");
-const { create_area_schema } = require("../lib/zod-schema");
+const { create_area_schema, update_area_schema } = require("../lib/zod-schema");
 
 // Create a new area
 const createArea = async (req, res) => {
@@ -120,43 +120,40 @@ const getAreaById = async (req, res) => {
 const updateArea = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, coordinates } = req.body;
+    console.log(req.body);
+    const parsed = update_area_schema.safeParse(req.body);
 
-    const updateData = {};
-
-    if (name) updateData.name = name;
-    if (description) updateData.description = description;
-
-    if (coordinates) {
-      if (!isValidPolygon(coordinates)) {
-        return res.status(400).json({
-          status: false,
-          message: "Invalid polygon coordinates",
-        });
-      }
-
-      updateData.area = {
-        type: "Polygon",
-        coordinates,
-      };
+    if (!parsed.success) {
+      return res.status(400).json({
+        status: false,
+        message: parsed.error.errors[0].message,
+      });
     }
 
-    const area = await Area.findByIdAndUpdate(id, updateData, {
-      new: true,
-      runValidators: true,
-    });
+    const { name, description, area } = parsed.data;
 
-    if (!area) {
+    const updateArea = await Area.findByIdAndUpdate(
+      id,
+      { name, description, area },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updateArea) {
       return res.status(404).json({
         status: false,
         message: "Area not found",
       });
     }
 
+    console.log(updateArea);
+
     return res.status(200).json({
       status: true,
       message: "Area updated successfully",
-      data: area,
+      data: updateArea,
     });
   } catch (error) {
     console.error(error);

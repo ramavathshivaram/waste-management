@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -9,7 +9,9 @@ import {
 import L from "leaflet";
 import AddMapCoordinatesList from "../../components/sections/AddMapCoordinatesList";
 import { Card } from "@/components/ui/card";
-import AreaForm from "../../components/sections/AreaFrom";
+import { useSearchParams } from "react-router-dom";
+import { useAreaById } from "@/hooks/use-area-query.js";
+import UpdateAreaForm from "../../components/sections/UpdateAreafrom";
 
 const defaultIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
@@ -27,8 +29,9 @@ const ClickHandler = ({ onAdd }) => {
   return null;
 };
 
-const AddArea = () => {
-  const [coordinates, setCoordinates] = useState([]);
+const UpdateArea = () => {
+  const id = useSearchParams()[0].get("id");
+  const { data, isLoading } = useAreaById(id);
 
   const handleAddPoint = (latlng) => {
     setCoordinates((prev) => [
@@ -41,11 +44,19 @@ const AddArea = () => {
     setCoordinates((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const [coordinates, setCoordinates] = useState([]);
+
+  useEffect(() => {
+    if (data?.area?.coordinates?.[0]) {
+      setCoordinates(data.area.coordinates[0]); // GeoJSON [lng, lat]
+    }
+  }, [data]);
+
   const leafletPolygon = coordinates.map(([lng, lat]) => [lat, lng]);
 
   return (
     <div className="h-full grid grid-cols-3 grid-rows-3 gap-2 px-2">
-      <AreaForm coordinates={coordinates} />
+      <UpdateAreaForm coordinates={coordinates} area={data} />
       <AddMapCoordinatesList
         coordinates={coordinates}
         onRemovePoint={onRemovePoint}
@@ -79,4 +90,4 @@ const AddArea = () => {
   );
 };
 
-export default AddArea;
+export default UpdateArea;

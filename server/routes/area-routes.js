@@ -16,13 +16,13 @@ router.post("/", authorize("admin"), createArea);
 
 router.get("/", getAllAreas);
 
-router.get("/:id", getAreaById);
-
 router.get("/point", findAreaByPoint);
 
 router.get("/unassigned/collectors", getAllAreasUnassignedCollectors);
 
 router.get("/unassigned/centres", getAllAreasUnassignedCentres);
+
+router.get("/:id", getAreaById);
 
 router.put("/:id", authorize("admin"), updateArea);
 

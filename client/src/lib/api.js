@@ -155,3 +155,13 @@ export const createArea = async (data) => {
   const response = await api.post("/area", data);
   return response.data.data;
 };
+
+export const getAreaById = async (id) => {
+  const response = await api.get(`/area/${id}`);
+  return response.data.data;
+};
+
+export const updateArea = async ({ id, payload }) => {
+  const response = await api.put(`/area/${id}`, payload);
+  return response.data.data;
+};

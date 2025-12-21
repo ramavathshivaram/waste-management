@@ -1,6 +1,7 @@
 import {
   getAllAreasUnassignedCollectors,
   getAllAreasUnassignedCentres,
+  getAreaById,
 } from "../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,4 +19,9 @@ export const useUnassignedCentresAreas = () => {
   });
 };
 
-
+export const useAreaById = (id) => {
+  return useQuery({
+    queryKey: ["area-by-id", id],
+    queryFn: () => getAreaById(id),
+  });
+};

@@ -79,6 +79,15 @@ const create_area_schema = z.object({
   }),
 });
 
+const update_area_schema = z.object({
+  name: z.string().min(1).max(100),
+  description: z.string(),
+  area: z.object({
+    type: z.literal("Polygon"),
+    coordinates: z.array(z.array(z.array(z.number()))),
+  }),
+});
+
 module.exports = {
   register_schema,
   login_schema,
@@ -93,4 +102,5 @@ module.exports = {
   admin_approve_schema,
 
   create_area_schema,
+  update_area_schema,
 };

@@ -8,7 +8,10 @@ const areaSchema = new mongoose.Schema(
       trim: true,
     },
 
-    description: String,
+    description: {
+      type: String,
+      required: true,
+    },
 
     area: {
       type: {
