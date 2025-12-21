@@ -2,8 +2,11 @@ import React from "react";
 import { useAllAreas } from "../../hooks/use-admin-query.js";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const AdminAreas = () => {
+  const navigate = useNavigate();
   const { data: areas = [], isLoading } = useAllAreas();
 
   if (isLoading) {
@@ -17,7 +20,18 @@ const AdminAreas = () => {
   return (
     <div className="p-4 space-y-4">
       {/* Filters placeholder */}
-      <div className="flex gap-2">{/* filters later */}</div>
+      <div className="">
+        <div className="flex justify-end ">
+          <Button
+            size="sm"
+            onClick={() => {
+              navigate("/admin/area/create");
+            }}
+          >
+            Create Area
+          </Button>
+        </div>
+      </div>
 
       <div className="grid-container">
         {areas.map((area) => {

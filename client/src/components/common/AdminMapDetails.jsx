@@ -58,7 +58,7 @@ const AdminMapDetails = ({ filters }) => {
       <MapContainer
         center={currentCentre}
         zoom={15}
-        className="w-full h-full grayscale"
+        className="w-full h-full"
       >
         <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
