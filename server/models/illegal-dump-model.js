@@ -10,15 +10,9 @@ const illegalDumpSchema = new mongoose.Schema(
       index: true,
     },
 
-    assignedCollectorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Collector",
-      default: null,
-      index: true,
-    },
-
     address: {
       type: String,
+      required: true,
     },
 
     description: {
@@ -26,13 +20,11 @@ const illegalDumpSchema = new mongoose.Schema(
       trim: true,
     },
 
-    images: [
-      {
+    images: [{
         publicId: String, // for deleting from Cloudinary
         url: String, // secure_url to display
-      },
-    ],
-
+      }],
+    
     status: {
       type: String,
       enum: ["new", "in-review", "assigned", "resolved", "dismissed"],
@@ -41,10 +33,9 @@ const illegalDumpSchema = new mongoose.Schema(
 
     adminMessage: {
       type: String,
-      default: "",
     },
 
-    severity: {
+    priority: {
       type: String,
       enum: ["low", "medium", "high"],
       default: "medium",

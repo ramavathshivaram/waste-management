@@ -1,44 +1,55 @@
 const PickupRequest = require("../models/pickup-model");
-const cloudinary = require("../configs/cloudinary");
-const fs = require("fs");
+const { create_pickup_schema } = require("../lib/zod-schema");
+const Area = require("../models/area-model");
 
 const createPickupRequest = async (req, res) => {
   try {
-    const { wasteType, quantity, address, scheduledDateTime } = req.body;
-    const images = [];
+    const { address, mode, coordinates } = req.body;
 
-    // Upload each image to Cloudinary
-    for (const file of req.files) {
-      const result = await cloudinary.uploader.upload(file.path, {
-        folder: "waste-pickups",
+    const [longitude, latitude] = coordinates;
+
+    const area = await Area.findOne({
+      area: {
+        $geoIntersects: {
+          $geometry: {
+            type: "Point",
+            coordinates: [longitude, latitude],
+          },
+        },
+      },
+    });
+
+    if (!area) {
+      return res.status(400).json({
+        success: false,
+        message: "Area not found for this location",
       });
-
-      images.push({
-        publicId: result.public_id,
-        url: result.secure_url,
-      });
-
-      fs.unlinkSync(file.path); // delete temp file
     }
 
     const newRequest = await PickupRequest.create({
       citizenId: req.user.id,
-      wasteType: wasteType,
-      quantity: quantity,
-      address: address,
-      scheduledDateTime: scheduledDateTime,
-      images,
+      address,
+      mode,
+      location: {
+        type: "Point",
+        coordinates: [longitude, latitude],
+      },
+      area: {
+        id: area._id,
+        name: area.name,
+      },
     });
 
-    console.log(newRequest);
-
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       data: newRequest,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+    console.error("Create Pickup Error:", err);
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 

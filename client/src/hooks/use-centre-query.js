@@ -7,10 +7,19 @@ export const useCentreDashboard = () => {
     queryFn: getCentreDashboard,
   });
 };
-export const UseCentresNearByLocations = ({ longitude, latitude }) => {
+
+export const useCentresNearByLocations = (coords) => {
+  const longitude = coords?.longitude;
+  const latitude = coords?.latitude;
+
   return useQuery({
-    queryKey: ["centre", "locations", longitude, latitude],
+    queryKey: ["centres", "nearby", longitude, latitude],
     queryFn: () => getCentresNearByLocations(longitude, latitude),
-    enabled: !!longitude && !!latitude,
+
+    enabled: typeof longitude === "number" && typeof latitude === "number",
+
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000,
+    retry: 1,
   });
 };

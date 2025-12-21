@@ -9,14 +9,11 @@ const pickupRequestSchema = new mongoose.Schema(
       index: true,
     },
 
-    scheduledDateTime: {
-      type: Date,
-      default: null,
-    },
-
-    isDaily: {
-      type: Boolean,
-      default: false,
+    mode: {
+      type: String,
+      enum: ["once", "daily"],
+      required: true,
+      index: true,
     },
 
     status: {
@@ -39,12 +36,29 @@ const pickupRequestSchema = new mongoose.Schema(
       },
     },
 
+    address: {
+      type: String,
+      required: true,
+    },
+
+    area: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Area",
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+    },
+
     otp: {
       type: Number,
       default: Math.floor(Math.random() * 9000) + 1000,
     },
 
-    desc: {
+    description: {
       type: String,
     },
   },

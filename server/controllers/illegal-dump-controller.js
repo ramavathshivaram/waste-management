@@ -4,12 +4,32 @@ const fs = require("fs");
 
 const createIllegalDump = async (req, res) => {
   try {
-    const { locationText, address, description } = req.body;
+    console.log(req.body);
+
+    let { priority, coordinates, address, description } = req.body;
+
+    // ✅ Safe parsing
+    if (typeof coordinates === "string") {
+      coordinates = JSON.parse(coordinates);
+    }
+
+    if (
+      !coordinates ||
+      typeof coordinates.latitude !== "number" ||
+      typeof coordinates.longitude !== "number"
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid coordinates format",
+      });
+    }
+
+    const { latitude, longitude } = coordinates;
 
     const files = req.files || [];
     const images = [];
 
-    // Upload each image to Cloudinary
+    // ✅ Upload images
     for (const file of files) {
       const upload = await cloudinary.uploader.upload(file.path, {
         folder: "illegal-dumps",
@@ -23,24 +43,32 @@ const createIllegalDump = async (req, res) => {
       fs.unlinkSync(file.path);
     }
 
+    // ✅ Create report
     const report = await IllegalDump.create({
       citizenId: req.user.id,
-      locationText,
+      priority,
       address,
       description,
       images,
+      location: {
+        type: "Point",
+        coordinates: [longitude, latitude], // [lng, lat]
+      },
     });
 
-    console.log(report);
     res.status(201).json({
       success: true,
       data: report,
     });
   } catch (err) {
     console.error("Illegal dump error:", err);
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
+
 
 const getUserDumps = async (req, res) => {
   try {

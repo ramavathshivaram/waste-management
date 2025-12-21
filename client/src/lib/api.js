@@ -25,11 +25,7 @@ export const logoutUser = async () => {
 
 export const createPickupRequest = async (data) => {
   console.log(data);
-  const response = await api.post("/pickup/create", data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await api.post("/pickup/create", data);
   return response.data;
 };
 

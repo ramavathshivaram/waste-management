@@ -5,12 +5,13 @@ const {
   getCentreslocatons,
   createCentre,
 } = require("../controllers/centre-controllers");
+const {  authorize } = require("../middlewares/auth-middleware");
 // const upload = require("../middlewares/upload");
 
-router.get("/dashboard", getCentreDashboard);
+router.get("/dashboard",authorize("centre"), getCentreDashboard);
 
 router.get("/locations/:location", getCentreslocatons);
 
-router.post("/", createCentre);
+router.post("/",authorize("centre"), createCentre);
 
 module.exports = router;

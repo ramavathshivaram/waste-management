@@ -10,9 +10,9 @@ const connectDB = require("./configs/db");
 const handleErrors = require("./middlewares/handleErrors");
 const { protect, authorize } = require("./middlewares/auth-middleware");
 
-const { assignPickupToCollector } = require("./lib/agenda-func");
+const agenda = require("./configs/agenda");
 
-// assignPickupToCollector();
+require("./routes/agenda-jobs");
 
 //! Load env vars
 dotenv.config();
@@ -45,7 +45,7 @@ app.use(compress);
 
 //! Basic route
 app.get("/", (req, res) => {
-  res.send("EcoTrack API is running");
+  res.send("waste management API is running");
 });
 
 //! AUTH ROUTES
@@ -76,12 +76,7 @@ app.use(
 );
 
 //! CENTRE ROUTES
-app.use(
-  "/api/centre",
-  protect,
-  authorize("centre", "citizen"), //! fix the citizen
-  require("./routes/centre-routes")
-);
+app.use("/api/centre", protect, require("./routes/centre-routes"));
 
 //! ADMIN ROUTES
 app.use(
@@ -107,10 +102,15 @@ app.use(handleErrors);
 const PORT = process.env.PORT || 5000;
 
 //! Connect DB then start server
-connectDB().then(() => {
+connectDB().then(async () => {
+  await agenda.start();
+  console.log("Agenda started");
+
   app.listen(PORT, () => {
-    console.log(
-      `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
-    );
+    console.log(`Server running on port ${PORT}`);
   });
+
+  // await agenda.schedule("in 10 seconds", "assign-pickup-to-collector");
+
+  //   await agenda.schedule("in 5 seconds", "reset-all-daily-pickups-to-pending");
 });

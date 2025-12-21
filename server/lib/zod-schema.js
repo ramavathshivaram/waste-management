@@ -53,6 +53,12 @@ const create_centre_schema = z.object({
 
 //! PICKUP SCHEMA
 
+const create_pickup_schema = z.object({
+  coordinates:z.array(z.number()).length(2),
+  mode: z.enum(["once", "daily"]),
+  address: z.string().min(10).max(500),
+});
+
 //! ADMIN SCHEMA
 
 const admin_approve_schema = z.object({
@@ -69,6 +75,8 @@ module.exports = {
 
   update_collector_schema,
   create_collector_schema,
+
+  create_pickup_schema,
 
   create_centre_schema,
 
