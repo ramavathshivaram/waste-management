@@ -3,14 +3,19 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useCreateArea } from "../../hooks/use-admin-mutate.js";
+import { useNavigate } from "react-router-dom";
 
 const AreaForm = ({ coordinates }) => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
+  const { mutateAsync, isLoading } = useCreateArea();
+
   const canSave = name.trim() && coordinates.length >= 3 && description.trim();
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!canSave) {
       toast.error("Area name and at least 3 points are required");
       return;
@@ -30,10 +35,9 @@ const AreaForm = ({ coordinates }) => {
 
     console.log("✅ Area Payload:", payload);
 
-    // 🔥 Call API here
-    // await createArea(payload)
+    await mutateAsync(payload);
 
-    toast.success("Area ready to be saved");
+    navigate("/admin/areas");
   };
 
   return (
@@ -41,7 +45,7 @@ const AreaForm = ({ coordinates }) => {
       <div>
         <div className="flex justify-between">
           <h1 className="text-2xl font-semibold">Add Area</h1>{" "}
-          <Button onClick={handleSave} disabled={!canSave}>
+          <Button onClick={handleSave} disabled={!canSave || isLoading}>
             Save Area
           </Button>
         </div>

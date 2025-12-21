@@ -1,38 +1,31 @@
 const Area = require("../models/area-model");
-const { isValidPolygon } = require("../lib/area-helper");
+const { create_area_schema } = require("../lib/zod-schema");
 
 // Create a new area
 const createArea = async (req, res) => {
   try {
-    const { name, description, coordinates } = req.body;
+    console.log(req.body);
 
-    if (!name || !coordinates) {
+    const parsed = create_area_schema.safeParse(req.body);
+    if (!parsed.success) {
       return res.status(400).json({
         status: false,
-        message: "Name and coordinates are required",
+        message: parsed.error.errors[0].message,
       });
     }
 
-    if (!isValidPolygon(coordinates)) {
-      return res.status(400).json({
-        status: false,
-        message: "Invalid polygon coordinates",
-      });
-    }
+    const { name, description, area } = req.body;
 
-    const area = await Area.create({
+    const newArea = await Area.create({
       name,
       description,
-      area: {
-        type: "Polygon",
-        coordinates,
-      },
+      area,
     });
 
     return res.status(201).json({
       status: true,
       message: "Area created successfully",
-      data: area,
+      data: newArea,
     });
   } catch (error) {
     console.error(error);

@@ -54,7 +54,7 @@ const create_centre_schema = z.object({
 //! PICKUP SCHEMA
 
 const create_pickup_schema = z.object({
-  coordinates:z.array(z.number()).length(2),
+  coordinates: z.array(z.number()).length(2),
   mode: z.enum(["once", "daily"]),
   address: z.string().min(10).max(500),
 });
@@ -69,6 +69,16 @@ const admin_approve_schema = z.object({
 
 //! ILLEGAL DUMP SCHEMA
 
+//! AREA SCHEMA
+const create_area_schema = z.object({
+  name: z.string().min(1).max(100),
+  description: z.string(),
+  area: z.object({
+    type: z.literal("Polygon"),
+    coordinates: z.array(z.array(z.array(z.number()))),
+  }),
+});
+
 module.exports = {
   register_schema,
   login_schema,
@@ -81,4 +91,6 @@ module.exports = {
   create_centre_schema,
 
   admin_approve_schema,
+
+  create_area_schema,
 };

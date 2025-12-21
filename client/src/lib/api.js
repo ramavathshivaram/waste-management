@@ -149,3 +149,9 @@ export const getAllAreasUnassignedCentres = async () => {
   const response = await api.get("/area/unassigned/centres");
   return response.data.data;
 };
+
+export const createArea = async (data) => {
+  console.log(data);
+  const response = await api.post("/area", data);
+  return response.data.data;
+};
