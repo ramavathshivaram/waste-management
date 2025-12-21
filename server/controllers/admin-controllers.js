@@ -248,7 +248,7 @@ const approve = async (req, res) => {
     );
 
     const updateAreaPromise =
-      status=== "active" && areaId
+      status === "active" && areaId
         ? Area.findByIdAndUpdate(
             areaId,
             { $set: { [areaField]: id } },
@@ -256,7 +256,10 @@ const approve = async (req, res) => {
           )
         : Promise.resolve(null);
 
-    const [data] = await Promise.all([updateEntityPromise, updateAreaPromise]);
+    const [data, area] = await Promise.all([
+      updateEntityPromise,
+      updateAreaPromise,
+    ]);
 
     if (!data) {
       return res.status(404).json({
@@ -264,6 +267,8 @@ const approve = async (req, res) => {
         message: `${label} not found`,
       });
     }
+    console.log(data);
+    console.log(area);
 
     return res.status(200).json({
       success: true,
@@ -280,20 +285,39 @@ const approve = async (req, res) => {
 
 const getAllLocations = async (req, res) => {
   try {
-    const centres = await Centre.find(
+    const centresPromise = Centre.find(
       { isApproved: true },
       { location: 1, _id: 1 }
     );
 
-    const collector = await Collector.find(
+    const collectorPromise = Collector.find(
       { isApproved: true },
       { location: 1, _id: 1 }
     );
 
-    const pickups = await Pickup.find(
+    const pickupsPromise = Pickup.find(
       {},
       { "location.coordinates": 1, _id: 1 }
     );
+
+    const illegalDumpsPromise = IllegalDump.find(
+      {},
+      { "location.coordinates": 1, _id: 1 }
+    );
+
+    const areasPromise = Area.find(
+      {},
+      { name: 1, centreId: 1, collectorId: 1, _id: 1, area: 1 }
+    );
+
+    const [centres, collector, pickups, illegalDumps, areas] =
+      await Promise.all([
+        centresPromise,
+        collectorPromise,
+        pickupsPromise,
+        illegalDumpsPromise,
+        areasPromise,
+      ]);
 
     res.status(200).json({
       success: true,
@@ -301,6 +325,8 @@ const getAllLocations = async (req, res) => {
         centres,
         collector,
         pickups,
+        illegalDumps,
+        areas,
       },
     });
   } catch (err) {

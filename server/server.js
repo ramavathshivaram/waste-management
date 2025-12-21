@@ -14,6 +14,14 @@ const agenda = require("./configs/agenda");
 
 require("./routes/agenda-jobs");
 
+//check funcs
+const {
+  assignPickupToCollector,
+  resetAllDailyPickupsToPending,
+} = require("./controllers/agenda-controllers");
+
+// assignPickupToCollector();
+
 //! Load env vars
 dotenv.config();
 

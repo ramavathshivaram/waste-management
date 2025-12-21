@@ -35,4 +35,11 @@ export const leafletIcons = {
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
   }),
+
+  illegalDump: L.icon({
+    iconUrl: icons.illegalDump,
+    iconSize: [36, 36],
+    iconAnchor: [18, 36],
+    popupAnchor: [0, -36],
+  }),
 };

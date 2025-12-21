@@ -6,12 +6,21 @@ const Area = require("../models/area-model");
 const assignPickupToCollector = async () => {
   try {
     const areas = await Area.find({});
+
     for (const area of areas) {
+      console.log("area", area._id);
+
       const pickups = await Pickup.find({
         mode: "daily",
       });
 
-      console.log(pickups);
+      if (pickups.length === 0) {
+        // console.log("No daily pickups found for area", area._id);
+        continue;
+      }
+
+      const collectorId = area.collectorId;
+      console.log("collect", collectorId);
     }
   } catch (error) {
     console.log(error);

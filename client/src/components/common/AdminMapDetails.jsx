@@ -5,6 +5,7 @@ import { useAdminLocations } from "../../hooks/use-admin-query.js";
 import { leafletIcons } from "../../lib/utils.js";
 import MarkerList from "./MarkerList.jsx";
 import { Spinner } from "@/components/ui/spinner";
+import MapListPolygon from "./MapListPolygon.jsx";
 
 const RecenterMap = ({ position }) => {
   const map = useMap();
@@ -49,6 +50,8 @@ const AdminMapDetails = ({ filters }) => {
   const showPickups = showAll || filters.includes("pickups");
   const showCollectors = showAll || filters.includes("collectors");
   const showCentres = showAll || filters.includes("centres");
+  const showIllegalDumps = showAll || filters.includes("illegalDumps");
+  const showAreas = showAll || filters.includes("areas");
 
   return (
     <Card className="overflow-hidden p-0 flex-1 h-full">
@@ -88,6 +91,16 @@ const AdminMapDetails = ({ filters }) => {
             icon={leafletIcons.centre}
           />
         )}
+
+        {showIllegalDumps && (
+          <MarkerList
+            list={data?.illegalDumps}
+            label="Illegal Dump"
+            icon={leafletIcons?.illegalDump}
+          />
+        )}
+
+        {showAreas && <MapListPolygon areas={data?.areas} />}
       </MapContainer>
     </Card>
   );

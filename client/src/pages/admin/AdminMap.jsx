@@ -20,7 +20,14 @@ const AdminMap = () => {
     );
   };
 
-  const buttons = ["centres", "collectors", "pickups"];
+  const buttons = [
+    "centres",
+    "collectors",
+    "pickups",
+    "illegalDumps",
+    "areas",
+    "all",
+  ];
 
   return (
     <div className="flex flex-col gap-3 p-3 h-full">
