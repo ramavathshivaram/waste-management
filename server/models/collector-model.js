@@ -16,19 +16,21 @@ const collectorSchema = new mongoose.Schema(
       unique: true,
     },
 
-    isAdminVerified: {
-      type: Boolean,
-      default: false,
-    },
-
-    isApproved: {
-      type: Boolean,
-      default: false,
+    area: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Area",
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
     },
 
     status: {
       type: String,
-      enum: ["active", "inactive", "busy"],
+      enum: ["active", "rejected", "inactive", "busy"],
       default: "inactive",
     },
 

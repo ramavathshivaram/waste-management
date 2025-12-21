@@ -1,23 +1,18 @@
-import { approveCollector } from "../lib/api.js";
+import { approve } from "../lib/api.js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useApproveCollector = () => {
+export const useApprove = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (obj) => approveCollector(obj),
+    mutationFn: (obj) => approve(obj),
 
-    // Runs on success
     onSuccess: (_, id) => {
-      console.log("Collector approved:", id);
-
-      // Refetch collector data
-      queryClient.invalidateQueries(["adminCollector", id]);
+      queryClient.invalidateQueries(["admin", id]);
     },
 
     onError: (error) => {
       console.error("Error approving collector:", error.message);
-      // toast.error("Failed to approve collector");
     },
   });
 };

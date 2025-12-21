@@ -9,6 +9,14 @@ import { Label } from "@/components/ui/label";
 import { createCentre } from "../../lib/api.js";
 import { toast } from "sonner";
 import centreStore from "../../stores/centreStore.js";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from '@/components/ui/select';
+import { useUnassignedCentresAreas } from "../../hooks/use-area-query.js";
 
 const Update = () => {
   const navigate = useNavigate();
@@ -32,6 +40,8 @@ const Update = () => {
       },
     },
   });
+
+  const { data: areas, isLoading } = useUnassignedCentresAreas();
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -86,6 +96,44 @@ const Update = () => {
             />
             {errors.name && (
               <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
+          </div>
+
+          <div>
+            <Label>Select Area</Label>
+            <Select
+              onValueChange={(value) => {
+                setValue("area.id", value, {
+                  shouldValidate: true,
+                });
+                setValue(
+                  "area.name",
+                  areas.find((area) => area._id === value).name,
+                  {
+                    shouldValidate: true,
+                  }
+                );
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select an area" />
+              </SelectTrigger>
+
+              <SelectContent>
+                {isLoading ? (
+                  <p>Loading areas...</p>
+                ) : (
+                  areas.map((area) => (
+                    <SelectItem key={area._id} value={area._id}>
+                      {area.name}
+                    </SelectItem>
+                  ))
+                )}
+              </SelectContent>
+            </Select>
+
+            {errors.areaId && (
+              <p className="text-red-500 text-sm">{errors.areaId.message}</p>
             )}
           </div>
 

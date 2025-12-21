@@ -22,7 +22,7 @@ const createPickupRequest = async (req, res) => {
     }
 
     const newRequest = await PickupRequest.create({
-      citizenId: req.user._id,
+      citizenId: req.user.id,
       wasteType: wasteType,
       quantity: quantity,
       address: address,
@@ -44,11 +44,9 @@ const createPickupRequest = async (req, res) => {
 
 const getUserPickupRequests = async (req, res) => {
   try {
-    const requests = await PickupRequest.find({ citizenId: req.user._id }).sort(
-      {
-        createdAt: -1,
-      }
-    );
+    const requests = await PickupRequest.find({ citizenId: req.user.id }).sort({
+      createdAt: -1,
+    });
 
     res.status(200).json({
       success: true,

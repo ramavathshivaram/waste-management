@@ -9,7 +9,6 @@ const createIllegalDump = async (req, res) => {
     const files = req.files || [];
     const images = [];
 
-
     // Upload each image to Cloudinary
     for (const file of files) {
       const upload = await cloudinary.uploader.upload(file.path, {
@@ -25,15 +24,14 @@ const createIllegalDump = async (req, res) => {
     }
 
     const report = await IllegalDump.create({
-      citizenId: req.user._id,
+      citizenId: req.user.id,
       locationText,
       address,
       description,
       images,
     });
 
-
-    console.log(report)
+    console.log(report);
     res.status(201).json({
       success: true,
       data: report,
@@ -46,7 +44,7 @@ const createIllegalDump = async (req, res) => {
 
 const getUserDumps = async (req, res) => {
   try {
-    const userId = req.user._id; // from protect middleware
+    const userId = req.user.id; // from protect middleware
 
     const dumps = await IllegalDump.find({ citizenId: userId }).sort({
       createdAt: -1,

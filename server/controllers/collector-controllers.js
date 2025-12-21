@@ -7,7 +7,6 @@ const cloudinary = require("../configs/cloudinary");
 
 const getCollector = async (req, res) => {
   try {
-    console.log(req.user);
     const userId = req.user.id;
 
     const collector = await Collector.findOne({ userId });
@@ -30,7 +29,7 @@ const getCollector = async (req, res) => {
 
 const createCollector = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
 
     const parsed = create_collector_schema.safeParse(req.body);
     if (!parsed.success) {
@@ -40,20 +39,17 @@ const createCollector = async (req, res) => {
       });
     }
 
-    const { licenseNumber, vehicleNumber, description, coordinates } =
-      parsed.data;
+    const { licenseNumber, vehicleNumber, description, area } = parsed.data;
 
     const collector = await Collector.findOneAndUpdate(
       { userId },
       {
         $set: {
+          userId,
           licenseNumber,
           description,
           vehicle: { number: vehicleNumber },
-          location: {
-            type: "Point",
-            coordinates, // [lng, lat]
-          },
+          area,
         },
       },
       {
@@ -78,7 +74,7 @@ const createCollector = async (req, res) => {
 
 const updateCollector = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
 
     const parsed = update_collector_schema.safeParse(req.body);
 

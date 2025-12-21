@@ -17,8 +17,8 @@ const Collectors = () => {
   }
 
   // Separate collectors
-  const pendingCollectors = data.filter((c) => !c.isApproved);
-  const approvedCollectors = data.filter((c) => c.isApproved);
+  const pendingCollectors = data.filter((c) => c.status == "inactive");
+  const approvedCollectors = data.filter((c) => c.status == "active");
 
   // 🔍 Search logic
   const applySearch = (list) =>

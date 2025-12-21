@@ -1,4 +1,4 @@
-import { getCollectors, createCollector } from "../lib/api.js";
+import { getCollectors } from "../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
 export const useCollector = () => {

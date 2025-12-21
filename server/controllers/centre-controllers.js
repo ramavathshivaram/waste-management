@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const getCentreDashboard = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
 
     const centre = await Centre.findOne({ userId });
 
@@ -69,9 +69,9 @@ const createCentre = async (req, res) => {
       });
     }
 
-    const userId = req.user._id;
+    const userId = req.user.id;
 
-    const { name, desc, coordinates, operatingHours } = parsed.data;
+    const { name, desc, coordinates, operatingHours, area } = parsed.data;
 
     const centre = await Centre.findOneAndUpdate(
       { userId },
@@ -84,6 +84,7 @@ const createCentre = async (req, res) => {
             coordinates,
           },
           operatingHours,
+          area,
         },
       },
       {

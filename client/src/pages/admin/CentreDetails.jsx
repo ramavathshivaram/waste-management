@@ -1,22 +1,22 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
-import { useAdminCentre } from "../../hooks/use-admin-query.js";
-import { useApproveCentre } from "../../hooks/use-centre-mutate.js";
 
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
+
 import MapCard from "../../components/common/MapCard.jsx";
 import AdminCentreDailyStats from "../../components/common/AdminCentreDailyStats.jsx";
+import Approve from "../../components/admin/utils/Approve";
+import { useAdminCentreById } from "../../hooks/use-admin-query.js";
 
 const CentreDetails = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
 
-  const { data: centre, isLoading, isError } = useAdminCentre(id);
-  // const { mutate: approveCentre, isPending } = useApproveCentre();
+  const { data: centre, isLoading, isError } = useAdminCentreById(id);
 
   if (isLoading) return <p className="p-6">Loading centre details...</p>;
   if (isError || !centre) return <p className="p-6">Failed to load centre</p>;
@@ -32,16 +32,17 @@ const CentreDetails = () => {
       busy: "outline",
     }[centre.status] || "secondary";
 
-  const handleApprove = () => {
-    // approveCentre({ id: centre._id, isApproved: true });
-  };
-
-  const handleReject = () => {
-    // approveCentre({ id: centre._id, isApproved: false });
-  };
+  console.log(centre);
 
   return (
     <div className="p-2 space-y-6">
+      <Approve
+        id={centre._id}
+        area={centre.area}
+        label="centre"
+        currentstatus={centre.status}
+      />
+
       <div className="grid grid-cols-3 gap-1">
         <Card className="col-span-2">
           {/* HEADER */}
@@ -53,33 +54,6 @@ const CentreDetails = () => {
           </CardHeader>
 
           <CardContent className="space-y-6">
-            {/* APPROVE / REJECT */}
-            {!centre.isApproved && (
-              <div className="flex gap-3">
-                <Button
-                  onClick={handleApprove}
-                  // disabled={isPending}
-                >
-                  Approve Centre
-                </Button>
-
-                <Button
-                  variant="destructive"
-                  onClick={handleReject}
-                  // disabled={isPending}
-                >
-                  Reject
-                </Button>
-              </div>
-            )}
-
-            {centre.isApproved && (
-              <Badge variant="outline" className="w-fit">
-                ✔ Centre Approved
-              </Badge>
-            )}
-
-            <Separator />
             <div className="space-y-1 text-sm">
               <p>
                 <span className="font-medium">Email:</span>{" "}
@@ -110,6 +84,7 @@ const CentreDetails = () => {
 
         {/* // map */}
         <MapCard
+          locationName={centre?.area?.name}
           longitude={centre.location.coordinates[0]}
           latitude={centre.location.coordinates[1]}
         />

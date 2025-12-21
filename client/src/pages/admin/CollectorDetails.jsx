@@ -33,9 +33,13 @@ const CollectorDetails = () => {
   return (
     <div className="max-w-5xl mx-auto py-10 px-5 space-y-6">
       {/* STATUS + ACTIONS */}
-      {!collector.isAdminVerified && (
-        <Approve label="Approve Collector" id={collector._id} />
-      )}
+      <Approve
+        label="collector"
+        id={collector._id}
+        area={collector.area}
+        currentstatus={collector.status}
+      />
+
       {/* DETAILS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6 space-y-4">
@@ -43,12 +47,12 @@ const CollectorDetails = () => {
             <h2 className="text-xl font-semibold">Collector Details</h2>
             <Badge
               className={
-                collector.isApproved
+                collector.status == "active"
                   ? "bg-green-100 text-green-700"
                   : "bg-yellow-100 text-yellow-800"
               }
             >
-              {collector.isApproved ? "Approved" : "Pending"}
+              {collector.status == "active" ? "Approved" : "Pending"}
             </Badge>
           </div>
 

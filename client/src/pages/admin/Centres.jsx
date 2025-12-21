@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAdminCentres } from "../../hooks/use-admin-query";
-import AdminCentreCard from "../../components/common/AdminCentreCard";
+import AdminCentreCard from "../../components/admin/utils/AdminCentreCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -35,8 +35,8 @@ const Centres = () => {
 
     const matchApproval =
       approvalFilter === "All" ||
-      (approvalFilter === "Approved" && centre.isApproved) ||
-      (approvalFilter === "Pending" && !centre.isApproved);
+      (approvalFilter === "Approved" && centre.status === "active") ||
+      (approvalFilter === "Pending" && !centre.status === "inactive");
 
     return matchSearch && matchStatus && matchApproval;
   });

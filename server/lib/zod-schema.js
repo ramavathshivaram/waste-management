@@ -27,7 +27,10 @@ const create_collector_schema = z.object({
   licenseNumber: z.string().min(8).max(50),
   vehicleNumber: z.string().min(8).max(50),
   desc: z.string().optional(),
-  coordinates: z.array(z.number()).length(2),
+  area: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
 });
 
 //! CENTRE SCHEMA
@@ -36,6 +39,10 @@ const create_centre_schema = z.object({
   description: z.string().optional(),
   maxCapacity: z.number().min(1).max(1000).optional(),
   coordinates: z.array(z.number()).length(2),
+  area: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
   operatingHours: z
     .object({
       open: z.string(),
@@ -48,6 +55,12 @@ const create_centre_schema = z.object({
 
 //! ADMIN SCHEMA
 
+const admin_approve_schema = z.object({
+  status: z.enum(["active", "inactive", "rejected"]),
+  areaId: z.string(),
+  label: z.string(),
+});
+
 //! ILLEGAL DUMP SCHEMA
 
 module.exports = {
@@ -58,4 +71,6 @@ module.exports = {
   create_collector_schema,
 
   create_centre_schema,
+
+  admin_approve_schema,
 };

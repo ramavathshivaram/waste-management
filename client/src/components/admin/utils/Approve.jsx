@@ -1,43 +1,61 @@
-import React from "react";
+import React, { Activity } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useApproveCollector } from "@/hooks/use-admin-mutate.js";
+import { useApprove } from "@/hooks/use-admin-mutate.js";
+import { Check, X } from "lucide-react";
 
-const Approve = ({ id }) => {
-  const { mutate, isPending } = useApproveCollector();
+const Approve = ({ id, area, label, currentstatus }) => {
+  const { mutate, isPending } = useApprove();
 
-  const handleApprove = (isApproved) => {
-    mutate({ id, isApproved });
+   if (currentstatus !== "inactive") return null;
+
+  const handleApprove = (status = "rejected") => {
+    mutate({
+      id,
+      status,
+      areaId: area?.id,
+      label,
+    });
   };
 
+  const title =
+    label === "collector" ? "Collector Approval" : "Centre Approval";
+
   return (
-    <Card className="p-3">
-      <div className="flex items-center justify-between">
-        {/* Title */}
-        <h1 className="text-lg font-semibold">Collector Approval</h1>
+      <Card className="p-4 border border-dashed">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          {/* Title */}
+          <div>
+            <h1 className="text-lg font-semibold">{title}</h1>
+            {area?.name && (
+              <p className="text-sm text-muted-foreground">Area: {area.name}</p>
+            )}
+          </div>
 
-        {/* Actions */}
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            disabled={isPending}
-            onClick={() => handleApprove(true)}
-            className="bg-green-300 text-green-700 hover:bg-green-200 hover:text-green-800"
-          >
-            {isPending ? "Approving..." : "Approve"}
-          </Button>
+          {/* Actions */}
+          <div className="flex gap-2">
+            <Button
+              size="sm"
+              disabled={isPending}
+              onClick={() => handleApprove("active")}
+              className="bg-green-500 text-white hover:bg-green-600"
+            >
+              <Check className="w-4 h-4 mr-1" />
+              {isPending ? "Approving..." : "Approve"}
+            </Button>
 
-          <Button
-            size="sm"
-            disabled={isPending}
-            onClick={() => handleApprove(false)}
-            className="bg-red-300 text-red-700 hover:bg-red-200 hover:text-red-800"
-          >
-            {isPending ? "Rejecting..." : "Reject"}
-          </Button>
+            <Button
+              size="sm"
+              variant="destructive"
+              disabled={isPending}
+              onClick={() => handleApprove("rejected")}
+            >
+              <X className="w-4 h-4 mr-1" />
+              {isPending ? "Rejecting..." : "Reject"}
+            </Button>
+          </div>
         </div>
-      </div>
-    </Card>
+      </Card>
   );
 };
 

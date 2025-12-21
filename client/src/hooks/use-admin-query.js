@@ -52,7 +52,7 @@ export const useAdminCentres = () => {
 };
 export const useAdminCollectorById = (id) => {
   return useQuery({
-    queryKey: ["adminCollector", id],
+    queryKey: ["admin", id],
     queryFn: ({ queryKey }) => {
       const [, collectorId] = queryKey;
       return getAdminCollectorById(collectorId);
@@ -61,12 +61,12 @@ export const useAdminCollectorById = (id) => {
   });
 };
 
-export const useAdminCentre = (id) => {
+export const useAdminCentreById = (id) => {
   return useQuery({
-    queryKey: ["adminCentre", id],
+    queryKey: ["admin", id],
     queryFn: ({ queryKey }) => {
-      const [, collectorId] = queryKey;
-      return getAdminCentreById(collectorId);
+      const [, centreId] = queryKey;
+      return getAdminCentreById(centreId);
     },
     enabled: !!id,
   });

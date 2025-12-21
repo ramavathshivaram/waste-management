@@ -2,6 +2,8 @@ const Pickup = require("../models/pickup-model");
 const IllegalDump = require("../models/illegal-dump-model");
 const Collector = require("../models/collector-model");
 const Centre = require("../models/centre-model");
+const Area = require("../models/area-model");
+const { admin_approve_schema } = require("../lib/zod-schema");
 
 const getAdminDashboard = async (req, res) => {
   try {
@@ -204,25 +206,75 @@ const getAdminCentreById = async (req, res) => {
   }
 };
 
-const approveCollector = async (req, res) => {
+const approve = async (req, res) => {
   try {
-    const id = req.params.id;
-    const isApproved = req.body.isApproved;
-    const collector = await Collector.findByIdAndUpdate(
+    const { id } = req.params;
+
+    const parsed = await admin_approve_schema.safeParseAsync(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({
+        success: false,
+        message: parsed.error.errors[0].message,
+      });
+    }
+
+    const { status, areaId, label } = parsed.data;
+
+    let Model;
+    let areaField;
+
+    switch (label) {
+      case "collector":
+        Model = Collector;
+        areaField = "collectorId";
+        break;
+      case "centre":
+        Model = Centre;
+        areaField = "centreId";
+        break;
+      default:
+        return res.status(400).json({
+          success: false,
+          message: "Invalid label",
+        });
+    }
+
+    const updateEntityPromise = Model.findByIdAndUpdate(
       id,
       {
-        isAdminVerified: true,
-        isApproved,
+        status,
       },
       { new: true }
     );
-    res.status(200).json({
+
+    const updateAreaPromise =
+      status=== "active" && areaId
+        ? Area.findByIdAndUpdate(
+            areaId,
+            { $set: { [areaField]: id } },
+            { new: true }
+          )
+        : Promise.resolve(null);
+
+    const [data] = await Promise.all([updateEntityPromise, updateAreaPromise]);
+
+    if (!data) {
+      return res.status(404).json({
+        success: false,
+        message: `${label} not found`,
+      });
+    }
+
+    return res.status(200).json({
       success: true,
-      data: collector,
+      data,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+    console.error("Approve Error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
 };
 
@@ -265,6 +317,6 @@ module.exports = {
   getAllCentres,
   getAdminCollectorById,
   getAdminCentreById,
-  approveCollector,
+  approve,
   getAllLocations,
 };

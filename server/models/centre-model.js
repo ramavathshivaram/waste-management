@@ -23,16 +23,6 @@ const centreSchema = new mongoose.Schema(
       type: String,
     },
 
-    isAdminVerified: {
-      type: Boolean,
-      default: false,
-    },
-
-    isApproved: {
-      type: Boolean,
-      default: false,
-    },
-
     image: {
       publicId: { type: String },
       url: { type: String },
@@ -56,8 +46,13 @@ const centreSchema = new mongoose.Schema(
         default: "Point",
       },
       coordinates: {
-        type: [Number],   
+        type: [Number],
       },
+    },
+
+    area: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: "Area" },
+      name: { type: String },
     },
 
     operatingHours: {
@@ -67,7 +62,7 @@ const centreSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["active", "inactive", "full"],
+      enum: ["active", "inactive", "full", "rejected"],
       default: "inactive",
     },
 

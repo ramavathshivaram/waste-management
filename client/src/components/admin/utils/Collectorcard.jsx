@@ -9,7 +9,7 @@ const CollectorCard = ({ collector }) => {
   const navigate = useNavigate();
   if (!collector) return null;
 
-  const { licenseNumber, isAdminVerified, status, completedPickups, vehicle } =
+  const { licenseNumber, status, completedPickups, vehicle } =
     collector;
 
   return (
@@ -24,7 +24,7 @@ const CollectorCard = ({ collector }) => {
           <h3 className="font-semibold text-lg">Collector</h3>
         </div>
 
-        {isAdminVerified ? (
+        {status === "active" ? (
           <Badge className="bg-green-600 flex gap-1">
             <ShieldCheck className="w-3 h-3" />
             Verified

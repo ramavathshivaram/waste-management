@@ -33,6 +33,7 @@ const Update = () => {
   const onSubmit = async (data) => {
     try {
       const collector = await createCollector(data);
+      console.log(collector)
       setCollector(collector);
       navigate("/collector");
     } catch (error) {
@@ -84,14 +85,21 @@ const Update = () => {
           </div>
           {/* unassinged areas for collector */}
           <div className="space-y-1">
-            <Label>Unassigned Area</Label>
+            <Label>Select Area</Label>
 
             <Select
-              onValueChange={(value) =>
-                setValue("areaId", value, {
+              onValueChange={(value) => {
+                setValue("area.id", value, {
                   shouldValidate: true,
-                })
-              }
+                });
+                setValue(
+                  "area.name",
+                  areas.find((area) => area._id === value).name,
+                  {
+                    shouldValidate: true,
+                  }
+                );
+              }}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select an area" />
