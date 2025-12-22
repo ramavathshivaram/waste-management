@@ -30,7 +30,7 @@ const Navbar = ({ links,options }) => {
                       </Button>
                     </DropdownMenuTrigger>
 
-                    <DropdownMenuContent align="start">
+                    <DropdownMenuContent align="center" className="grid grid-cols-3 mt-3 p-1">
                       {link.children.map((child, idx) => (
                         <DropdownMenuItem key={idx} asChild>
                           <NavLink

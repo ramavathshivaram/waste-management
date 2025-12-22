@@ -4,8 +4,6 @@ const { create_area_schema, update_area_schema } = require("../lib/zod-schema");
 // Create a new area
 const createArea = async (req, res) => {
   try {
-    console.log(req.body);
-
     const parsed = create_area_schema.safeParse(req.body);
     if (!parsed.success) {
       return res.status(400).json({
@@ -57,7 +55,7 @@ const getAllAreas = async (req, res) => {
 const getAllAreasUnassignedCollectors = async (req, res) => {
   try {
     const areas = await Area.find(
-      { collectorId: { $exists: false } },
+      { collectorId: null },
       { name: 1 }
     ).sort({ name: -1 });
     return res.status(200).json({
@@ -77,7 +75,7 @@ const getAllAreasUnassignedCollectors = async (req, res) => {
 const getAllAreasUnassignedCentres = async (req, res) => {
   try {
     const areas = await Area.find(
-      { centreId: { $exists: false } },
+      { centreId: null },
       { name: 1 }
     ).sort({ name: 1 });
     return res.status(200).json({

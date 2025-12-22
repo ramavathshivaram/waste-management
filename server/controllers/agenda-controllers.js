@@ -2,30 +2,62 @@ const Collector = require("../models/collector-model");
 const Centre = require("../models/centre-model");
 const Pickup = require("../models/pickup-model");
 const Area = require("../models/area-model");
+const CollectorDailyStats = require("../models/collector-daily-stats-model");
 
 const assignPickupToCollector = async () => {
   try {
-    const areas = await Area.find({});
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const areas = await Area.find({
+      collectorId: { $ne: null },
+    }).lean();
 
     for (const area of areas) {
-      console.log("area", area._id);
-
-      const pickups = await Pickup.find({
-        mode: "daily",
-      });
-
-      if (pickups.length === 0) {
-        // console.log("No daily pickups found for area", area._id);
-        continue;
-      }
-
       const collectorId = area.collectorId;
-      console.log("collect", collectorId);
+
+      // ✅ Correct pickup query
+      const pickups = await Pickup.find({
+        areaId: area._id,
+        $or: [{ mode: "daily" }, { mode: "once", status: "pending" }],
+      }).select("_id");
+
+      if (!pickups.length) continue;
+
+      const pickupIds = pickups.map((p) => p._id);
+
+      // ✅ Update pickups
+      await Pickup.updateMany(
+        { _id: { $in: pickupIds } },
+        {
+          $set: {
+            status: "assigned",
+            otp: Math.floor(1000 + Math.random() * 9000),
+          },
+        }
+      );
+
+      // ✅ Update collector daily stats (UPSERT)
+      await CollectorDailyStats.findOneAndUpdate(
+        { collectorId, date: today },
+        {
+          $addToSet: {
+            "pickups.assignedPickups": { $each: pickupIds },
+            "pickups.pendingPickups": { $each: pickupIds },
+          },
+        },
+        { upsert: true, new: true }
+      );
+
+      console.log(
+        `Assigned ${pickupIds.length} pickups to collector ${collectorId}`
+      );
     }
   } catch (error) {
-    console.log(error);
+    console.error("Assign pickup error:", error);
   }
 };
+
 
 const resetAllDailyPickupsToPending = async () => {
   try {

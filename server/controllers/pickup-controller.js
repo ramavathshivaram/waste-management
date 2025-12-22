@@ -25,6 +25,7 @@ const createPickupRequest = async (req, res) => {
         message: "Area not found for this location",
       });
     }
+    
     if (!area.collectorId) {
       return res.status(400).json({
         success: false,

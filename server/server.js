@@ -120,7 +120,7 @@ connectDB().then(async () => {
     console.log(`Server running on port ${PORT}`);
   });
 
-  // await agenda.schedule("in 10 seconds", "assign-pickup-to-collector");
+  // await agenda.schedule("in 1 seconds", "assign-pickup-to-collector");
 
   //   await agenda.schedule("in 5 seconds", "reset-all-daily-pickups-to-pending");
 });

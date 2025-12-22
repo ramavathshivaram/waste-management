@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import Approve from "../../components/admin/utils/Approve";
 import CollectorStatsContainer from "../../components/admin/collector/CollectorStatsContainer.jsx";
+import LiveLocationMap from "../../components/admin/collector/LiveLocationMap.jsx";
 
 const CollectorDetails = () => {
   const [searchParams] = useSearchParams();
@@ -30,7 +31,7 @@ const CollectorDetails = () => {
     : 0;
 
   return (
-    <div className="max-w-5xl mx-auto py-10 px-5 space-y-6">
+    <div className="max-w-5xl mx-auto py-5 px-4 space-y-6">
       {/* STATUS + ACTIONS */}
       <Approve
         label="collector"
@@ -40,8 +41,8 @@ const CollectorDetails = () => {
       />
 
       {/* DETAILS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6 space-y-4">
+      <div className="grid grid-cols-3 gap-4">
+        <Card className="p-6 col-span-2 space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold">Collector Details</h2>
             <Badge
@@ -74,20 +75,7 @@ const CollectorDetails = () => {
           </div>
         </Card>
 
-        <Card className="p-6 space-y-4">
-          <h2 className="text-xl font-semibold">Vehicle</h2>
-
-          <div className="space-y-1 text-sm">
-            <div className="flex justify-between text-gray-500">
-              <span>Capacity</span>
-              <span>
-                {collector.vehicle.capacity.current}/
-                {collector.vehicle.capacity.max}
-              </span>
-            </div>
-            <Progress value={capacityPercent} />
-          </div>
-        </Card>
+       <LiveLocationMap />
       </div>
       <CollectorStatsContainer id={collector._id} />
     </div>
