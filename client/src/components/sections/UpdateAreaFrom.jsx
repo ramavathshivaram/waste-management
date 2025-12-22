@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useUpdateArea } from "../../hooks/use-admin-mutate.js";
+import { useUpdateArea, useDeleteArea } from "../../hooks/use-admin-mutate.js";
 import { useNavigate } from "react-router-dom";
 
 const UpdateAreaForm = ({ coordinates = [], area = {} }) => {
@@ -13,6 +13,7 @@ const UpdateAreaForm = ({ coordinates = [], area = {} }) => {
   const [description, setDescription] = useState("");
 
   const { mutateAsync, isLoading } = useUpdateArea();
+  const { mutateAsync: deleteArea, isLoading: isDeleting } = useDeleteArea();
 
   // 🔁 Sync form when area loads
   useEffect(() => {
@@ -60,13 +61,37 @@ const UpdateAreaForm = ({ coordinates = [], area = {} }) => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      if (!window.confirm("Are you sure?")) return;
+      await deleteArea(area._id);
+      navigate("/admin/area");
+    } catch (error) {
+      toast.error("Failed to delete area");
+    }
+  };
+
   return (
     <div className="space-y-3 p-4 rounded-xl border bg-background col-span-2">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Update Area</h1>
-        <Button onClick={handleSave} disabled={!canSave || isLoading}>
-          {isLoading ? "Saving..." : "Save Changes"}
-        </Button>
+        <div className="space-x-1">
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={handleDelete}
+            disabled={isLoading || isDeleting}
+          >
+            {isLoading ? "Deleting..." : "Delete Area"}
+          </Button>
+          <Button
+            onClick={handleSave}
+            size="sm"
+            disabled={!canSave || isLoading}
+          >
+            {isLoading ? "Saving..." : "Save Changes"}
+          </Button>
+        </div>
       </div>
 
       <p className="text-muted-foreground text-sm">

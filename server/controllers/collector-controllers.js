@@ -1,4 +1,5 @@
 const Collector = require("../models/collector-model");
+const CollectorDailyStats = require("../models/collector-daily-stats-model");
 const {
   update_collector_schema,
   create_collector_schema,
@@ -9,7 +10,9 @@ const getCollector = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const collector = await Collector.findOne({ userId });
+    const collector = await Collector.findOne({ userId })
+      .populate("area.id")
+      .lean();
 
     if (!collector) {
       return res.status(404).json({
@@ -18,14 +21,31 @@ const getCollector = async (req, res) => {
       });
     }
 
+    // ✅ normalize date to start of today
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const stats = await CollectorDailyStats.findOne({
+      collectorId: collector._id,
+      date: today,
+    }).lean();
+
     return res.status(200).json({
       success: true,
-      data: collector,
+      data: {
+        ...collector,
+        stats: stats || null,
+      },
     });
   } catch (error) {
-    throw new Error("Error fetching collector");
+    console.error("Error fetching collector:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching collector",
+    });
   }
 };
+
 
 const createCollector = async (req, res) => {
   try {
@@ -92,8 +112,32 @@ const updateCollector = async (req, res) => {
   }
 };
 
+const getCollectorMe = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const collector = await Collector.findOne({ userId });
+    if (!collector) {
+      return res.status(404).json({
+        success: false,
+        message: "Collector profile not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: collector,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching collector",
+    });
+  }
+};
+
 module.exports = {
   getCollector,
   updateCollector,
   createCollector,
+  getCollectorMe,
 };

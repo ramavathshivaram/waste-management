@@ -68,6 +68,11 @@ export const updateCollector = async (formData) => {
   return response.data.data;
 };
 
+export const getCollectorMe = async () => {
+  const response = await api.get("/collector/me");
+  return response.data.data;
+}
+
 //! ---------------------- CENTRE FUNCTIONS ----------------------
 
 export const getCentreDashboard = async () => {
@@ -165,3 +170,8 @@ export const updateArea = async ({ id, payload }) => {
   const response = await api.put(`/area/${id}`, payload);
   return response.data.data;
 };
+
+export const deleteArea = async (id) => {
+  const response = await api.delete(`/area/${id}`);
+  return response.data.data;
+}

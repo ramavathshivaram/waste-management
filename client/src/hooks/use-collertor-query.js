@@ -1,4 +1,4 @@
-import { getCollectors } from "../lib/api.js";
+import { getCollectors, getCollectorMe } from "../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
 export const useCollector = () => {
@@ -7,3 +7,10 @@ export const useCollector = () => {
     queryFn: getCollectors,
   });
 };
+
+export const useCollectorMe = () => {
+  return useQuery({
+    queryKey: ["collectorMe"],
+    queryFn: getCollectorMe,
+  });
+}

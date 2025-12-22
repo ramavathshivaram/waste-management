@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useCollector } from "@/hooks/use-collertor-query";
+import { useCollectorMe } from "@/hooks/use-collertor-query";
 import UnderProcess from "../../pages/collector/UnderProcess";
 
 const CollectorGuard = () => {
-  const { data, isLoading, isError } = useCollector();
+  const { data, isLoading, isError } = useCollectorMe();
 
   if (isLoading) {
     return <div className="p-4">Loading collector profile...</div>;

@@ -6,9 +6,12 @@ const {
   getCollector,
   updateCollector,
   createCollector,
+  getCollectorMe,
 } = require("../controllers/collector-controllers");
 
 router.get("/", getCollector);
+
+router.get("/me", getCollectorMe);
 
 router.post("/", createCollector);
 

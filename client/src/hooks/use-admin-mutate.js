@@ -1,4 +1,4 @@
-import { approve, createArea,updateArea } from "../lib/api.js";
+import { approve, createArea, updateArea, deleteArea } from "../lib/api.js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useApprove = () => {
@@ -33,7 +33,7 @@ export const useCreateArea = () => {
   });
 };
 
-export const  useUpdateArea = () => {
+export const useUpdateArea = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -45,6 +45,21 @@ export const  useUpdateArea = () => {
 
     onError: (error) => {
       console.error("Error approving collector:", error.message);
+    },
+  });
+};
+
+export const useDeleteArea = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id) => deleteArea(id),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries(["admin", "areas"]);
+    },
+
+    onError: (error) => {
+      console.error("Error deleting area:", error.message);
     },
   });
 };
