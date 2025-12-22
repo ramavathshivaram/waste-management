@@ -1,5 +1,6 @@
 import React from "react";
 import { Polygon, Popup } from "react-leaflet";
+import AreaPopup from "../admin/utils/AreaPopup";
 
 const MapListPolygon = ({ areas = [] }) => {
   return (
@@ -22,13 +23,7 @@ const MapListPolygon = ({ areas = [] }) => {
             }}
           >
             <Popup>
-              <div className="text-sm">
-                <p className="font-semibold">{area.name}</p>
-                <p>
-                  Collector: {area.collectorId ? "Assigned" : "Not Assigned"}
-                </p>
-                <p>Centre: {area.centreId ? "Assigned" : "Not Assigned"}</p>
-              </div>
+             <AreaPopup area={area} />
             </Popup>
           </Polygon>
         );

@@ -2,8 +2,10 @@ import React from "react";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const MapCard = ({ locationName, longitude, latitude }) => {
+  const navigate = useNavigate();
   return (
     <Card className="col-span-1 p-1">
       <CardHeader className="p-1 -mb-7">
@@ -20,7 +22,13 @@ const MapCard = ({ locationName, longitude, latitude }) => {
         />
 
         <div className="flex justify-center">
-          <Button>Open in Maps</Button>
+          <Button
+            onClick={() => {
+              navigate("/admin/map");
+            }}
+          >
+            Open in Maps
+          </Button>
         </div>
       </CardContent>
     </Card>

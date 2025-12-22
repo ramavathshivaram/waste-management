@@ -31,6 +31,5 @@ router.get("/locations", getAllLocations);
 
 router.patch("/approve/:id", approve);
 
-// router.patch("/collector/:id", approveCollector);
 
 module.exports = router;

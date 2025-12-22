@@ -8,12 +8,12 @@ import {
 } from "@/components/ui/hover-card";
 import useUserStore from "../../stores/useUserStore.js";
 import { logoutUser } from "../../lib/api.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DarkMode from "./DarkMode.jsx";
 import CentreStore from "../../stores/centreStore.js";
 import CollectorStore from "../../stores/collectorStore.js";
 
-const ProfileIcon = () => {
+const ProfileIcon = ({ options = [] }) => {
   const navigate = useNavigate();
   const user = useUserStore((state) => state.user);
   const clearUser = useUserStore((state) => state.clearUser);
@@ -59,6 +59,13 @@ const ProfileIcon = () => {
           <Button size="sm" onClick={handleLogout}>
             Logout
           </Button>
+        </div>
+        <div>
+          {options?.map((option) => (
+            <Link to={option?.path}>
+              <Button size="sm">{option?.label}</Button>
+            </Link>
+          ))}
         </div>
       </HoverCardContent>
     </HoverCard>

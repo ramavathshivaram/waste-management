@@ -22,6 +22,8 @@ const {
 
 // assignPickupToCollector();
 
+const initSeed = require("./seed");
+
 //! Load env vars
 dotenv.config();
 

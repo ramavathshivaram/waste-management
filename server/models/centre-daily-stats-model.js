@@ -15,29 +15,45 @@ const centreDailyStatsSchema = new mongoose.Schema(
       index: true,
     },
 
-    totalWasteKg: {
-      type: Number,
-      default: 0,
+    pickups: {
+      receivedPickups: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Pickup",
+        },
+      ],
+      pendingPickups: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Pickup",
+        },
+      ],
+      rejected: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Pickup",
+        },
+      ],
     },
-
-    totalDistanceKm: {
-      type: Number,
-      default: 0,
+    totals: {
+      received: { type: Number, default: 0 },
+      pending: { type: Number, default: 0 },
+      completed: { type: Number, default: 0 },
+      rejected: { type: Number, default: 0 },
     },
-
-    workingMinutes: {
-      type: Number,
-      default: 0,
-    },
-    receivedPickups: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Pickup",
-      },
-    ],
   },
 
   { timestamps: true }
 );
+
+centreDailyStatsSchema.pre("save", function (next) {
+  this.totals.received = this.pickups.received.length;
+  this.totals.pending = this.pickups.pending.length;
+  this.totals.completed = this.pickups.completed.length;
+  this.totals.rejected = this.pickups.rejected.length;
+  next();
+});
+
+centreDailyStatsSchema.index({ centreId: 1, date: 1 }, { unique: true });
 
 module.exports = mongoose.model("CentreDailyStats", centreDailyStatsSchema);

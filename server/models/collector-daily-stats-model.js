@@ -30,16 +30,49 @@ const collectorDailyStatsSchema = new mongoose.Schema(
       default: 0,
     },
 
-    assignedPickups: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "PickupRequest",
-      },
-    ],
-
+    pickups: {
+      completedPickups: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Pickup",
+        },
+      ],
+      pendingPickups: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Pickup",
+        },
+      ],
+      assinedPickups: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Pickup",
+        },
+      ],
+      missedPickups: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Pickup",
+        },
+      ],
+    },
+    totals: {
+      completed: { type: Number, default: 0 },
+      pending: { type: Number, default: 0 },
+      assined: { type: Number, default: 0 },
+      missed: { type: Number, default: 0 },
+    },
   },
   { timestamps: true }
 );
+
+collectorDailyStatsSchema.pre("save", function (next) {
+  this.totals.completed = this.pickups.completedPickups.length;
+  this.totals.pending = this.pickups.pendingPickups.length;
+  this.totals.completed = this.pickups.completedPickups.length;
+  this.totals.missed = this.pickups.missedPickups.length;
+  next();
+});
 
 collectorDailyStatsSchema.index({ collectorId: 1, date: 1 }, { unique: true });
 

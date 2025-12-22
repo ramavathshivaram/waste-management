@@ -335,6 +335,7 @@ const getAllLocations = async (req, res) => {
   }
 };
 
+
 module.exports = {
   getAdminDashboard,
   getpickups,

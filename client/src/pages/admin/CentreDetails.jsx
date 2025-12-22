@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 
 import MapCard from "../../components/common/MapCard.jsx";
-import AdminCentreDailyStats from "../../components/common/AdminCentreDailyStats.jsx";
+import AdminCentreDailyStats from "../../components/admin/centre/AdminCentreDailyStats.jsx";
 import Approve from "../../components/admin/utils/Approve";
 import { useAdminCentreById } from "../../hooks/use-admin-query.js";
 

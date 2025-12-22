@@ -5,6 +5,7 @@ import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import Approve from "../../components/admin/utils/Approve";
+import CollectorStatsContainer from "../../components/admin/collector/CollectorStatsContainer.jsx";
 
 const CollectorDetails = () => {
   const [searchParams] = useSearchParams();
@@ -88,6 +89,7 @@ const CollectorDetails = () => {
           </div>
         </Card>
       </div>
+      <CollectorStatsContainer id={collector._id} />
     </div>
   );
 };

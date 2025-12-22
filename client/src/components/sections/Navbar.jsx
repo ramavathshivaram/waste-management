@@ -10,13 +10,13 @@ import {
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
 
-const Navbar = ({ links }) => {
+const Navbar = ({ links,options }) => {
   return (
     <div className="w-full h-16">
       <nav className="fixed z-50 top-0 left-0 right-0 bg-background">
         <div className="flex justify-between items-center h-16 px-8">
           {/* Logo */}
-          <h1 className="text-2xl font-bold">Logo</h1>
+          <h1 className="text-2xl font-bold animate-pulse italic">WM</h1>
 
           {/* Navigation */}
           <ul className="flex items-center gap-4 p-3 rounded-xl border shadow-sm backdrop-blur">
@@ -70,7 +70,7 @@ const Navbar = ({ links }) => {
           </ul>
 
           {/* Profile */}
-          <ProfileIcon />
+          <ProfileIcon options={options} />
         </div>
       </nav>
     </div>
