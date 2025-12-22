@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -6,53 +6,72 @@ import { toast } from "sonner";
 import { useUpdateArea } from "../../hooks/use-admin-mutate.js";
 import { useNavigate } from "react-router-dom";
 
-const UpdateAreaForm = ({ coordinates, area = {} }) => {
-  console.log(area);
+const UpdateAreaForm = ({ coordinates = [], area = {} }) => {
   const navigate = useNavigate();
-  const [name, setName] = useState(area?.name || "");
-  const [description, setDescription] = useState(area?.description || "");
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
   const { mutateAsync, isLoading } = useUpdateArea();
 
-  const canSave = name.trim() && coordinates.length >= 3 && description.trim();
+  // 🔁 Sync form when area loads
+  useEffect(() => {
+    const func = async () => {
+      if (area?.name) setName(area.name);
+      if (area?.description) setDescription(area.description);
+    };
+    func();
+  }, [area]);
+
+  const canSave =
+    name.trim().length > 0 &&
+    description.trim().length > 0 &&
+    coordinates.length >= 3;
 
   const handleSave = async () => {
     if (!canSave) {
-      toast.error("Area name and at least 3 points are required");
+      toast.error("Name, description and at least 3 points are required");
       return;
     }
 
-    // Close polygon
-    const closedCoords = [...coordinates, coordinates[0]];
+    try {
+      const first = coordinates[0];
+      const last = coordinates[coordinates.length - 1];
 
-    const payload = {
-      name,
-      description,
-      area: {
-        type: "Polygon",
-        coordinates: [closedCoords], // MongoDB GeoJSON
-      },
-    };
+      const closedCoords =
+        first[0] === last[0] && first[1] === last[1]
+          ? coordinates
+          : [...coordinates, first];
 
-    await mutateAsync({ id: area?._id, payload });
+      const payload = {
+        name,
+        description,
+        area: {
+          type: "Polygon",
+          coordinates: [closedCoords],
+        },
+      };
 
-    navigate("/admin/area");
+      await mutateAsync({ id: area._id, payload });
+
+      navigate("/admin/area");
+    } catch (error) {
+      toast.error("Failed to update area");
+    }
   };
 
   return (
-    <div className="space-y-2 p-4 rounded-xl border bg-background col-span-2">
-      <div>
-        <div className="flex justify-between">
-          <h1 className="text-2xl font-semibold">Add Area</h1>{" "}
-          <Button onClick={handleSave} disabled={!canSave || isLoading}>
-            Save Area
-          </Button>
-        </div>
-        <p className="text-muted-foreground">Click on the map to add points.</p>
-        <p className="text-muted-foreground text-sm">
-          Minimum 3 points are required to create a polygon.
-        </p>
+    <div className="space-y-3 p-4 rounded-xl border bg-background col-span-2">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">Update Area</h1>
+        <Button onClick={handleSave} disabled={!canSave || isLoading}>
+          {isLoading ? "Saving..." : "Save Changes"}
+        </Button>
       </div>
+
+      <p className="text-muted-foreground text-sm">
+        Click on the map to add polygon points (minimum 3).
+      </p>
 
       <div className="space-y-2">
         <Input

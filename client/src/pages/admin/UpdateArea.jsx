@@ -48,9 +48,15 @@ const UpdateArea = () => {
 
   useEffect(() => {
     if (data?.area?.coordinates?.[0]) {
-      setCoordinates(data.area.coordinates[0]); // GeoJSON [lng, lat]
+      let coordi = data.area.coordinates[0];
+
+      // Remove the last repeated point safely
+      const cleaned = coordi.slice(0, -1);
+
+      setCoordinates(cleaned);
     }
   }, [data]);
+
 
   const leafletPolygon = coordinates.map(([lng, lat]) => [lat, lng]);
 
