@@ -11,6 +11,7 @@ const {
   getAllCentres,
   getAllLocations,
   approve,
+  getCollectorStatsByDate,
 } = require("../controllers/admin-controllers");
 
 router.get("/dashboard", getAdminDashboard);
@@ -31,5 +32,6 @@ router.get("/locations", getAllLocations);
 
 router.patch("/approve/:id", approve);
 
+router.get("/collector/stats/:date/:collectorId", getCollectorStatsByDate);
 
 module.exports = router;

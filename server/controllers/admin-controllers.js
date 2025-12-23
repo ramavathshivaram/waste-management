@@ -3,7 +3,9 @@ const IllegalDump = require("../models/illegal-dump-model");
 const Collector = require("../models/collector-model");
 const Centre = require("../models/centre-model");
 const Area = require("../models/area-model");
+const CollectorDailyStats = require("../models/collector-daily-stats-model");
 const { admin_approve_schema } = require("../lib/zod-schema");
+const agenda = require("../configs/agenda");
 
 const getAdminDashboard = async (req, res) => {
   try {
@@ -267,6 +269,10 @@ const approve = async (req, res) => {
         message: `${label} not found`,
       });
     }
+
+    if (label == "centre") {
+      await agenda.now("assign-areas-to-nearby-centres");
+    }
     console.log(data);
     console.log(area);
 
@@ -335,6 +341,25 @@ const getAllLocations = async (req, res) => {
   }
 };
 
+const getCollectorStatsByDate = async (req, res) => {
+  try {
+    const { collectorId, date } = req.params;
+
+    const stats = await CollectorDailyStats.findOne({
+      collectorId,
+      date: new Date(date),
+    });
+
+    if(!stats){
+      return res.status(404).json({ success: false, message: "No stats found for the given date" });
+    }
+
+    res.status(200).json({ success: true, data: stats });
+  } catch (error) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
 
 module.exports = {
   getAdminDashboard,
@@ -346,4 +371,5 @@ module.exports = {
   getAdminCentreById,
   approve,
   getAllLocations,
+  getCollectorStatsByDate,
 };

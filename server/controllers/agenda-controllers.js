@@ -4,30 +4,37 @@ const Pickup = require("../models/pickup-model");
 const Area = require("../models/area-model");
 const { getPolygonCentroid } = require("../lib/utils");
 const CollectorDailyStats = require("../models/collector-daily-stats-model");
+const CentreDailyStats = require("../models/centre-daily-stats-model");
+const CitizenDailyStats = require("../models/citizen-daily-stats-model");
 
-const assignPickupToCollector = async () => {
+const updateDailyStats = async () => {
   try {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const areas = await Area.find({
-      collectorId: { $ne: null },
-    }).lean();
+    const areas = await Area.find().select("_id collectorId centreId").lean();
 
     for (const area of areas) {
-      const collectorId = area.collectorId;
+      const { _id, collectorId, centreId } = area;
 
-      // ✅ Correct pickup query
+      if (!collectorId || !centreId) continue;
+
+      // Fetch pickups
       const pickups = await Pickup.find({
-        areaId: area._id,
-        $or: [{ mode: "daily" }, { mode: "once", status: "pending" }],
-      }).select("_id");
+        "area.id": _id,
+        $or: [
+          { mode: "daily" },
+          { mode: "once", status: { $ne: "completed" } },
+        ],
+      })
+        .select("_id citizenId")
+        .lean();
 
       if (!pickups.length) continue;
 
       const pickupIds = pickups.map((p) => p._id);
 
-      // ✅ Update pickups
+      // Assign pickups (same logic)
       await Pickup.updateMany(
         { _id: { $in: pickupIds } },
         {
@@ -38,21 +45,62 @@ const assignPickupToCollector = async () => {
         }
       );
 
-      // ✅ Update collector daily stats (UPSERT)
-      await CollectorDailyStats.findOneAndUpdate(
-        { collectorId, date: today },
+      //! BULK WRITE OPERATIONS FOR DAILY STATS MODELS
+
+      const collectorBulk = [
         {
-          $addToSet: {
-            "pickups.assignedPickups": { $each: pickupIds },
-            "pickups.pendingPickups": { $each: pickupIds },
+          updateOne: {
+            filter: { collectorId, date: today },
+            update: {
+              $addToSet: {
+                "pickups.assignedPickups": { $each: pickupIds },
+                "pickups.pendingPickups": { $each: pickupIds },
+              },
+            },
+            upsert: true,
           },
         },
-        { upsert: true, new: true }
-      );
+      ];
+
+      const centreBulk = [
+        {
+          updateOne: {
+            filter: { centreId, date: today },
+            update: {
+              $addToSet: {
+                "pickups.pendingPickups": { $each: pickupIds },
+              },
+            },
+            upsert: true,
+          },
+        },
+      ];
+
+      const citizenBulk = pickups.map((pickup) => ({
+        updateOne: {
+          filter: { citizenId: pickup.citizenId, date: today },
+          update: {
+            $addToSet: {
+              "pickups.pendingPickups": pickup._id,
+            },
+          },
+          upsert: true,
+        },
+      }));
+
+      //! Execute all bulks
+      await Promise.all([
+        CollectorDailyStats.bulkWrite(collectorBulk, { ordered: false }),
+        CentreDailyStats.bulkWrite(centreBulk, { ordered: false }),
+        citizenBulk.length
+          ? CitizenDailyStats.bulkWrite(citizenBulk, { ordered: false })
+          : Promise.resolve(),
+      ]);
 
       console.log(
-        `Assigned ${pickupIds.length} pickups to collector ${collectorId}`
+        `Assigned ${pickupIds.length} pickups -> collector ${collectorId}`
       );
+      console.log(`Assigned ${pickupIds.length} pickups -> centre ${centreId}`);
     }
   } catch (error) {
     console.error("Assign pickup error:", error);
@@ -61,32 +109,50 @@ const assignPickupToCollector = async () => {
 
 const assignAreasToNearbyCentres = async () => {
   try {
-    const areas = await Area.find().lean();
+    const areas = await Area.find().select("_id area.coordinates").lean();
+
+    if (!areas.length) return;
+
+    const bulkOps = [];
 
     for (const area of areas) {
       const centroid = getPolygonCentroid(area.area.coordinates);
 
-      const nearbyCentre = await Centre.find({
+      const centre = await Centre.findOne({
         location: {
           $near: {
             $geometry: {
               type: "Point",
               coordinates: centroid,
             },
-            $maxDistance: 30000, // 30 KM
+            $maxDistance: 30000, // 30km
           },
         },
-      }).limit(1);
+      }).select("_id");
 
-      if (nearbyCentre.length) {
-        await Area.updateOne(
-          { _id: area._id },
-          { $set: { centreId: nearbyCentre[0]._id } }
-        );
-        console.log(
-          `Assigned area ${area.name} to centre ${nearbyCentre[0].name}`
-        );
-      }
+      if (!centre) continue;
+
+      bulkOps.push({
+        updateOne: {
+          filter: {
+            _id: area._id,
+          },
+          update: {
+            $set: { centreId: centre._id },
+          },
+        },
+      });
+    }
+
+    if (bulkOps.length) {
+      const result = await Area.bulkWrite(bulkOps, {
+        ordered: false,
+      });
+
+      console.log("Bulk area-centre assignment result:", {
+        matched: result.matchedCount,
+        modified: result.modifiedCount,
+      });
     }
   } catch (error) {
     console.error("Assign areas to centres error:", error);
@@ -94,6 +160,6 @@ const assignAreasToNearbyCentres = async () => {
 };
 
 module.exports = {
-  assignPickupToCollector,
+  updateDailyStats,
   assignAreasToNearbyCentres,
 };

@@ -8,6 +8,7 @@ import {
   getAdminIllegalDumps,
   getAllLocations,
   getAllAreas,
+  getCollectorStatsByDate,
 } from "../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
@@ -80,3 +81,9 @@ export const useAllAreas = () => {
   });
 };
 
+export const useCollectorStatsByDate = ({ date, collectorId }) => {
+  return useQuery({
+    queryKey: ["admin", "collector-stats", date, collectorId],
+    queryFn: () => getCollectorStatsByDate({ date, collectorId }),
+  });
+};

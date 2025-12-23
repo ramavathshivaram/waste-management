@@ -43,13 +43,7 @@ const collectorDailyStatsSchema = new mongoose.Schema(
           ref: "Pickup",
         },
       ],
-      assinedPickups: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Pickup",
-        },
-      ],
-      missedPickups: [
+      assignedPickups: [
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Pickup",
@@ -59,8 +53,7 @@ const collectorDailyStatsSchema = new mongoose.Schema(
     totals: {
       completed: { type: Number, default: 0 },
       pending: { type: Number, default: 0 },
-      assined: { type: Number, default: 0 },
-      missed: { type: Number, default: 0 },
+      assigned: { type: Number, default: 0 },
     },
   },
   { timestamps: true }
@@ -69,8 +62,7 @@ const collectorDailyStatsSchema = new mongoose.Schema(
 collectorDailyStatsSchema.pre("save", function (next) {
   this.totals.completed = this.pickups.completedPickups.length;
   this.totals.pending = this.pickups.pendingPickups.length;
-  this.totals.completed = this.pickups.completedPickups.length;
-  this.totals.missed = this.pickups.missedPickups.length;
+  this.totals.assigned = this.pickups.assignedPickups.length;
   next();
 });
 

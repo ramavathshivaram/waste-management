@@ -50,7 +50,7 @@ export const getUserDumps = async () => {
 
 //! ---------------------- COLLECTOR FUNCTIONS ----------------------
 
-export const getCollectors = async () => {
+export const getCollector = async () => {
   const response = await api.get("/collector");
   return response.data.data;
 };
@@ -71,7 +71,7 @@ export const updateCollector = async (formData) => {
 export const getCollectorMe = async () => {
   const response = await api.get("/collector/me");
   return response.data.data;
-}
+};
 
 //! ---------------------- CENTRE FUNCTIONS ----------------------
 
@@ -143,6 +143,13 @@ export const getAllAreas = async () => {
   return response.data.data;
 };
 
+export const getCollectorStatsByDate = async ({ date, collectorId }) => {
+  const response = await api.get(
+    `/admin/collector/stats/${date}/${collectorId}`
+  );
+  return response.data.data;
+};
+
 //! ---------------------- AREA FUNCTIONS ----------------------
 
 export const getAllAreasUnassignedCollectors = async () => {
@@ -174,4 +181,4 @@ export const updateArea = async ({ id, payload }) => {
 export const deleteArea = async (id) => {
   const response = await api.delete(`/area/${id}`);
   return response.data.data;
-}
+};

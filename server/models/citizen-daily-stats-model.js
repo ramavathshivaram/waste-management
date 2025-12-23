@@ -38,39 +38,13 @@ const citizenDailyStatsSchema = new mongoose.Schema(
         },
       ],
 
-      missedPickups: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "PickupRequest",
-        },
-      ],
-
-      cancelledPickups: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "PickupRequest",
-        },
-      ],
-
       pendingPickups: [
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "PickupRequest",
         },
       ],
-
-      totalPickups: {
-        type: Number,
-        default: 0,
-      },
     },
-
-    illegalDumps: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "IllegalDump",
-      },
-    ],
   },
   { timestamps: true }
 );

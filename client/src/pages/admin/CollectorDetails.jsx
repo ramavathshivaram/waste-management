@@ -25,11 +25,6 @@ const CollectorDetails = () => {
 
   console.log(collector);
 
-  const capacityPercent = collector.vehicle?.capacity?.max
-    ? (collector.vehicle.capacity.current / collector.vehicle.capacity.max) *
-      100
-    : 0;
-
   return (
     <div className="max-w-5xl mx-auto py-5 px-4 space-y-6">
       {/* STATUS + ACTIONS */}

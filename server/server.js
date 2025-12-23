@@ -9,10 +9,11 @@ const cookieParser = require("cookie-parser");
 const connectDB = require("./configs/db");
 const handleErrors = require("./middlewares/handleErrors");
 const { protect, authorize } = require("./middlewares/auth-middleware");
+require("./routes/agenda-jobs");
 
+//! Agenda
 const agenda = require("./configs/agenda");
 
-require("./routes/agenda-jobs");
 
 const initSeed = require("./seed");
 // initSeed();
@@ -106,12 +107,16 @@ const PORT = process.env.PORT || 5000;
 
 //! Connect DB then start server
 connectDB().then(async () => {
+
+  //! Start agenda
   await agenda.start();
   console.log("Agenda started");
+
+  //! agenda job scheduler
+  // await agenda.now("update-daily-stats");
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 
-  await agenda.schedule("in 1 seconds", "assign-areas-to-nearby-centres");
 });

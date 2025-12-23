@@ -1,11 +1,11 @@
 const agenda = require("../configs/agenda");
 
 const {
-  assignPickupToCollector,
+  updateDailyStats,
   assignAreasToNearbyCentres,
 } = require("../controllers/agenda-controllers");
 
-agenda.define("assign-pickup-to-collector", assignPickupToCollector);
+agenda.define("update-daily-stats", updateDailyStats);
 
 agenda.define("assign-areas-to-nearby-centres", assignAreasToNearbyCentres);
 

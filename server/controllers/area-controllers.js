@@ -1,4 +1,5 @@
 const Area = require("../models/area-model");
+const agenda = require("../configs/agenda");
 const { create_area_schema, update_area_schema } = require("../lib/zod-schema");
 
 // Create a new area
@@ -19,6 +20,8 @@ const createArea = async (req, res) => {
       description,
       area,
     });
+
+    await agenda.now("assign-areas-to-nearby-centres");
 
     return res.status(201).json({
       status: true,
@@ -54,10 +57,9 @@ const getAllAreas = async (req, res) => {
 
 const getAllAreasUnassignedCollectors = async (req, res) => {
   try {
-    const areas = await Area.find(
-      { collectorId: null },
-      { name: 1 }
-    ).sort({ name: -1 });
+    const areas = await Area.find({ collectorId: null }, { name: 1 }).sort({
+      name: -1,
+    });
     return res.status(200).json({
       status: true,
       message: "Areas fetched successfully",
@@ -74,10 +76,9 @@ const getAllAreasUnassignedCollectors = async (req, res) => {
 
 const getAllAreasUnassignedCentres = async (req, res) => {
   try {
-    const areas = await Area.find(
-      { centreId: null },
-      { name: 1 }
-    ).sort({ name: 1 });
+    const areas = await Area.find({ centreId: null }, { name: 1 }).sort({
+      name: 1,
+    });
     return res.status(200).json({
       status: true,
       message: "Areas fetched successfully",
