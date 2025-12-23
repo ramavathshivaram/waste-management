@@ -14,15 +14,8 @@ const agenda = require("./configs/agenda");
 
 require("./routes/agenda-jobs");
 
-//check funcs
-const {
-  assignPickupToCollector,
-  resetAllDailyPickupsToPending,
-} = require("./controllers/agenda-controllers");
-
-// assignPickupToCollector();
-
 const initSeed = require("./seed");
+// initSeed();
 
 //! Load env vars
 dotenv.config();
@@ -120,7 +113,5 @@ connectDB().then(async () => {
     console.log(`Server running on port ${PORT}`);
   });
 
-  // await agenda.schedule("in 1 seconds", "assign-pickup-to-collector");
-
-  //   await agenda.schedule("in 5 seconds", "reset-all-daily-pickups-to-pending");
+  await agenda.schedule("in 1 seconds", "assign-areas-to-nearby-centres");
 });

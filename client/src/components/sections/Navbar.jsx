@@ -10,29 +10,39 @@ import {
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
 
-const Navbar = ({ links,options }) => {
+const Navbar = ({ links, options }) => {
   return (
     <div className="w-full h-16">
-      <nav className="fixed z-50 top-0 left-0 right-0 bg-background">
+      <nav className="fixed z-50 top-0 left-0 right-0 ">
         <div className="flex justify-between items-center h-16 px-8">
           {/* Logo */}
-          <h1 className="text-2xl font-bold animate-pulse italic">WM</h1>
+          <h1 className="text-2xl font-bold animate-pulse italic">EcoTrack</h1>
 
           {/* Navigation */}
-          <ul className="flex items-center gap-4 p-3 rounded-xl border shadow-sm backdrop-blur">
+          <ul className="flex items-center gap-4 p-2 rounded-xl border shadow-sm backdrop-blur-xs">
             {links.map((link, index) => {
               if (link.children) {
                 return (
                   <DropdownMenu key={index}>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="font-medium">
+                      <Button
+                        variant="ghost"
+                        className="font-medium text-neutral-500 hover:text-neutral-700"
+                      >
                         {link.label}
                       </Button>
                     </DropdownMenuTrigger>
 
-                    <DropdownMenuContent align="center" className="grid grid-cols-3 mt-3 p-1">
+                    <DropdownMenuContent
+                      align="center"
+                      className="grid grid-cols-3 mt-3 p-1 text-center"
+                    >
                       {link.children.map((child, idx) => (
-                        <DropdownMenuItem key={idx} asChild>
+                        <DropdownMenuItem
+                          key={idx}
+                          asChild
+                          className="flex items-center justify-center"
+                        >
                           <NavLink
                             to={child.path}
                             className={({ isActive }) =>

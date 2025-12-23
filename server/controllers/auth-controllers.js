@@ -125,9 +125,30 @@ const logout = async (req, res) => {
   }
 };
 
+const adminRegister = async (name, email, password, role = "admin") => {
+  try {
+    const userExists = await User.findOne({ email });
+
+    if (userExists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const user = await User.create({
+      name,
+      email,
+      password,
+      role,
+    });
+    console.log("Admin created successfully:", user.email);
+  } catch (error) {
+    console.log("Admin creation error:", error);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getMe,
   logout,
+  adminRegister,
 };

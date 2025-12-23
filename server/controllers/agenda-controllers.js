@@ -2,6 +2,7 @@ const Collector = require("../models/collector-model");
 const Centre = require("../models/centre-model");
 const Pickup = require("../models/pickup-model");
 const Area = require("../models/area-model");
+const { getPolygonCentroid } = require("../lib/utils");
 const CollectorDailyStats = require("../models/collector-daily-stats-model");
 
 const assignPickupToCollector = async () => {
@@ -58,25 +59,41 @@ const assignPickupToCollector = async () => {
   }
 };
 
-
-const resetAllDailyPickupsToPending = async () => {
+const assignAreasToNearbyCentres = async () => {
   try {
-    const result = await Pickup.updateMany(
-      { mode: "daily" },
-      {
-        $set: {
-          status: "pending",
-        },
-      }
-    );
+    const areas = await Area.find().lean();
 
-    console.log(`Reset ${result.modifiedCount} daily pickups`);
+    for (const area of areas) {
+      const centroid = getPolygonCentroid(area.area.coordinates);
+
+      const nearbyCentre = await Centre.find({
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: centroid,
+            },
+            $maxDistance: 30000, // 30 KM
+          },
+        },
+      }).limit(1);
+
+      if (nearbyCentre.length) {
+        await Area.updateOne(
+          { _id: area._id },
+          { $set: { centreId: nearbyCentre[0]._id } }
+        );
+        console.log(
+          `Assigned area ${area.name} to centre ${nearbyCentre[0].name}`
+        );
+      }
+    }
   } catch (error) {
-    console.error("Reset error:", error);
+    console.error("Assign areas to centres error:", error);
   }
 };
 
 module.exports = {
-  resetAllDailyPickupsToPending,
   assignPickupToCollector,
+  assignAreasToNearbyCentres,
 };

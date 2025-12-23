@@ -13,10 +13,6 @@ const AdminAreas = () => {
     return <div className="p-4">Loading areas...</div>;
   }
 
-  if (!areas.length) {
-    return <div className="p-4 text-muted-foreground">No areas found</div>;
-  }
-
   return (
     <div className="p-4 space-y-4">
       {/* Filters placeholder */}

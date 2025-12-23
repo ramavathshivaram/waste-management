@@ -2,16 +2,11 @@ const agenda = require("../configs/agenda");
 
 const {
   assignPickupToCollector,
-  resetAllDailyPickupsToPending,
+  assignAreasToNearbyCentres,
 } = require("../controllers/agenda-controllers");
 
 agenda.define("assign-pickup-to-collector", assignPickupToCollector);
 
-agenda.define(
-  "reset-all-daily-pickups-to-pending",
-  resetAllDailyPickupsToPending
-);
-
-
+agenda.define("assign-areas-to-nearby-centres", assignAreasToNearbyCentres);
 
 module.exports = agenda;

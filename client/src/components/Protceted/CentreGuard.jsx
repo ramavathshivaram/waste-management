@@ -10,7 +10,7 @@ const CentreGuard = () => {
     return <div className="p-4">Loading centre profile...</div>;
   }
 
-  if (isError || !data || !data.status == "active") {
+  if (isError || !data || data.status == "active") {
     return <UnderProcess />;
   }
 

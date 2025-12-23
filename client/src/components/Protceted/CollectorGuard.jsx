@@ -9,7 +9,8 @@ const CollectorGuard = () => {
     return <div className="p-4">Loading collector profile...</div>;
   }
 
-  if (isError || !data || !data.status == "inactive") {
+
+  if (isError || !data || data.status == "inactive") {
     return <UnderProcess />;
   }
 

@@ -36,10 +36,10 @@ const Dashboard = () => {
   const { totals } = data;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 space-y-6 h-full">
       {/* KPI CARDS */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3">
           <KpiCard
             title="Pickups"
             value={120}
@@ -79,7 +79,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 h-full">
+      <div className="grid grid-cols-2 gap-3">
         <div className="col-span-2 border rounded-2xl">
           <AdminLineChat />
         </div>
@@ -94,7 +94,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="rounded-xl shadow p-6 border space-y-4">
+      <div className="rounded-xl shadow p-2 border space-y-4">
         <div className="flex justify-evenly gap-4">
           {Object.entries(COLORS).map(([key, color]) => (
             <div key={key} className="flex items-center gap-3">
