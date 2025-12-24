@@ -1,4 +1,8 @@
-import { getCollector, getCollectorMe } from "../lib/api.js";
+import {
+  getCollector,
+  getCollectorMe,
+  getAllPendingPickups,
+} from "../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
 export const useCollector = () => {
@@ -12,5 +16,12 @@ export const useCollectorMe = () => {
   return useQuery({
     queryKey: ["collectorMe"],
     queryFn: getCollectorMe,
+  });
+}
+
+export const usePendingPickups = () => {
+  return useQuery({
+    queryKey: ["pendingPickups"],
+    queryFn: getAllPendingPickups,
   });
 }

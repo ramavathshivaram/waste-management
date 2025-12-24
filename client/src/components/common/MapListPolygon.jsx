@@ -18,8 +18,8 @@ const MapListPolygon = ({ areas = [] }) => {
             positions={positions}
             pathOptions={{
               color: area.collectorId ? "green" : "red",
-              fillOpacity: 0.3,
-              weight: 2,
+              fillOpacity: 0.15,
+              weight: 1,
             }}
           >
             <Popup>

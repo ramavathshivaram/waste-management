@@ -68,6 +68,11 @@ export const updateCollector = async (formData) => {
   return response.data.data;
 };
 
+export const getAllPendingPickups = async () => {
+  const response = await api.get("/collector/pickups/pending");
+  return response.data.data;
+};
+
 export const getCollectorMe = async () => {
   const response = await api.get("/collector/me");
   return response.data.data;

@@ -61,13 +61,15 @@ const getCollector = async (req, res) => {
       centreLocation
     );
 
-    console.log(route);
-
     return res.status(200).json({
       success: true,
       data: {
         collector,
-        pickups: coordinates.length,
+        pending: stats?.pickups?.pending || [],
+        pickups: {
+          total: stats?.pickups?.assigned?.length || 0,
+          completed: stats?.pickups?.completed?.length || 0,
+        },
         route,
       },
     });
@@ -168,9 +170,45 @@ const getCollectorMe = async (req, res) => {
   }
 };
 
+const getAllPendingPickups = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const collector = await Collector.findOne({ userId }).lean();
+
+    if (!collector) {
+      return res.status(404).json({
+        success: false,
+        message: "Collector profile not found",
+      });
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const stats = await CollectorDailyStats.findOne({
+      collectorId: collector._id,
+      date: today,
+    }).select("+pickups.pending");
+
+    return res.status(200).json({
+      success: true,
+      message: "pickups",
+      data: stats?.pickups?.pending || [],
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching pickups",
+    });
+  }
+};
+
 module.exports = {
   getCollector,
   updateCollector,
   createCollector,
   getCollectorMe,
+  getAllPendingPickups,
 };

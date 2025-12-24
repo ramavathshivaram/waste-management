@@ -6,6 +6,7 @@ import PageNotFound from "../../components/common/PageNotFound";
 import UnderProcess from "../UnderProcess";
 import Update from "./Update";
 import CollectorGuard from "../../components/Protceted/CollectorGuard";
+import MapDetails from "./MapDetails";
 
 const links = [
   {
@@ -21,6 +22,7 @@ const CollectorRoutes = () => {
         <Route element={<CollectorGuard />}>
           <Route element={<RootLayout links={links} />}>
             <Route index element={<Dashboard />} />
+            <Route path="/map" element={<MapDetails />} />
           </Route>
         </Route>
 
