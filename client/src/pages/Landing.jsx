@@ -2,17 +2,26 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import useUserStore from "../stores/useUserStore.js";
+import { getMe } from "../lib/api.js";
 import { useEffect } from "react";
 
 const Landing = () => {
-  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      navigate(`/${user.role}`);
-    }
-  }, [user, navigate]);
+    const fetchUser = async () => {
+      try {
+        const user = await getMe();
+        console.log("landing",user)
+        setUser(user);
+        navigate(`/${user.role}`);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUser();
+  });
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">

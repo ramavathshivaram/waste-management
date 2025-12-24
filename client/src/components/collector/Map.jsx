@@ -1,24 +1,22 @@
 import React from "react";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, Polyline } from "react-leaflet";
 import { Card } from "@/components/ui/card";
+import { getLatLng } from "@/lib/utils";
 
-const Map = ({ pickups }) => {
+const Map = ({routes}) => {
   return (
-    <Card className="w-full h-[400px] p-0 overflow-hidden">
-      <MapContainer
-        center={[16.506, 80.65]} // Vijayawada
-        zoom={14}
-        className="w-full h-full"
-      >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-        {/* Markers */}
-           {pickups.pendingPickups.map((pos, i) => {
-           console.log(pos)
-         //  return <Marker key={i} position={pos} />;
-        })}
-      </MapContainer>
-    </Card>
+    <div className="w-full h-full">
+      <Card className="w-full h-full p-0 overflow-hidden">
+        <MapContainer
+          center={[16.4892, 80.689]}
+          zoom={15}
+          className="w-full h-full"
+        >
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          {/* routes.map((route) => {<Polyline key={route._id} positions={route.coordinates} />}) */}
+        </MapContainer>
+      </Card>
+    </div>
   );
 };
 

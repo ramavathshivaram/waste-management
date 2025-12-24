@@ -31,14 +31,27 @@ const citizenDailyStatsSchema = new mongoose.Schema(
     },
 
     pickups: {
-      completedPickups: [
+      completed: [
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "PickupRequest",
         },
       ],
 
-      pendingPickups: [
+      pending: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "PickupRequest",
+        },
+      ],
+      requested: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+
+          ref: "PickupRequest",
+        },
+      ],
+      canceled: [
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "PickupRequest",

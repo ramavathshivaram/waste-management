@@ -53,8 +53,8 @@ const updateDailyStats = async () => {
             filter: { collectorId, date: today },
             update: {
               $addToSet: {
-                "pickups.assignedPickups": { $each: pickupIds },
-                "pickups.pendingPickups": { $each: pickupIds },
+                "pickups.assigned": { $each: pickupIds },
+                "pickups.pending": { $each: pickupIds },
               },
             },
             upsert: true,
@@ -68,7 +68,8 @@ const updateDailyStats = async () => {
             filter: { centreId, date: today },
             update: {
               $addToSet: {
-                "pickups.pendingPickups": { $each: pickupIds },
+                "pickups.pending": { $each: pickupIds },
+                "pickups.receiving": { $each: pickupIds },
               },
             },
             upsert: true,
@@ -81,7 +82,8 @@ const updateDailyStats = async () => {
           filter: { citizenId: pickup.citizenId, date: today },
           update: {
             $addToSet: {
-              "pickups.pendingPickups": pickup._id,
+              "pickups.pending": pickup._id,
+              "pickups.requested": pickup._id,
             },
           },
           upsert: true,

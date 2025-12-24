@@ -31,40 +31,34 @@ const collectorDailyStatsSchema = new mongoose.Schema(
     },
 
     pickups: {
-      completedPickups: [
+      completed: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Pickup",
+          ref: "PickupRequest",
         },
       ],
-      pendingPickups: [
+      pending: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Pickup",
+          ref: "PickupRequest",
         },
       ],
-      assignedPickups: [
+      assigned: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Pickup",
+          ref: "PickupRequest",
         },
       ],
-    },
-    totals: {
-      completed: { type: Number, default: 0 },
-      pending: { type: Number, default: 0 },
-      assigned: { type: Number, default: 0 },
+      canceled: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "PickupRequest",
+        },
+      ],
     },
   },
   { timestamps: true }
 );
-
-collectorDailyStatsSchema.pre("save", function (next) {
-  this.totals.completed = this.pickups.completedPickups.length;
-  this.totals.pending = this.pickups.pendingPickups.length;
-  this.totals.assigned = this.pickups.assignedPickups.length;
-  next();
-});
 
 collectorDailyStatsSchema.index({ collectorId: 1, date: 1 }, { unique: true });
 

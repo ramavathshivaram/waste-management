@@ -4,14 +4,22 @@ const {
   update_collector_schema,
   create_collector_schema,
 } = require("../lib/zod-schema");
-const cloudinary = require("../configs/cloudinary");
+const buildOptimalRoute = require("../lib/get-optimal-route");
 
 const getCollector = async (req, res) => {
   try {
     const userId = req.user.id;
 
+    // 1️⃣ Get collector + centre
     const collector = await Collector.findOne({ userId })
-      .populate("area.id")
+      .populate({
+        path: "area.id",
+        select: "centreId",
+        populate: {
+          path: "centreId",
+          select: "location name",
+        },
+      })
       .lean();
 
     if (!collector) {
@@ -21,20 +29,46 @@ const getCollector = async (req, res) => {
       });
     }
 
-    // ✅ normalize date to start of today
+    // 2️⃣ Normalize today
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // 3️⃣ Get today stats
     const stats = await CollectorDailyStats.findOne({
       collectorId: collector._id,
       date: today,
-    }).lean();
+    })
+      .populate({
+        path: "pickups.pending",
+        select: "location",
+      })
+      .select("pickups.pending")
+      .lean();
+
+    const coordinates =
+      stats?.pickups?.pending.map((p) => p.location.coordinates) || [];
+
+    const collectorLocation = collector.location.coordinates; // [lng, lat]
+
+    const centreLocation = collector.area.id.centreId.location.coordinates;
+
+    console.log(collectorLocation, centreLocation, coordinates);
+
+    // 6️⃣ Build optimal route
+    const route = buildOptimalRoute(
+      collectorLocation,
+      coordinates,
+      centreLocation
+    );
+
+    console.log(route);
 
     return res.status(200).json({
       success: true,
       data: {
-        ...collector,
-        stats: stats || null,
+        collector,
+        pickups: coordinates.length,
+        route,
       },
     });
   } catch (error) {
@@ -45,7 +79,6 @@ const getCollector = async (req, res) => {
     });
   }
 };
-
 
 const createCollector = async (req, res) => {
   try {

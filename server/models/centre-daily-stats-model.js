@@ -16,43 +16,29 @@ const centreDailyStatsSchema = new mongoose.Schema(
     },
 
     pickups: {
-      receivedPickups: [
+      receiving: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Pickup",
+          ref: "PickupRequest",
         },
       ],
-      pendingPickups: [
+      pending: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Pickup",
+          ref: "PickupRequest",
         },
       ],
-      rejected: [
+      completed: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Pickup",
+          ref: "PickupRequest",
         },
       ],
-    },
-    totals: {
-      received: { type: Number, default: 0 },
-      pending: { type: Number, default: 0 },
-      completed: { type: Number, default: 0 },
-      rejected: { type: Number, default: 0 },
     },
   },
 
   { timestamps: true }
 );
-
-centreDailyStatsSchema.pre("save", function (next) {
-  this.totals.received = this.pickups.received.length;
-  this.totals.pending = this.pickups.pending.length;
-  this.totals.completed = this.pickups.completed.length;
-  this.totals.rejected = this.pickups.rejected.length;
-  next();
-});
 
 centreDailyStatsSchema.index({ centreId: 1, date: 1 }, { unique: true });
 

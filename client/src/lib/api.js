@@ -11,8 +11,8 @@ export const loginUser = async (data) => {
   return response.data;
 };
 
-export const getMe = async (data) => {
-  const response = await api.get("/auth/me", data);
+export const getMe = async () => {
+  const response = await api.get("/auth/me");
   return response.data;
 };
 
