@@ -6,6 +6,7 @@ import PageNotFound from "../../components/common/PageNotFound";
 import Update from "../centre/Update";
 import UnderProcess from "../UnderProcess";
 import CentreGuard from "../../components/Protceted/CentreGuard.jsx";
+import Verify from "./Verify.jsx";
 
 const links = [
   {
@@ -20,6 +21,7 @@ const CentreRoutes = () => {
         <Route element={<CentreGuard />}>
           <Route element={<RootLayout links={links} />}>
             <Route index element={<Dashboard />} />
+            <Route path="/verify" element={<Verify />} />
           </Route>
         </Route>
         <Route path="/update" element={<Update />} />

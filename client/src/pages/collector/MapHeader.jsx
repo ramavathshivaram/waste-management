@@ -11,8 +11,8 @@ const MapHeader = ({ setCurrentPickup }) => {
   setCurrentPickup(pickups[2]);
 
   return (
-    <div className="flex items-center gap-4 justify-center overflow-x-auto">
-      <div className="px-3 py-1 rounded bg-blue-100 text-blue-700 font-medium">
+    <div className="flex items-center justify-center gap-4 overflow-x-auto">
+      <div className="px-3 py-1 font-medium text-blue-700 bg-blue-100 rounded">
         Collector
       </div>
 
@@ -30,7 +30,7 @@ const MapHeader = ({ setCurrentPickup }) => {
         </div>
       ))}
 
-      <div className="px-3 py-1 rounded bg-green-100 text-green-700 font-medium">
+      <div className="px-3 py-1 font-medium text-green-700 bg-green-100 rounded">
         Centre
       </div>
     </div>

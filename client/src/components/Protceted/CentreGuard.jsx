@@ -1,16 +1,16 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useCentreDashboard } from "@/hooks/use-centre-query";
+import { useCentreMe } from "@/hooks/use-centre-query.js";
 import UnderProcess from "../../pages/centre/UnderProcess";
 
 const CentreGuard = () => {
-  const { data, isLoading, isError } = useCentreDashboard();
+  const { data, isLoading, isError } = useCentreMe();
 
   if (isLoading) {
     return <div className="p-4">Loading centre profile...</div>;
   }
 
-  if (isError || !data || data.status == "active") {
+  if (isError || !data || !data.status == "active") {
     return <UnderProcess />;
   }
 

@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, Polyline, TileLayer } from "react-leaflet";
+import LiveTMapMachine from "./LiveMapMachine";
 
 const LiveTrackingRoute = ({ pickup }) => {
   const [position, setPosition] = useState(null);
   const [path, setPath] = useState([]);
+
+  const pickupPoint = {
+    lat: pickup[1],
+    lng: pickup[0],
+  };
 
   useEffect(() => {
     if (!navigator.geolocation) return;
 
     const watchId = navigator.geolocation.watchPosition(
       (pos) => {
-        const point = [pos.coords.latitude, pos.coords.longitude];
+        const point = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        };
 
         setPosition(point);
-        setPath([point, pickup]);
+        setPath([point, pickupPoint]);
       },
       console.error,
       { enableHighAccuracy: true }
@@ -26,17 +35,14 @@ const LiveTrackingRoute = ({ pickup }) => {
 
   return (
     <div className="w-full h-full">
-      <MapContainer center={position} zoom={16} className="w-full h-full grayscale-50">
+      <MapContainer
+        center={position}
+        zoom={16}
+        className="w-full h-full grayscale-50"
+      >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        {/* Collector */}
-        <Marker position={position} />
-
-        {/* Pickup */}
-        <Marker position={pickup} />
-
-        {/* Actual traveled path */}
-        <Polyline positions={path} color="black" />
+        <LiveTMapMachine waypoints={path} />
       </MapContainer>
     </div>
   );

@@ -1,25 +1,44 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useCentreDashboard } from "../../hooks/use-centre-query.js";
-import useCentreStore from "../../stores/centreStore.js";
+import AreaMap from "../../components/centre/AreaMap";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const setCentre = useCentreStore((s) => s.setCentre);
-  const { data } = useCentreDashboard();
+  const { data, isLoading, isError } = useCentreDashboard();
 
-  useEffect(() => {
-    if (data) {
-      if (data.isAdminVerified === false) {
-        navigate(`/centre/under-process`);
-      } else if (data.isApproved === false) {
-        navigate(`/centre/rejected`);
-      }
-      setCentre(data);
-    }
-  }, [data, setCentre]);
+  if (isLoading) {
+    return <div className="p-6">Loading dashboard...</div>;
+  }
 
-  return <div>centre dashborad</div>;
+  if (isError) {
+    return <div className="p-6 text-red-500">Failed to load dashboard</div>;
+  }
+
+  const { areas = [], centre } = data || {};
+
+  return (
+    <div className="grid grid-rows-[100px_1fr] h-full">
+      {/* Header */}
+      <div className="px-6 flex items-center font-semibold text-lg">
+        {centre?.name || "Centre Dashboard"}
+        <Button
+          onClick={() => {
+            navigate("/centre/verify");
+          }}
+        >
+          Verify Collector
+        </Button>
+      </div>
+
+      {/* Map */}
+      <Card className="h-full p-0 overflow-hidden">
+        <AreaMap areas={areas} />
+      </Card>
+    </div>
+  );
 };
 
 export default Dashboard;

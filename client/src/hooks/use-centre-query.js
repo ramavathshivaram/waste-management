@@ -1,4 +1,8 @@
-import { getCentreDashboard, getCentresNearByLocations } from "../lib/api.js";
+import {
+  getCentreDashboard,
+  getCentresNearByLocations,
+  getCentreMe,
+} from "../lib/api.js";
 import { useQuery } from "@tanstack/react-query";
 
 export const useCentreDashboard = () => {
@@ -21,5 +25,13 @@ export const useCentresNearByLocations = (coords) => {
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 10 * 60 * 1000,
     retry: 1,
+  });
+};
+
+export const useCentreMe = () => {
+  return useQuery({
+    queryKey: ["centreMe"],
+    queryFn: getCentreMe,
+    retry: false,
   });
 };

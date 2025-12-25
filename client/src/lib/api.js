@@ -96,6 +96,11 @@ export const createCentre = async (data) => {
   return response.data.data;
 };
 
+export const getCentreMe = async () => {
+  const response = await api.get("/centre/me");
+  return response.data.data;
+};
+
 //! ---------------------- ADMIN FUNCTIONS ----------------------
 
 export const getAdminDashboard = async () => {

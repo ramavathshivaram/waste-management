@@ -24,9 +24,9 @@ export const leafletIcons = {
 
   collector: L.icon({
     iconUrl: icons.collector,
-    iconSize: [36, 36],
-    iconAnchor: [18, 36],
-    popupAnchor: [0, -36],
+    iconSize: [45, 23],
+    iconAnchor: [10, 15],
+    popupAnchor: [0, 0],
   }),
 
   centre: L.icon({

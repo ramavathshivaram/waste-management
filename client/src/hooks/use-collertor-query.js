@@ -16,6 +16,7 @@ export const useCollectorMe = () => {
   return useQuery({
     queryKey: ["collectorMe"],
     queryFn: getCollectorMe,
+    retry: false,
   });
 }
 

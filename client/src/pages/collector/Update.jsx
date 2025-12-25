@@ -30,10 +30,26 @@ const Update = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        setValue("coordinates", {
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        });
+      },
+      (error) => console.error(error)
+    );
+  }, [setValue]);
+
   const onSubmit = async (data) => {
     try {
+      data.coordinates = [
+        Number(data.coordinates.longitude),
+        Number(data.coordinates.latitude),
+      ];
       const collector = await createCollector(data);
-      console.log(collector)
       setCollector(collector);
       navigate("/collector");
     } catch (error) {
@@ -43,9 +59,9 @@ const Update = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center p-2">
-      <Card className="p-4 max-w-lg w-full shadow-lg border">
-        <h2 className="text-2xl font-semibold mb-2 text-center">
+    <div className="flex items-center justify-center min-h-screen p-2">
+      <Card className="w-full max-w-lg p-4 border shadow-lg">
+        <h2 className="mb-2 text-2xl font-semibold text-center">
           Update Collector Details
         </h2>
 
@@ -61,7 +77,7 @@ const Update = () => {
               })}
             />
             {errors.licenseNumber && (
-              <p className="text-red-500 text-sm">
+              <p className="text-sm text-red-500">
                 {errors.licenseNumber.message}
               </p>
             )}
@@ -78,7 +94,7 @@ const Update = () => {
               })}
             />
             {errors.vehicleNumber && (
-              <p className="text-red-500 text-sm">
+              <p className="text-sm text-red-500">
                 {errors.vehicleNumber.message}
               </p>
             )}
@@ -119,7 +135,30 @@ const Update = () => {
             </Select>
 
             {errors.areaId && (
-              <p className="text-red-500 text-sm">{errors.areaId.message}</p>
+              <p className="text-sm text-red-500">{errors.areaId.message}</p>
+            )}
+          </div>
+
+          <div>
+            <Label>Location (auto filled)</Label>
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                placeholder="Location"
+                {...register("coordinates.latitude", {
+                  required: "Location is required",
+                })}
+              />
+              <Input
+                type="text"
+                placeholder="Location"
+                {...register("coordinates.longitude", {
+                  required: "Location is required",
+                })}
+              />
+            </div>
+            {errors.areaName && (
+              <p className="text-sm text-red-500">{errors.areaName.message}</p>
             )}
           </div>
 
@@ -136,7 +175,7 @@ const Update = () => {
           {/* Submit */}
           <Button
             type="submit"
-            className="w-full text-lg py-5"
+            className="w-full py-5 text-lg"
             disabled={isLoading || isSubmitting}
           >
             {isSubmitting ? "Updating..." : "Update Details"}

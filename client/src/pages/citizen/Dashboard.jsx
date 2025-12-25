@@ -20,7 +20,7 @@ const SummaryCard = ({ title, value, sub }) => (
   <div className=" rounded-xl p-4shadow-sm">
     <p className="text-sm text-gray-600">{title}</p>
     <p className="text-3xl font-bold">{value}</p>
-    {sub && <p className="text-xs text-gray-500 mt-1">{sub}</p>}
+    {sub && <p className="mt-1 text-xs text-gray-500">{sub}</p>}
   </div>
 );
 
@@ -45,8 +45,8 @@ const Dashboard = () => {
 
   if (pickupLoading || dumpLoading) {
     return (
-      <div className="flex justify-center items-center h-40">
-        <Loader2 className="animate-spin text-black" size={32} />
+      <div className="flex items-center justify-center h-40">
+        <Loader2 className="text-black animate-spin" size={32} />
       </div>
     );
   }
@@ -80,9 +80,9 @@ const Dashboard = () => {
 
       {/* SUMMARY */}
       <section>
-        <h1 className="text-2xl font-bold mb-4">Overview</h1>
+        <h1 className="mb-4 text-2xl font-bold">Overview</h1>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           <SummaryCard
             title="Total Pickups"
             value={pickupRequests.length}
@@ -100,7 +100,7 @@ const Dashboard = () => {
 
       {/* PICKUP REQUESTS */}
       <section>
-        <h1 className="text-2xl font-bold mb-6">Your Pickup Requests</h1>
+        <h1 className="mb-6 text-2xl font-bold">Your Pickup Requests</h1>
 
         {pickupError ? (
           <p className="text-red-500">Failed to load pickup requests</p>
@@ -109,7 +109,7 @@ const Dashboard = () => {
             You haven’t created any pickup requests yet.
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {pickupRequests.map((req) => (
               <PickupRequestCard req={req} key={req._id} />
             ))}
@@ -119,7 +119,7 @@ const Dashboard = () => {
 
       {/* ILLEGAL DUMP REPORTS */}
       <section>
-        <h1 className="text-2xl font-bold mb-6">Your Illegal Dump Reports</h1>
+        <h1 className="mb-6 text-2xl font-bold">Your Illegal Dump Reports</h1>
 
         {dumpError ? (
           <p className="text-red-500">Failed to load illegal dumps</p>
@@ -128,7 +128,7 @@ const Dashboard = () => {
             You have not reported any illegal dumping yet.
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {illegalDumps.map((dump) => (
               <ReportCard dump={dump} key={dump._id} />
             ))}

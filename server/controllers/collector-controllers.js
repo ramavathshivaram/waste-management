@@ -52,8 +52,6 @@ const getCollector = async (req, res) => {
 
     const centreLocation = collector.area.id.centreId.location.coordinates;
 
-    console.log(collectorLocation, centreLocation, coordinates);
-
     // 6️⃣ Build optimal route
     const route = buildOptimalRoute(
       collectorLocation,
@@ -94,7 +92,8 @@ const createCollector = async (req, res) => {
       });
     }
 
-    const { licenseNumber, vehicleNumber, description, area } = parsed.data;
+    const { licenseNumber, vehicleNumber, description, area, coordinates } =
+      parsed.data;
 
     const collector = await Collector.findOneAndUpdate(
       { userId },
@@ -105,6 +104,10 @@ const createCollector = async (req, res) => {
           description,
           vehicle: { number: vehicleNumber },
           area,
+          location: {
+            type: "Point",
+            coordinates,
+          },
         },
       },
       {

@@ -14,7 +14,7 @@ const MapDetails = () => {
 
       <MapHeader setCurrentPickup={setCurrentPickup} />
       {/* Map */}
-      <div className="h-full rounded-2xl overflow-hidden mt-2">
+      <div className="h-full mt-2 overflow-hidden rounded-2xl">
         {currentPickup ? (
           <LiveTrackingRoute pickup={currentPickup} />
         ) : (
@@ -25,7 +25,7 @@ const MapDetails = () => {
       </div>
 
       {/* Actions */}
-      <div className="p-5 flex gap-5 justify-end">
+      <div className="flex justify-end gap-5 p-5">
         <CancelButton pickupId={currentPickup?.id} />
         <FinishButton pickupId={currentPickup?.id} />
       </div>

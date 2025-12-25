@@ -31,6 +31,7 @@ const create_collector_schema = z.object({
     id: z.string(),
     name: z.string(),
   }),
+  coordinates: z.array(z.number()).length(2),
 });
 
 //! CENTRE SCHEMA

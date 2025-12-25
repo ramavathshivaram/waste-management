@@ -1,8 +1,6 @@
 const Centre = require("../models/centre-model");
+const Area = require("../models/area-model");
 const { create_centre_schema } = require("../lib/zod-schema");
-const User = require("../models/user-model");
-const cloudinary = require("../configs/cloudinary");
-const fs = require("fs");
 
 const getCentreDashboard = async (req, res) => {
   try {
@@ -17,9 +15,16 @@ const getCentreDashboard = async (req, res) => {
       });
     }
 
+    const areas = await Area.find({
+      centreId: centre._id,
+    }).lean();
+
     return res.status(200).json({
       success: true,
-      data: centre,
+      data: {
+        centre,
+        areas,
+      },
     });
   } catch (error) {
     throw new Error(error.message);
@@ -103,4 +108,61 @@ const createCentre = async (req, res) => {
   }
 };
 
-module.exports = { getCentreDashboard, getCentreslocatons, createCentre };
+const getCentreMe = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const centre = await Centre.findOne({ userId });
+
+    if (!centre) {
+      return res.status(404).json({
+        success: false,
+        message: "Centre profile not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: centre,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+const getAllCollectors = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const centre = await Centre.findOne({ userId });
+
+    if (!centre) {
+      return res.status(404).json({
+        success: false,
+        message: "Centre profile not found",
+      });
+    }
+
+    const areas = await Area.find({
+      centreId: centre._id,
+    }).populate("collectorId").lean();
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        areas,
+      },
+    });
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
+module.exports = {
+  getCentreDashboard,
+  getCentreslocatons,
+  createCentre,
+  getCentreMe,
+};
