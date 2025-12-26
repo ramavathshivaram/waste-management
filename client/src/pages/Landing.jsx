@@ -13,7 +13,7 @@ const Landing = () => {
     const fetchUser = async () => {
       try {
         const user = await getMe();
-        console.log("landing",user)
+        console.log("landing", user);
         setUser(user);
         navigate(`/${user.role}`);
       } catch (error) {
@@ -21,7 +21,9 @@ const Landing = () => {
       }
     };
     fetchUser();
-  });
+  }, []);
+
+  console.log("landing");
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
