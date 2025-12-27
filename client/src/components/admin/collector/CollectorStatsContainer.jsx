@@ -13,8 +13,7 @@ import {
   Package,
 } from "lucide-react";
 import StatsCharts from "./StatsCharts";
-import { useCollectorStatsByDate } from "../../../hooks/use-admin-query.js";
-import { dataTagSymbol } from "@tanstack/react-query";
+import { useCollectorStatsByDate } from "@/hooks/use-admin-query.js";
 
 const startOfDay = (daysAgo = 0) => {
   const d = new Date();

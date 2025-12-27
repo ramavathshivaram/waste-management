@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useAdminCentres } from "../../hooks/use-admin-query";
-import AdminCentreCard from "../../components/admin/utils/AdminCentreCard";
+import { useAdminCentres } from "@/hooks/use-admin-query.js";
+import AdminCentreCard from "@/components/admin/utils/AdminCentreCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

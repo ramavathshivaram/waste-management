@@ -1,4 +1,4 @@
-import { createIllegalDump } from "../../../lib/api.js";
+import { createIllegalDump } from "@/lib/api.js";
 import { useMutation } from "@tanstack/react-query";
 
 const useCreateIllegalDump = () => {

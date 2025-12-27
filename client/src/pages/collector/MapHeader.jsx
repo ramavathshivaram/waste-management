@@ -1,5 +1,5 @@
 import React from "react";
-import { useCollector } from "../../hooks/use-collertor-query";
+import { useCollector } from "@/hooks/use-collertor-query.js";
 
 const MapHeader = ({ setCurrentPickup }) => {
   const { data, isLoading } = useCollector();
